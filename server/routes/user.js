@@ -9,7 +9,25 @@ const userRouter = Router();
 
 // SignUp Route
 userRouter.post("/signup", async (req, res) => {
+    const { email, password, firstName, lastName } = req.body
 
+    try {
+        await userModel.create({
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        })
+    } catch (err) {
+        res.status(409).json({
+            message: "User already exists",
+            code: 409
+        })
+    }
+
+    res.json({
+        message: "User Signed Up!"
+    })
 })
 
 // SignIn Route
