@@ -66,7 +66,35 @@ userRouter.post("/signup", async (req, res) => {
 
 // SignIn Route
 userRouter.post("/signin", async (req, res) => {
+    const { email, password } = req.body
 
+    const user = await userModel.findOne({
+        email: email
+    })
+
+    if(!user){
+        return res.status(404).json({
+            message: "User dont exists",
+            code: 404
+        })
+    }
+
+    const userPasswordMatched = await bcrypt.compare(password, user.password)
+
+    if(userPasswordMatched){
+        const token = jwt.sign({
+            id: user._id
+        }, JWT_SECRET_USER)
+
+        res.json({
+            token
+        })
+    }else{
+        return res.status(401).json({
+            message: "Incorrect credentials",
+            code: 401
+        })
+    }
 })
 
 // Exporting the userRouter
