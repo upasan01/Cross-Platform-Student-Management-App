@@ -65,7 +65,35 @@ adminRouter.post("/signup", async (req, res) => {
 
 // SignIn Route
 adminRouter.post("/signin", async (req, res) => {
+    const { email, password } = req.body
 
+    const admin = await adminModel.findOne({
+        email: email
+    })
+
+    if(!admin){
+        return res.status(404).json({
+            message: "Admin dont exists",
+            code: 404
+        })
+    }
+
+    const adminPasswordMatched = await bcrypt.compare(password, admin.password)
+
+    if(adminPasswordMatched){
+        const token = jwt.sign({
+            id: admin._id
+        }, JWT_SECRET_ADMIN)
+
+        res.json({
+            token
+        })
+    }else{
+        return res.status(401).json({
+            message: "Incorrect credentials",
+            code: 401
+        })
+    }
 })
 
 // Exporting the userRouter
