@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { string } = require("zod")
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
@@ -26,6 +25,9 @@ const studentSchema = new Schema ({
     gender: String,
     department: String,
     session: Number,
+    phoneNumber: Number,
+    address: String,
+    dob: Date,
     imageUrl: String
 })
 
