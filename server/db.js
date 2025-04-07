@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { string } = require("zod")
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
@@ -16,10 +17,24 @@ const adminSchema = new Schema ({
     lastName: String
 })
 
+const studentSchema = new Schema ({
+    firstName: String,
+    lastName: String,
+    email: String,
+    universityRoll: Number,
+    registrationNumber: Number,
+    gender: String,
+    department: String,
+    session: Number,
+    imageUrl: String
+})
+
 const userModel = mongoose.model("user", userSchema)
 const adminModel = mongoose.model("admin", adminSchema)
+const studentModel = mongoose.model("student", studentSchema)
 
 module.exports = ({
     userModel,
-    adminModel
+    adminModel,
+    studentModel
 })
