@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 
 
@@ -17,6 +18,11 @@ class _StudentFormPageState extends State<StudentFormPage> {
   final regNoController = TextEditingController();
   final bloodGroupController = TextEditingController();
 
+  
+  final List<String> bloodGroups = [
+    'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
+  ];
+  String? selectedBloodGroup;
   
 
   void _handleSubmit() {
@@ -94,9 +100,15 @@ class _StudentFormPageState extends State<StudentFormPage> {
                 required: true,
                 keyboardType: TextInputType.number,
               ),
-              CustomFormField(
+              CustomDropDown(
                 label: 'Blood Group',
-                controller: bloodGroupController,
+                options: bloodGroups,
+                selectedValue: selectedBloodGroup,
+                onTap: (value) {
+                  setState(() {
+                    selectedBloodGroup = value;
+                  });
+                },
               ),
               const SizedBox(height: 30),
               Center(
