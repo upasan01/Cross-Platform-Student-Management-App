@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' show Colors;
+import 'package:tecb_profiler/components/form_field.dart';
+
 
 class StudentFormPage extends StatefulWidget {
   const StudentFormPage({super.key});
@@ -16,44 +17,7 @@ class _StudentFormPageState extends State<StudentFormPage> {
   final regNoController = TextEditingController();
   final bloodGroupController = TextEditingController();
 
-  Widget _buildField({
-    required String label,
-    required TextEditingController controller,
-    bool required = false,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(label,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: CupertinoColors.label,
-                )),
-            if (required)
-              const Text(
-                ' *',
-                style: TextStyle(color: Colors.red, fontSize: 16),
-              ),
-          ],
-        ),
-        const SizedBox(height: 6),
-        CupertinoTextField(
-          controller: controller,
-          placeholder: 'Enter $label',
-          keyboardType: keyboardType,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-          decoration: BoxDecoration(
-            color: CupertinoColors.systemGrey6,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
+  
 
   void _handleSubmit() {
     if (nameController.text.isEmpty ||
@@ -103,41 +67,42 @@ class _StudentFormPageState extends State<StudentFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildField(
+          
+              CustomFormField(
                 label: 'Full Name',
                 controller: nameController,
                 required: true,
               ),
-              _buildField(
+              CustomFormField(
                 label: 'Father\'s Name',
                 controller: fatherNameController,
                 required: true,
               ),
-              _buildField(
+              CustomFormField(
                 label: 'Mother\'s Name',
                 controller: motherNameController,
               ),
-              _buildField(
+              CustomFormField(
                 label: 'Registration No',
                 controller: regNoController,
                 required: true,
                 keyboardType: TextInputType.number,
               ),
-              _buildField(
+              CustomFormField(
                 label: 'University Roll No',
                 controller: rollNoController,
                 required: true,
                 keyboardType: TextInputType.number,
               ),
-              _buildField(
+              CustomFormField(
                 label: 'Blood Group',
                 controller: bloodGroupController,
               ),
               const SizedBox(height: 30),
               Center(
                 child: CupertinoButton.filled(
-                  child: const Text('Submit'),
                   onPressed: _handleSubmit,
+                  child: const Text('Submit'),
                 ),
               ),
             ],
