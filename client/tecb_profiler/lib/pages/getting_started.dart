@@ -13,8 +13,8 @@ class GettingStartedPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo (replace with your asset)
-              const FlutterLogo(size: 150),
+              // Logo 
+              Image(image: AssetImage('images/techno_logo.png')),
 
               const SizedBox(height: 40),
 
