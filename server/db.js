@@ -2,21 +2,21 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
-const userSchema = new Schema ({
+const userSchema = new Schema ({ // user login info
     email: { type: String, unique: true },
     password: String,
     firstName: String,
     lastName: String
 })
 
-const adminSchema = new Schema ({
+const adminSchema = new Schema ({ // admin login info
     email: { type: String, unique: true },
     password: String,
     firstName: String,
     lastName: String
 })
 
-const studentSchema = new Schema ({
+const studentSchema = new Schema ({ // student info
     firstName: String,
     lastName: String,
     email: String,
@@ -28,7 +28,8 @@ const studentSchema = new Schema ({
     phoneNumber: Number,
     address: String,
     dob: Date,
-    imageUrl: String
+    imageUrl: String,
+    studentId: ObjectId 
 })
 
 const userModel = mongoose.model("user", userSchema)
