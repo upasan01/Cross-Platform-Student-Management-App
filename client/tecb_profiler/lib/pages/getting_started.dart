@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tecb_profiler/pages/student_form.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
@@ -52,6 +53,10 @@ class GettingStartedPage extends StatelessWidget {
                 ),
                 onPressed: () {
                   // Handle navigation or action
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => const StudentFormPage())
+                  );
                 },
               ),
             ],
