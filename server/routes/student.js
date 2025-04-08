@@ -33,8 +33,31 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
 
 // student info show route
 studentRouter.get("/showInfo", userMiddleware, async (req, res) => {
+    const student_Id = req.userId
 
+    try {
+        const studentInfo = await studentModel.findOne({
+            studentId: student_Id
+        })
+
+        if (!studentInfo) {
+            return res.status(404).json({
+                message: "Student info not found"
+            })
+        } else {
+            res.json({
+                message: "Student info retrieved",
+                studentInfo: studentInfo
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching student info", error: error.message
+        })
+    }
 })
+
 
 module.exports = ({
     studentRouter: studentRouter
