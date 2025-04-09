@@ -3,9 +3,9 @@ import 'package:flutter/material.dart' show Colors;
 
 class CustomDatePicker extends StatelessWidget {
   final String label;
-  final String? selectedDate;
+  final DateTime? selectedDate; // Change to DateTime?
   final bool required;
-  final void Function(String selected) onTap;
+  final void Function(DateTime selected) onTap; // Change to DateTime
 
   const CustomDatePicker({
     super.key,
@@ -16,9 +16,7 @@ class CustomDatePicker extends StatelessWidget {
   });
 
   void _showDatePicker(BuildContext context) {
-    final initialDate = selectedDate != null
-        ? DateTime.parse(selectedDate!)
-        : DateTime.now();
+    final initialDate = selectedDate ?? DateTime.now(); // Handle null date
 
     showCupertinoModalPopup(
       context: context,
@@ -30,8 +28,7 @@ class CustomDatePicker extends StatelessWidget {
           maximumYear: DateTime.now().year,
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (DateTime newDateTime) {
-            final formattedDate = '${newDateTime.year}-${newDateTime.month.toString().padLeft(2, '0')}-${newDateTime.day.toString().padLeft(2, '0')}';
-            onTap(formattedDate);
+            onTap(newDateTime); // Pass DateTime object to onTap
           },
         ),
       ),
@@ -69,7 +66,9 @@ class CustomDatePicker extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  selectedDate ?? 'Select $label',
+                  selectedDate != null
+                      ? '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}'
+                      : 'Select $label',
                   style: TextStyle(
                     color: selectedDate != null
                         ? CupertinoColors.label
