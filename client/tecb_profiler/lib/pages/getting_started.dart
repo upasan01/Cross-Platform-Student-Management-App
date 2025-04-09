@@ -1,8 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/pages/student_personal_details.dart';
+import 'package:tecb_profiler/student_data_model.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
+
+    // Handle Navigation and actions
+    void _startForm(BuildContext context) {
+    // Create a new StudentFormData object when the user starts the form
+    final studentData = StudentData();
+
+    // Navigate to Page 1 and pass the studentData
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => StudentPersonalDetails(studentData: studentData),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +66,7 @@ class GettingStartedPage extends StatelessWidget {
                   'Get Started',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {
-                  // Handle navigation or action
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => const StudentPersonalDetails())
-                  );
-                },
+                onPressed: () => _startForm(context)
               ),
             ],
           ),
