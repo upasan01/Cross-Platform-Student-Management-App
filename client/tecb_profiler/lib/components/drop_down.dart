@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart' show Colors;
 class CustomDropDown extends StatelessWidget {
   final String label;
   final List<String> options;
   final String? selectedValue;
+  final bool required;
   final void Function(String selected) onTap;
 
   const CustomDropDown({
@@ -12,6 +13,7 @@ class CustomDropDown extends StatelessWidget {
     required this.options,
     required this.selectedValue,
     required this.onTap,
+    this.required = false
   });
 
 
@@ -45,8 +47,17 @@ class CustomDropDown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-        style: TextStyle(fontSize: 16, color: CupertinoColors.label),),
+        Row(
+          children: [
+            Text(label,
+            style: TextStyle(fontSize: 16, color: CupertinoColors.label),),
+            if (required)
+              const Text(
+                ' *',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+          ],
+        ),
         const SizedBox(height: 6),
         GestureDetector(
           onTap: () => _showDropDown(context),

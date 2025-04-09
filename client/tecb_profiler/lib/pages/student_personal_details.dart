@@ -1,34 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tecb_profiler/components/date_picker.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 
-
-class StudentFormPage extends StatefulWidget {
-  const StudentFormPage({super.key});
+class StudentPersonalDetails extends StatefulWidget {
+  const StudentPersonalDetails({super.key});
 
   @override
-  State<StudentFormPage> createState() => _StudentFormPageState();
-}
+  State<StudentPersonalDetails> createState() => _StudentPersonalDetailsState();
+} 
 
-class _StudentFormPageState extends State<StudentFormPage> {
+class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
   final nameController = TextEditingController();
   final fatherNameController = TextEditingController();
   final motherNameController = TextEditingController();
-  final rollNoController = TextEditingController();
-  final regNoController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final bloodGroupController = TextEditingController();
+  final dobController = TextEditingController();
 
-  
   final List<String> bloodGroups = [
     'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
   ];
   String? selectedBloodGroup;
-  
 
-  void _handleSubmit() {
+  void _handleNext() {
     if (nameController.text.isEmpty ||
-        fatherNameController.text.isEmpty ||
-        rollNoController.text.isEmpty) {
+        emailController.text.isEmpty ||
+        phoneController.text.isEmpty) {
       showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
@@ -44,20 +43,13 @@ class _StudentFormPageState extends State<StudentFormPage> {
         ),
       );
     } else {
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: const Text("Form Submitted"),
-          content: const Text("Student details have been recorded."),
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: const Text("OK"),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
-      );
+      // // Navigate to the second page
+      // Navigator.push(
+      //   context,
+      //   CupertinoPageRoute(
+      //     builder: (context) => const NextPage(),
+      //   ),
+      // );
     }
   }
 
@@ -65,7 +57,7 @@ class _StudentFormPageState extends State<StudentFormPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Student Details Form'),
+        middle: Text('Student Personal Details'),
       ),
       child: SafeArea(
         child: SingleChildScrollView(
@@ -73,7 +65,6 @@ class _StudentFormPageState extends State<StudentFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          
               CustomFormField(
                 label: 'Full Name',
                 controller: nameController,
@@ -82,39 +73,49 @@ class _StudentFormPageState extends State<StudentFormPage> {
               CustomFormField(
                 label: 'Father\'s Name',
                 controller: fatherNameController,
-                required: true,
               ),
               CustomFormField(
                 label: 'Mother\'s Name',
                 controller: motherNameController,
               ),
               CustomFormField(
-                label: 'Registration No',
-                controller: regNoController,
+                label: 'Email ID',
+                controller: emailController,
                 required: true,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.emailAddress,
               ),
               CustomFormField(
-                label: 'University Roll No',
-                controller: rollNoController,
+                label: 'Phone',
+                controller: phoneController,
                 required: true,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.phone,
               ),
               CustomDropDown(
-                label: 'Blood Group',
+                label: 'Blood Group', 
                 options: bloodGroups,
                 selectedValue: selectedBloodGroup,
+                required: true,
                 onTap: (value) {
                   setState(() {
                     selectedBloodGroup = value;
                   });
                 },
               ),
+              CustomDatePicker(
+                label: 'Date of Birth',
+                selectedDate: dobController.text.isEmpty ? null : dobController.text,
+                required: true,
+                onTap: (selected) {
+                  setState(() {
+                    dobController.text = selected;
+                  });
+                },
+              ),
               const SizedBox(height: 30),
               Center(
                 child: CupertinoButton.filled(
-                  onPressed: _handleSubmit,
-                  child: const Text('Submit'),
+                  onPressed: _handleNext,
+                  child: const Text('Next'),
                 ),
               ),
             ],
