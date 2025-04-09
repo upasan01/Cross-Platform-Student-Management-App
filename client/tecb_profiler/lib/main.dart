@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'TECB Profiler',
       home: GettingStartedPage(),
     );
   }

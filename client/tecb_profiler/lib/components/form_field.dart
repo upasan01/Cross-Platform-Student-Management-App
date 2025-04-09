@@ -35,7 +35,7 @@ class CustomFormField extends StatelessWidget{
               ),
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 10),
         CupertinoTextField(
           controller: controller,
           placeholder: 'Enter $label',
