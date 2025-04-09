@@ -7,20 +7,25 @@ const { userMiddleware } = require("../middlewares/userMiddleware")
 studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
     const student_Id = req.userId
 
-    const { firstName, lastName, email, universityRoll, registrationNumber, gender, department, session, phoneNumber, address, dob, imageUrl } = req.body
+    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup, imageUrl } = req.body
 
     const student = await studentModel.create({
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
+        fathersName: fathersName,
+        mothersName: mothersName,
         email: email,
         universityRoll: universityRoll,
         registrationNumber: registrationNumber,
         gender: gender,
         department: department,
         session: session,
+        boardOfEdu: boardOfEdu,
+        class12Marks: class12Marks,
+        schoolName: schoolName,
         phoneNumber: phoneNumber,
         address: address,
         dob: dob,
+        bloodGroup: bloodGroup,
         imageUrl: imageUrl,
         studentId: student_Id
     })

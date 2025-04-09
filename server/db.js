@@ -17,17 +17,22 @@ const adminSchema = new Schema ({ // admin login info
 })
 
 const studentSchema = new Schema ({ // student info
-    firstName: String,
-    lastName: String,
+    fullName: String,
+    fathersName: String,
+    mothersName: String,
     email: String,
     universityRoll: Number,
     registrationNumber: Number,
     gender: String,
     department: String,
-    session: Number,
+    session: String,
+    boardOfEdu: String,
+    class12Marks: Number,
+    schoolName: String,
     phoneNumber: Number,
     address: String,
     dob: Date,
+    bloodGroup: String,
     imageUrl: String,
     studentId: ObjectId 
 })
