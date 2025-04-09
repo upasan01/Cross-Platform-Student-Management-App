@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken")
-const { adminModel } = require("../db")
+const { adminModel, studentModel } = require("../db")
 const { JWT_SECRET_ADMIN } = require("../config")
 const bcrypt = require("bcrypt");
 const { z, string } = require("zod");
+const { adminMiddleware } = require("../middlewares/adminMiddleware")
 
-const { Router } = require("express")
+const { Router } = require("express");
+const { appendFile } = require("fs");
 const adminRouter = Router()
 
 // SignUp Route
@@ -95,6 +97,23 @@ adminRouter.post("/signin", async (req, res) => {
         })
     }
 })
+
+// all student info
+adminRouter.get("/students", adminMiddleware, async (req, res) => {
+    try {
+        const students = await studentModel.find({});
+        res.json({
+            message: "All student info retrieved",
+            students: students
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching students",
+            error: error.message
+        });
+    }
+});
+
 
 // Exporting the userRouter
 module.exports = ({
