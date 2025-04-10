@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tecb_profiler/pages/student_personal_details.dart';
+import 'package:tecb_profiler/pages/signup_page.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 
 class GettingStartedPage extends StatelessWidget {
@@ -10,12 +10,13 @@ class GettingStartedPage extends StatelessWidget {
     // Create a new StudentFormData object when the user starts the form
     final studentData = StudentData();
 
-    // Navigate to Page 1 and pass the studentData
+    // Navigate to Page 1 and pass the studentData  
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => StudentPersonalDetails(studentData: studentData),
-      ),
+        //builder: (context) => StudentPersonalDetails(studentData: studentData),
+        builder: (context) => SignUpPage(),
+      ),  
     );
   }
 
