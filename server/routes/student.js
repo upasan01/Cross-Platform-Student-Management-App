@@ -2,12 +2,15 @@ const { studentModel } = require("../db")
 const { Router } = require("express")
 const studentRouter = Router()
 const { userMiddleware } = require("../middlewares/userMiddleware")
+const { upload } = require("../utils/multer");
 
 // student info input route
-studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
+studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (req, res) => {
     const student_Id = req.userId
 
-    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup, imageUrl } = req.body
+    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup } = req.body
+
+    const imageUrl = req.file.path
 
     const student = await studentModel.create({
         fullName: fullName,
