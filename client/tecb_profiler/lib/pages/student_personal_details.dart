@@ -56,6 +56,7 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     selectedBloodGroup = widget.studentData.bloodGroup;
     selectedGender = widget.studentData.gender;
     selectedImagePath = widget.studentData.imagePath;
+    addressController.text = widget.studentData.address;
   }
 
   void _saveData() {
@@ -68,6 +69,7 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     widget.studentData.gender = selectedGender;
     widget.studentData.dob = widget.studentData.dob;
     widget.studentData.imagePath = selectedImagePath;
+    widget.studentData.address = addressController.text;
   }
 
   void _handleNext() {
