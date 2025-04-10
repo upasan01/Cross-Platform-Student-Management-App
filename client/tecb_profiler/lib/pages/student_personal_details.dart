@@ -5,14 +5,15 @@ import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/image_picker.dart';
 import 'package:tecb_profiler/pages/academics_details.dart';
 import 'package:tecb_profiler/student_data_model.dart';
+import 'package:tecb_profiler/components/utils/error_dialouge.dart';
 
-class StudentPersonalDetails extends StatefulWidget { 
+class StudentPersonalDetails extends StatefulWidget {
   final StudentData studentData;
   const StudentPersonalDetails({super.key, required this.studentData});
 
   @override
   State<StudentPersonalDetails> createState() => _StudentPersonalDetailsState();
-} 
+}
 
 class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
   // Controllers for all the fields
@@ -24,7 +25,14 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
   final addressController = TextEditingController();
   final genderController = TextEditingController();
 
-  String? selectedImagePath; // For the Image Picker
+  // GlobalKeys for validating required CustomFormFields
+  final nameFieldKey = GlobalKey<CustomFormFieldState>();
+  final emailFieldKey = GlobalKey<CustomFormFieldState>();
+  final phoneFieldKey = GlobalKey<CustomFormFieldState>();
+  final addressFieldKey = GlobalKey<CustomFormFieldState>();
+  final genderFieldKey = GlobalKey<CustomDropDownState>();
+
+  String? selectedImagePath;
 
   final List<String> bloodGroups = [
     'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
@@ -44,19 +52,18 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     fatherNameController.text = widget.studentData.fatherName;
     motherNameController.text = widget.studentData.motherName;
     emailController.text = widget.studentData.email;
-    phoneController.text = widget.studentData.phone == null ? '': widget.studentData.phone.toString();
+    phoneController.text = widget.studentData.phone?.toString() ?? '';
     selectedBloodGroup = widget.studentData.bloodGroup;
     selectedGender = widget.studentData.gender;
     selectedImagePath = widget.studentData.imagePath;
   }
 
   void _saveData() {
-    // Save the updated data back to the student form data model
     widget.studentData.fullName = nameController.text;
     widget.studentData.fatherName = fatherNameController.text;
     widget.studentData.motherName = motherNameController.text;
     widget.studentData.email = emailController.text;
-    widget.studentData.phone = int.parse(phoneController.text);
+    widget.studentData.phone = int.tryParse(phoneController.text);
     widget.studentData.bloodGroup = selectedBloodGroup;
     widget.studentData.gender = selectedGender;
     widget.studentData.dob = widget.studentData.dob;
@@ -64,9 +71,19 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
   }
 
   void _handleNext() {
-    if (nameController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        phoneController.text.isEmpty) {
+    // Validate all required fields
+    final allFormsValid = [
+      nameFieldKey,
+      emailFieldKey,
+      phoneFieldKey,
+      addressFieldKey
+    ].every((key) => key.currentState?.validate() ?? false);
+
+    final allDropDownValid = [
+      genderFieldKey,
+    ].every((key)=> key.currentState?.validate() ?? false);
+
+    if (!allFormsValid || !allDropDownValid) {
       showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
@@ -75,20 +92,30 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
-              child: const Text("OK"),
               onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
             ),
           ],
         ),
       );
-    } else {
-      // Proceed with next page navigation or saving data
-      _saveData();
-      Navigator.push(
-        context,
-        CupertinoPageRoute(builder: (context) => AcademicsDetails(studentData: widget.studentData))
-      );
+      return;
     }
+
+    try {
+    _saveData(); 
+    } catch (error) {
+      ErrorDialogUtility.showErrorDialog(
+        context,
+        errorMessage: error.toString());
+    }
+
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) =>
+            AcademicsDetails(studentData: widget.studentData),
+      ),
+    );
   }
 
   @override
@@ -104,13 +131,16 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CustomImagePicker(onImagePicked: (imagePath) {
-                  setState(() {
-                    selectedImagePath = imagePath;
-                  });
-                }),
+                child: CustomImagePicker(
+                  onImagePicked: (imagePath) {
+                    setState(() {
+                      selectedImagePath = imagePath;
+                    });
+                  },
+                ),
               ),
               CustomFormField(
+                key: nameFieldKey,
                 label: 'Full Name',
                 controller: nameController,
                 required: true,
@@ -124,24 +154,28 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
                 controller: motherNameController,
               ),
               CustomFormField(
+                key: emailFieldKey,
                 label: 'Email ID',
                 controller: emailController,
                 required: true,
                 keyboardType: TextInputType.emailAddress,
               ),
               CustomFormField(
+                key: phoneFieldKey,
                 label: 'Phone',
                 controller: phoneController,
                 required: true,
                 keyboardType: TextInputType.phone,
               ),
               CustomFormField(
-                label: "Address",
+                key: addressFieldKey,
+                label: 'Address',
                 controller: addressController,
                 required: true,
                 keyboardType: TextInputType.streetAddress,
               ),
               CustomDropDown(
+                key: genderFieldKey,
                 label: 'Gender',
                 options: genders,
                 selectedValue: selectedGender,
@@ -169,7 +203,7 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
                 required: true,
                 onTap: (selected) {
                   setState(() {
-                    widget.studentData.dob = selected; // Store DateTime here
+                    widget.studentData.dob = selected;
                   });
                 },
               ),
