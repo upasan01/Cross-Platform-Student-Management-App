@@ -44,10 +44,10 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     fatherNameController.text = widget.studentData.fatherName;
     motherNameController.text = widget.studentData.motherName;
     emailController.text = widget.studentData.email;
-    phoneController.text = widget.studentData.phone;
+    phoneController.text = widget.studentData.phone == null ? '': widget.studentData.phone.toString();
     selectedBloodGroup = widget.studentData.bloodGroup;
-    // Set initial values for gender and dob
     selectedGender = widget.studentData.gender;
+    selectedImagePath = widget.studentData.imagePath;
   }
 
   void _saveData() {
@@ -56,10 +56,11 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     widget.studentData.fatherName = fatherNameController.text;
     widget.studentData.motherName = motherNameController.text;
     widget.studentData.email = emailController.text;
-    widget.studentData.phone = phoneController.text;
+    widget.studentData.phone = int.parse(phoneController.text);
     widget.studentData.bloodGroup = selectedBloodGroup;
     widget.studentData.gender = selectedGender;
-    widget.studentData.dob = widget.studentData.dob; // This will already be a DateTime
+    widget.studentData.dob = widget.studentData.dob;
+    widget.studentData.imagePath = selectedImagePath;
   }
 
   void _handleNext() {

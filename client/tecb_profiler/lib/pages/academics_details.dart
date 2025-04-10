@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:tecb_profiler/components/date_picker.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/student_data_model.dart';
@@ -17,7 +15,6 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
   // Controllers for all the fields
   final rollController = TextEditingController();
   final regController = TextEditingController();
-  final courseController = TextEditingController();
   final graduationYearController = TextEditingController();
   final resultController = TextEditingController();
   final boardController = TextEditingController();
@@ -30,20 +27,33 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
   ];
   String? selectedCourse;
 
+    @override
+  void initState() {
+    super.initState();
+    rollController.text = widget.studentData.roll == null ? '': widget.studentData.roll.toString();
+    regController.text = widget.studentData.regNo == null ? '': widget.studentData.regNo.toString();
+    resultController.text = widget.studentData.result == null ? '': widget.studentData.result.toString();
+    graduationYearController.text = widget.studentData.yOfGraduation;
+    schoolController.text = widget.studentData.schoolName;
+    selectedCourse = widget.studentData.course;
+    boardController.text = widget.studentData.boardOfEducation;
+  }
+
 
   void _saveData() {
     // Save the updated data back to the student form data model
-    // widget.studentData.fullName = nameController.text;
-    // widget.studentData.fatherName = fatherNameController.text;
-    // widget.studentData.motherName = motherNameController.text;
-    // widget.studentData.email = emailController.text;
-    // widget.studentData.phone = phoneController.text;
-    // widget.studentData.bloodGroup = selectedBloodGroup;
-    // widget.studentData.gender = selectedGender;
-    // widget.studentData.dob = widget.studentData.dob; // This will already be a DateTime
+    widget.studentData.roll = int.parse(rollController.text);
+    widget.studentData.regNo = int.parse(regController.text);
+    widget.studentData.course = selectedCourse;
+    widget.studentData.result = int.parse(resultController.text);
+    widget.studentData.boardOfEducation = boardController.text;
+    widget.studentData.yOfGraduation = graduationYearController.text;
+    widget.studentData.schoolName = schoolController.text;
   }
 
   void _handleSubmit() {
+    _saveData();
+    widget.studentData.printStudentData();
     // if (nameController.text.isEmpty ||
     //     emailController.text.isEmpty ||
     //     phoneController.text.isEmpty) {
@@ -110,6 +120,7 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
               CustomFormField(
                 label: "Year of Graduation", 
                 controller: graduationYearController,
+                required: true,
                 keyboardType: TextInputType.numberWithOptions(),),
 
               CustomFormField(
