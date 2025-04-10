@@ -13,8 +13,9 @@ class StudentData {
   String?course;
   String yOfGraduation;
   String boardOfEducation;
-  int?result; 
+  double?result; 
   String schoolName;
+  String address;
 
   StudentData({
     this.fullName = '',
@@ -22,6 +23,7 @@ class StudentData {
     this.motherName = '',
     this.email = '',
     this.phone ,
+    this.address = '',
     this.bloodGroup,
     this.dob,
     this.imagePath,
