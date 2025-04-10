@@ -28,4 +28,28 @@ class ApiService {
     return response;
   }
 
+
+  static Future<http.Response> sendLoginRequest({
+  required String email,
+  required String password,
+}) async {
+  final url = Uri.parse('http://localhost:3000/api/v1/user/signin'); // Replace with your local IP or server URL
+
+  final body = jsonEncode({
+    'email': email,
+    'password': password,
+  });
+
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: body,
+  );
+
+  return response;
+}
+
+
 }
