@@ -63,7 +63,7 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     widget.studentData.fatherName = fatherNameController.text;
     widget.studentData.motherName = motherNameController.text;
     widget.studentData.email = emailController.text;
-    widget.studentData.phone = int.tryParse(phoneController.text);
+    widget.studentData.phone = int.parse(phoneController.text);
     widget.studentData.bloodGroup = selectedBloodGroup;
     widget.studentData.gender = selectedGender;
     widget.studentData.dob = widget.studentData.dob;
@@ -102,20 +102,20 @@ class _StudentPersonalDetailsState extends State<StudentPersonalDetails> {
     }
 
     try {
-    _saveData(); 
+      _saveData(); 
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) =>
+              AcademicsDetails(studentData: widget.studentData),
+        ),
+      );
     } catch (error) {
       ErrorDialogUtility.showErrorDialog(
         context,
         errorMessage: error.toString());
     }
 
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) =>
-            AcademicsDetails(studentData: widget.studentData),
-      ),
-    );
   }
 
   @override
