@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
+import 'package:tecb_profiler/pages/success_page.dart';
 import 'package:tecb_profiler/services/api_services.dart';
 import 'package:tecb_profiler/services/jwt_actions.dart';
 import 'package:tecb_profiler/student_data_model.dart';
@@ -105,16 +106,14 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
         studentData: widget.studentData,
         token: token,
       );
-
+      
       if (response.statusCode == 200) {
-        final body = await response.stream.bytesToString();
-        ErrorDialogUtility.showErrorDialog(
-          context,
-          errorMessage: "Recorded Successfully:\n$body",
-        );
+
+        Navigator.push(
+          context, 
+          CupertinoPageRoute(builder: (context)=> SuccessPage()));
       } else {
         final errorBody = await response.stream.bytesToString();
-        print(errorBody);
         ErrorDialogUtility.showErrorDialog(
           context,
           errorMessage:
