@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/pages/signup_page.dart';
-import 'package:tecb_profiler/student_data_model.dart';
 
 class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
 
     // Handle Navigation and actions
     void _startForm(BuildContext context) {
-    // Create a new StudentFormData object when the user starts the form
-    final studentData = StudentData();
 
     // Navigate to Page 1 and pass the studentData  
     Navigator.push(

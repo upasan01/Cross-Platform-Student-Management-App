@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
+import 'package:tecb_profiler/pages/login_page.dart';
 import 'package:tecb_profiler/services/api_services.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -62,8 +63,15 @@ class _SignUpPageState extends State<SignUpPage> {
         password: passwordController.text
       );
 
+      if(!mounted) return;
+
       if(response.statusCode == 200){
-        
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => LoginPage())
+        );
+      }else{
+        ErrorDialogUtility.showErrorDialog(context, errorMessage: response.body.toString());
       }
       
     } catch (error) {
@@ -188,7 +196,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: GestureDetector(
                     onTap: () {
                       // Handle tap here (e.g., navigate to Login page)
-                      print("Navigate to Login Page");
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (context) => LoginPage())
+                      );
                     },
                     child: Text(
                       'Already have an Account?',
