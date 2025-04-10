@@ -5,13 +5,11 @@ class GettingStartedPage extends StatelessWidget {
   const GettingStartedPage({super.key});
 
     // Handle Navigation and actions
-    void _startForm(BuildContext context) {
+    void _startApp(BuildContext context) {
 
-    // Navigate to Page 1 and pass the studentData  
     Navigator.push(
       context,
       CupertinoPageRoute(
-        //builder: (context) => StudentPersonalDetails(studentData: studentData),
         builder: (context) => SignUpPage(),
       ),  
     );
@@ -64,7 +62,7 @@ class GettingStartedPage extends StatelessWidget {
                   'Get Started',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () => _startForm(context)
+                onPressed: () => _startApp(context)
               ),
             ],
           ),
