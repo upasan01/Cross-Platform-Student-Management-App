@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
+import 'package:tecb_profiler/components/utils/error_dialouge.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 
 class AcademicsDetails extends StatefulWidget { 
@@ -19,6 +20,15 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
   final resultController = TextEditingController();
   final boardController = TextEditingController();
   final schoolController = TextEditingController();
+
+  // Global Keys for Validation Checks
+  final rollFieldKey = GlobalKey<CustomFormFieldState>();
+  final regNoFieldKey = GlobalKey<CustomFormFieldState>();
+  final courseFieldKey = GlobalKey<CustomDropDownState>();
+  final resultFieldKey = GlobalKey<CustomFormFieldState>();
+  final yOfGraduationFieldKey = GlobalKey<CustomFormFieldState>();
+
+
 
   final List<String> courses = [
     "Computer Science & Engineering", "Computer Science & Engineering(AIML)", 
@@ -52,34 +62,46 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
   }
 
   void _handleSubmit() {
-    _saveData();
-    widget.studentData.printStudentData();
-    // if (nameController.text.isEmpty ||
-    //     emailController.text.isEmpty ||
-    //     phoneController.text.isEmpty) {
-    //   showCupertinoDialog(
-    //     context: context,
-    //     builder: (context) => CupertinoAlertDialog(
-    //       title: const Text("Missing Required Fields"),
-    //       content: const Text("Please fill all the required fields."),
-    //       actions: [
-    //         CupertinoDialogAction(
-    //           isDefaultAction: true,
-    //           child: const Text("OK"),
-    //           onPressed: () => Navigator.pop(context),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // } else {
-    //   // Proceed with next page navigation or saving data
-    //   _saveData();
-    //   Navigator.push(
-    //     context,
-    //     CupertinoPageRoute(builder: (context) => )
-    //   );
-    // }
+    final allFormsValid = [
+      rollFieldKey,
+      regNoFieldKey,
+      yOfGraduationFieldKey,
+      resultFieldKey
+      
+    ].every((key) => key.currentState?.validate() ?? false);
+
+    final allDropDownValid = [
+      courseFieldKey,
+    ].every((key)=> key.currentState?.validate() ?? false);
+
+    if (!allFormsValid || !allDropDownValid) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text("Missing Required Fields"),
+          content: const Text("Please fill all the required fields."),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    try {
+      _saveData(); 
+    } catch (error) {
+        ErrorDialogUtility.showErrorDialog(
+          context,
+          errorMessage: error.toString());
+    }
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +116,21 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomFormField(
+                key: rollFieldKey,
                 label: "University Roll No", 
                 controller: rollController,
                 required: true,
                 keyboardType: TextInputType.number,),
 
               CustomFormField(
+                key: regNoFieldKey,
                 label: "University Registration No", 
                 controller: regController,
                 required: true,
                 keyboardType: TextInputType.number,),
               
               CustomDropDown(
+                key: courseFieldKey,
                 label: 'Course',
                 options: courses,
                 selectedValue: selectedCourse,
@@ -118,14 +143,17 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
               ),
 
               CustomFormField(
+                key: yOfGraduationFieldKey,
                 label: "Year of Graduation", 
                 controller: graduationYearController,
                 required: true,
                 keyboardType: TextInputType.numberWithOptions(),),
 
               CustomFormField(
+                key: resultFieldKey,
                 label: "Class 12th or Equivalent Result(%)", 
                 controller: resultController,
+                required: true,
                 keyboardType: TextInputType.numberWithOptions(),),
 
               CustomFormField(

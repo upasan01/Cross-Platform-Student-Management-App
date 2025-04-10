@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show Colors;
 
-class CustomFormField extends StatelessWidget{
+abstract class Validatable {
+  bool isValid();
+}
 
+class CustomFormField extends StatefulWidget implements Validatable {
   final String label;
   final TextEditingController controller;
   final bool required;
@@ -15,20 +18,32 @@ class CustomFormField extends StatelessWidget{
     this.required = false,
     this.keyboardType = TextInputType.text,
   });
-  
+
+  @override
+  State<CustomFormField> createState() => CustomFormFieldState();
+
+  @override
+  bool isValid() => controller.text.trim().isNotEmpty;
+}
+
+class CustomFormFieldState extends State<CustomFormField> {
+  bool _showError = false;
+
   @override
   Widget build(BuildContext context) {
+    final hasError = widget.required && _showError && widget.controller.text.trim().isEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Text(label,
+            Text(widget.label,
                 style: const TextStyle(
                   fontSize: 16,
                   color: CupertinoColors.label,
                 )),
-            if (required)
+            if (widget.required)
               const Text(
                 ' *',
                 style: TextStyle(color: Colors.red, fontSize: 16),
@@ -37,20 +52,37 @@ class CustomFormField extends StatelessWidget{
         ),
         const SizedBox(height: 10),
         CupertinoTextField(
-          controller: controller,
-          placeholder: 'Enter $label',
-          keyboardType: keyboardType,
+          controller: widget.controller,
+          placeholder: 'Enter ${widget.label}',
+          keyboardType: widget.keyboardType,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           decoration: BoxDecoration(
             color: CupertinoColors.systemGrey6,
             borderRadius: BorderRadius.circular(8),
+            border: hasError ? Border.all(color: Colors.red) : null,
           ),
+          onChanged: (_) {
+            if (_showError && widget.controller.text.trim().isNotEmpty) {
+              setState(() => _showError = false);
+            }
+          },
         ),
+        if (hasError)
+          const Padding(
+            padding: EdgeInsets.only(top: 6),
+            child: Text(
+              "This field is required",
+              style: TextStyle(color: Colors.red, fontSize: 13),
+            ),
+          ),
         const SizedBox(height: 20),
       ],
     );
   }
-  
+
+  bool validate() {
+    final isValid = widget.controller.text.trim().isNotEmpty;
+    setState(() => _showError = !isValid);
+    return isValid;
+  }
 }
-
-
