@@ -37,7 +37,8 @@ userRouter.post("/signup", async (req, res) => {
     if(!parsedData.success){
         return res.status(400).json({
             message: "Incorrect format",
-            code: 400
+            code: 400,
+            error: parsedData.error
         })
     }
 
