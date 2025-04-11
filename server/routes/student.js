@@ -20,7 +20,7 @@ studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (
             code: 404
         })
     }
-
+    
     // Check for existing user
     const existingStudent = await studentModel.findOne({
         studentId: student_Id
