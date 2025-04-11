@@ -1,19 +1,43 @@
-const { studentModel } = require("../db")
+const { studentModel, userModel } = require("../db")
 const { Router } = require("express")
 const studentRouter = Router()
 const { userMiddleware } = require("../middlewares/userMiddleware")
 const { upload } = require("../utils/multer");
+const { z, string } = require("zod");
 
 // student info input route
 studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (req, res) => {
-    const student_Id = req.userId
+    const student_Id = req.userId;
 
-    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup } = req.body
+    // user exist in userModel or not
+    const userExistOrNot = await userModel.findOne({
+        studentId: student_Id
+    })
 
-    const imageUrl = req.file.path
+    if(!userExistOrNot){
+        return res.status(404).json({
+            message: "user dont exits",
+            code: 404
+        })
+    }
+
+    // Check for existing user
+    const existingStudent = await studentModel.findOne({
+        studentId: student_Id
+    });
+
+    if (existingStudent) {
+        return res.status(400).json({
+            message: "Student already registered."
+        });
+    }
+
+    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup } = req.body;
+
+    const imageUrl = req.file.path;
 
     const student = await studentModel.create({
-        fullName: fullName,
+        fullNa: fullName,
         fathersName: fathersName,
         mothersName: mothersName,
         email: email,
@@ -31,13 +55,13 @@ studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (
         bloodGroup: bloodGroup,
         imageUrl: imageUrl,
         studentId: student_Id
-    })
+    });
 
     res.json({
         message: "Student db created",
         studentInfo_ID: student._id
-    })
-})
+    });
+});
 
 // student info show route
 studentRouter.get("/showInfo", userMiddleware, async (req, res) => {
