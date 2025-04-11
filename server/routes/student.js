@@ -7,11 +7,40 @@ const { z, string } = require("zod");
 
 // student info input route
 studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (req, res) => {
+    // input validation
+    const requireBody = z.object({
+        fullName: z.string().min(1),
+        fathersName: z.string().min(1),
+        mothersName: z.string().min(1),
+        email: z.string().email(),
+        universityRoll: z.string().min(1),
+        registrationNumber: z.string().min(1),
+        department: z.string().min(1),
+        session: z.string().min(1),
+        boardOfEdu: z.string().min(1),
+        class12Marks: z.string().min(1),
+        schoolName: z.string().min(1),
+        phoneNumber: z.string().min(10).max(13),
+        address: z.string().min(1),
+        bloodGroup: z.string().min(1)
+    });
+
+    const parsedData = requireBody.safeParse(req.body)
+
+    if(!parsedData.success){
+        return res.status(400).json({
+            message: "incorrect format",
+            code: 400,
+            error: parsedData.error
+        })
+    }
+
     const student_Id = req.userId;
+    // console.log(student_Id)
 
     // user exist in userModel or not
     const userExistOrNot = await userModel.findOne({
-        studentId: student_Id
+        _id: student_Id
     })
 
     if(!userExistOrNot){
