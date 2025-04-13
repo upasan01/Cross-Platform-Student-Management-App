@@ -20,7 +20,7 @@ studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (
         boardOfEdu: z.string().min(1),
         class12Marks: z.string().min(1),
         schoolName: z.string().min(1),
-        phoneNumber: z.string().min(10).max(13),
+        phoneNumber: z.string(),
         address: z.string().min(1),
         bloodGroup: z.string().min(1)
     });

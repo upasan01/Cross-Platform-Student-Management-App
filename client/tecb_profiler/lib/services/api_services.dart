@@ -69,7 +69,7 @@ class ApiService {
     request.fields['universityRoll'] = studentData.roll.toString();
     request.fields['registrationNumber'] = studentData.regNo.toString();
     request.fields['gender'] = studentData.gender.toString();
-    request.fields['phone'] = studentData.phone.toString();
+    request.fields['phoneNumber'] = studentData.phone.toString();
     request.fields['department'] = studentData.course.toString();
     request.fields['session'] = studentData.yOfGraduation;
     request.fields['boardOfEdu'] = studentData.boardOfEducation;
