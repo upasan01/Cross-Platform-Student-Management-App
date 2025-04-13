@@ -127,14 +127,14 @@ adminRouter.get("/search", adminMiddleware, async (req, res) => {
             // searches the input pattern wise
             $or: [
                 { fullName: { $regex: searchQuery, $options: "i" } },
-                { email: { $regex: searchQuery } },
-                { phoneNumber: { $regex: searchQuery } }
+                { email: { $regex: searchQuery } }
             ]
         })
 
         return res.json({
             results
         })
+        
     } catch (err) {
         console.error(err);
 
