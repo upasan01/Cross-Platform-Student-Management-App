@@ -66,7 +66,7 @@ studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (
     const imageUrl = req.file.path;
 
     const student = await studentModel.create({
-        fullNa: fullName,
+        fullName: fullName,
         fathersName: fathersName,
         mothersName: mothersName,
         email: email,
