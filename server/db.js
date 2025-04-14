@@ -73,7 +73,13 @@ const studentSchema = new Schema({ // student info
         localGuardian: {
             name: { type: String },
             occupation: { type: String },
-            address: { type: String }
+            address: {
+                fullAddress: { type: String },
+                city: { type: String },
+                state: { type: String },
+                district: { type: String },
+                pin: { type: String }
+            }
         }
     },
 
