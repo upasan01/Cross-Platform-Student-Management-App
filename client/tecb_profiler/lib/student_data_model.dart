@@ -1,60 +1,87 @@
 class StudentData {
-  String fullName;
-  String fatherName;
-  String motherName;
-  String email;
-  int?phone;
-  String? bloodGroup;
-  String? gender;
-  DateTime? dob;
   String? imagePath;
-  int?roll;
-  int?regNo;
-  String?course;
-  String yOfGraduation;
-  String boardOfEducation;
-  double?result; 
-  String schoolName;
-  String address;
+
+  // Student details
+  String type; // Regular or Lateral
+  String fullName;
+  String uniRollNumber;
+  String regNumber;
+  String session; // Year of Graduation
+  String phoneNumber;
+  String email;
+  DateTime? dob;
+  String? gender;
+  String? bloodGroup;
+  String religion;
+  String? category;
+  String motherTounge;
+  String height;
+  String weight;
+
+  // Permanent address
+  Address permanentAddress;
+
+  // Residential address
+  Address residentialAddress;
 
   StudentData({
+    this.imagePath = '',
+    this.type = "Regular",
     this.fullName = '',
-    this.fatherName = '',
-    this.motherName = '',
+    this.uniRollNumber = '',
+    this.regNumber = '',
+    this.session = '',
+    this.phoneNumber = '',
     this.email = '',
-    this.phone ,
-    this.address = '',
-    this.bloodGroup,
     this.dob,
-    this.imagePath,
     this.gender,
-    this.course = '',
-    this.roll,
-    this.regNo,
-    this.yOfGraduation = '',
-    this.result,
-    this.boardOfEducation = '',
-    this.schoolName = '',
-  }); 
+    this.bloodGroup,
+    this.religion = '',
+    this.category,
+    this.motherTounge = '',
+    this.height = '',
+    this.weight = '',
+    required this.permanentAddress,
+    required this.residentialAddress,
+  });
 
   void printStudentData() {
     print('Full Name: $fullName');
-    print('Father\'s Name: $fatherName');
-    print('Mother\'s Name: $motherName');
+    print('Type: $type');
+    print('University Roll Number: $uniRollNumber');
+    print('Registration Number: $regNumber');
+    print('Year of Graduation: $session');
+    print('Phone Number: $phoneNumber');
     print('Email: $email');
-    print('Phone: ${phone ?? 'N/A'}');
-    print('Blood Group: ${bloodGroup ?? 'N/A'}');
-    print('Gender: ${gender ?? 'N/A'}');
-    print('Date of Birth: ${dob != null ? dob.toString().split(' ')[0] : 'N/A'}');
-    print('Image URL: ${imagePath ?? 'N/A'}');
-    print('Roll Number: ${roll ?? 'N/A'}');
-    print('Registration Number: ${regNo ?? 'N/A'}');
-    print('Course: $course');
-    print('Year of Graduation: $yOfGraduation');
-    print('Board of Education: $boardOfEducation');
-    print('Result: ${result ?? 'N/A'}');
-    print('School Name: $schoolName');
+    print('Date of Birth: $dob');
+    print('Gender: $gender');
+    print('Blood Group: $bloodGroup');
+    print('Religion: $religion');
+    print('Category: $category');
+    print('Mother Tongue: $motherTounge');
+    print('Height: $height');
+    print('Weight: $weight');
+    print('Permanent Address: ${permanentAddress.printAddress()}');
+    print('Residential Address: ${residentialAddress.printAddress()}');
   }
+}
 
-  
+class Address {
+  String fullAddress;
+  String city;
+  String? state;
+  String district;
+  String pin;
+
+  Address({
+    this.fullAddress = '',
+    this.city = '',
+    this.state,
+    this.district = '',
+    this.pin = '',
+  });
+
+  String printAddress() {
+    return '$fullAddress, $city, $state, $district, $pin';
+  }
 }
