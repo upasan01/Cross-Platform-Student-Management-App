@@ -95,9 +95,15 @@ class CustomDropDownState extends State<CustomDropDown> {
   }
 
   void _showDropDown(BuildContext context) {
-    final initialItem = widget.selectedValue != null
-        ? widget.options.indexOf(widget.selectedValue!)
-        : 0;
+    int initialItem = 0;
+    if (widget.selectedValue != null) {
+      final index = widget.options.indexOf(widget.selectedValue!);
+      if (index != -1) initialItem = index;
+    } else if (widget.options.isNotEmpty) {
+      // Auto-select the first option if nothing is selected
+      widget.onTap(widget.options[0]);
+    }
+
 
     showCupertinoModalPopup(
       context: context,
