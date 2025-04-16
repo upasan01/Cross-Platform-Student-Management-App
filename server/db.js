@@ -18,11 +18,12 @@ const adminSchema = new Schema({ // admin login info
 
 const studentSchema = new Schema({ // student info
     imageUrl: String,
+    studentId: ObjectId,
 
     //student details
     studentDetails: {
-        type: { type: String, enum: ["Regular", "Lateral"], required: true },
-        name: { type: String, required: true },
+        type: { type: String, required: true },
+        fullName: { type: String, required: true },
         uniRollNumber: { type: Number },
         regNumber: { type: Number },
         session: { type: String, required: true },
@@ -59,19 +60,19 @@ const studentSchema = new Schema({ // student info
     // parent's details
     parentsDetails: {
         father: {
-            name: { type: String, required: true },
+            fullName: { type: String, required: true },
             occupation: { type: String },
             phone: { type: String, required: true },
             income: { type: String }
         },
         mother: {
-            name: { type: String, required: true },
+            fullName: { type: String, required: true },
             occupation: { type: String },
             phone: { type: String, required: true },
             income: { type: String }
         },
         localGuardian: {
-            name: { type: String },
+            fullName: { type: String },
             occupation: { type: String },
             address: {
                 fullAddress: { type: String },

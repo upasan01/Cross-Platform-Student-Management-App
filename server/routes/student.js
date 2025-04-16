@@ -3,94 +3,190 @@ const { Router } = require("express")
 const studentRouter = Router()
 const { userMiddleware } = require("../middlewares/userMiddleware")
 const { upload } = require("../utils/multer");
-const { z, string } = require("zod");
+const { z, string, boolean } = require("zod");
+
+// student image upload route
+studentRouter.post("/uploadImage", userMiddleware, upload.single("image"), async (req, res) => {
+    const student_Id = req.userId;
+
+    // Check image upload
+    if (!req.file) {
+        return res.status(400).json({
+            message: "No image uploaded",
+            code: 400
+        });
+    }
+
+    const imageUrl = req.file.path;
+
+    try {
+        let student = await studentModel.findOne({ studentId: student_Id });
+
+        // If student doesn't exist then create new student with imageUrl & studentId
+        if (!student) {
+            student = new studentModel({
+                studentId: student_Id,
+                imageUrl: imageUrl
+            });
+            // validate false before save
+            await student.save({
+                validateBeforeSave: false
+            });
+
+        } else {
+            // If exists then updat imageUrl
+            student.imageUrl = imageUrl;
+            await student.save();
+        }
+
+        res.status(200).json({
+            message: "Image uploaded successfully",
+            imageUrl: imageUrl,
+            studentInfo_ID: student._id
+        });
+
+    } catch (error) {
+        console.error("Error uploading image:", error); // for debugging
+        res.status(500).json({
+            message: "Error uploading image",
+            error: error.message
+        });
+    }
+});
+
 
 // student info input route
-studentRouter.post("/infoEntry", userMiddleware, upload.single("image"), async (req, res) => {
-    // input validation
-    const requireBody = z.object({
-        fullName: z.string().min(1),
-        fathersName: z.string().min(1),
-        mothersName: z.string().min(1),
-        email: z.string().email(),
-        universityRoll: z.string().min(1),
-        registrationNumber: z.string().min(1),
-        department: z.string().min(1),
-        session: z.string().min(1),
-        boardOfEdu: z.string().min(1),
-        class12Marks: z.string().min(1),
-        schoolName: z.string().min(1),
-        phoneNumber: z.string().min(10).max(13),
-        address: z.string().min(1),
-        bloodGroup: z.string().min(1)
-    });
-
-    const parsedData = requireBody.safeParse(req.body)
-
-    if(!parsedData.success){
-        return res.status(400).json({
-            message: "incorrect format",
-            code: 400,
-            error: parsedData.error
-        })
-    }
-
+studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
     const student_Id = req.userId;
-    // console.log(student_Id)
 
-    // user exist in userModel or not
-    const userExistOrNot = await userModel.findOne({
-        _id: student_Id
-    })
+    // Check if user exists in userModel
+    const userExistOrNot = await userModel.findOne({ _id: student_Id });
 
-    if(!userExistOrNot){
+    if (!userExistOrNot) {
         return res.status(404).json({
-            message: "user dont exits",
+            message: "User doesn't exist",
             code: 404
-        })
+        });
     }
-    
-    // Check for existing user
+
+    // existiung user check
     const existingStudent = await studentModel.findOne({
         studentId: student_Id
     });
 
-    if (existingStudent) {
-        return res.status(400).json({
-            message: "Student already registered."
+    const { studentDetails, parentsDetails, educationalDetails, extraDetails } = req.body;
+
+    // dstructuring the payloads
+    const { type, fullName, uniRollNumber, regNumber, session, phoneNumber, email, dob, gender, bloodGroup, religion, category, motherTounge, height, weight, permanentAddress, residentialAddress } = studentDetails;
+
+    const { father, mother, localGuardian } = parentsDetails;
+
+    const { hs, secondary, diploma } = educationalDetails;
+
+    const { hobbies, interestedDomain, bestSubject, leastSubject } = extraDetails;
+
+    try {
+        if (existingStudent) {
+            existingStudent.studentDetails = {
+                type,
+                fullName,
+                uniRollNumber,
+                regNumber,
+                session,
+                phoneNumber,
+                email,
+                dob,
+                gender,
+                bloodGroup,
+                religion,
+                category,
+                motherTounge,
+                height,
+                weight,
+                permanentAddress,
+                residentialAddress
+            };
+
+            existingStudent.parentsDetails = {
+                father,
+                mother,
+                localGuardian
+            };
+
+            existingStudent.educationalDetails = {
+                hs,
+                secondary,
+                diploma
+            };
+
+            existingStudent.extraDetails = {
+                hobbies,
+                interestedDomain,
+                bestSubject,
+                leastSubject
+            };
+
+            await existingStudent.save();
+
+            return res.status(200).json({
+                message: "Student record updated",
+                studentInfo_ID: existingStudent._id
+            });
+
+        } else {
+            const newStudent = await studentModel.create({
+                studentId: student_Id,
+                studentDetails: {
+                    type,
+                    fullName,
+                    uniRollNumber,
+                    regNumber,
+                    session,
+                    phoneNumber,
+                    email,
+                    dob,
+                    gender,
+                    bloodGroup,
+                    religion,
+                    category,
+                    motherTounge,
+                    height,
+                    weight,
+                    permanentAddress,
+                    residentialAddress
+                },
+                parentsDetails: {
+                    father,
+                    mother,
+                    localGuardian
+                },
+                educationalDetails: {
+                    hs,
+                    secondary,
+                    diploma
+                },
+                extraDetails: {
+                    hobbies,
+                    interestedDomain,
+                    bestSubject,
+                    leastSubject
+                }
+            });
+
+            return res.status(201).json({
+                message: "Student record created",
+                studentInfo_ID: newStudent._id
+            });
+        }
+    } catch (error) {
+        console.error("Error saving student:", error);
+        return res.status(500).json({
+            message: "Error saving student record",
+            error: error.message
         });
     }
-
-    const { fullName, fathersName, mothersName, email, universityRoll, registrationNumber, gender, department, session, boardOfEdu, class12Marks, schoolName, phoneNumber, address, dob, bloodGroup } = req.body;
-
-    const imageUrl = req.file.path;
-
-    const student = await studentModel.create({
-        fullName: fullName,
-        fathersName: fathersName,
-        mothersName: mothersName,
-        email: email,
-        universityRoll: universityRoll,
-        registrationNumber: registrationNumber,
-        gender: gender,
-        department: department,
-        session: session,
-        boardOfEdu: boardOfEdu,
-        class12Marks: class12Marks,
-        schoolName: schoolName,
-        phoneNumber: phoneNumber,
-        address: address,
-        dob: dob,
-        bloodGroup: bloodGroup,
-        imageUrl: imageUrl,
-        studentId: student_Id
-    });
-
-    res.json({
-        message: "Student db created",
-        studentInfo_ID: student._id
-    });
 });
+
 
 // student info show route
 studentRouter.get("/showInfo", userMiddleware, async (req, res) => {
