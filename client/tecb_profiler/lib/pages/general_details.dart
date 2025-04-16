@@ -3,6 +3,8 @@ import 'package:tecb_profiler/components/date_picker.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/image_picker.dart';
+import 'package:tecb_profiler/pages/parents_details.dart';
+import 'package:tecb_profiler/services/location_service.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
 
@@ -33,16 +35,16 @@ class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   final weightController = TextEditingController();
   final yearOfGraduationController = TextEditingController();
   final permStateController = TextEditingController();
-  final permDistrictController = TextEditingController();
   final resStateController = TextEditingController();
-  final resDistrictController = TextEditingController();
 
   // Dropdown options
   final types = ['Regular', 'Lateral'];
   final genders = ['Male', 'Female', 'Prefer Not To Say'];
   final bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   final categories = ['General', 'OBC', 'SC', 'ST'];
-  final states = ['State 1', 'State 2'];
+  List<String> states = [];
+  List<String> permDistricts = [];
+  List<String> resDistricts = [];
 
   // Dropdown selected values
   String? selectedType;
@@ -51,6 +53,8 @@ class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   String? selectedCategory;
   String? selectedPermState;
   String? selectedResState;
+  String? selectedPermDistrict;
+  String? selectedResDistrict;
   DateTime? selectedDob;
   String? selectedImagePath;
 
@@ -64,11 +68,11 @@ class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   final emailFieldKey = GlobalKey<CustomFormFieldState>();
   final permAddressFieldKey = GlobalKey<CustomFormFieldState>();
   final permCityFieldKey = GlobalKey<CustomFormFieldState>();
-  final permDistrictFieldKey = GlobalKey<CustomFormFieldState>();
+  final permDistrictFieldKey = GlobalKey<CustomDropDownState>();
   final permPinFieldKey = GlobalKey<CustomFormFieldState>();
   final resAddressFieldKey = GlobalKey<CustomFormFieldState>();
   final resCityFieldKey = GlobalKey<CustomFormFieldState>();
-  final resDistrictFieldKey = GlobalKey<CustomFormFieldState>();
+  final resDistrictFieldKey = GlobalKey<CustomDropDownState>();
   final resPinFieldKey = GlobalKey<CustomFormFieldState>();
 
   //----For Drop Downs----
@@ -78,13 +82,18 @@ class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   final permStateFieldKey = GlobalKey<CustomDropDownState>();
   final resStateFieldKey = GlobalKey<CustomDropDownState>();
 
-  
-
-  
+void _asyncLoadState() async {
+  final allState = await LocationService.loadStates();
+  setState(() {
+    states = allState;
+  });
+}
 
 @override
 void initState() {
   super.initState();
+
+  _asyncLoadState();
   final data = widget.studentData;
   if (data != null) {
     studentNameController.text = data.fullName;
@@ -106,20 +115,21 @@ void initState() {
     permAddressController.text = data.permanentAddress.fullAddress;
     permCityController.text = data.permanentAddress.city;
     selectedPermState = data.permanentAddress.state;
-    permDistrictController.text = data.permanentAddress.district;
+    selectedPermDistrict = data.permanentAddress.district;
     permPinCodeController.text = data.permanentAddress.pin;
 
     // Residential Address
     resAddressController.text = data.residentialAddress.fullAddress;
     resCityController.text = data.residentialAddress.city;
     selectedResState = data.residentialAddress.state;
-    resDistrictController.text = data.residentialAddress.district;
+    selectedResDistrict = data.residentialAddress.district;
     resPinCodeController.text = data.residentialAddress.pin;
 
     heightController.text = data.height;
     weightController.text = data.weight ;
   }
 }
+
 
 void _saveData() {
   if (widget.studentData == null) return;
@@ -145,14 +155,14 @@ void _saveData() {
       fullAddress: permAddressController.text,
       city: permCityController.text,
       state: selectedPermState ?? '',
-      district: permDistrictController.text,
+      district: selectedPermDistrict,
       pin: permPinCodeController.text,
     )
     ..residentialAddress = Address(
       fullAddress: resAddressController.text,
       city: resCityController.text,
       state: selectedResState ?? '',
-      district: resDistrictController.text,
+      district: selectedResDistrict,
       pin: resPinCodeController.text,
     );
 }
@@ -165,11 +175,9 @@ void _handleNext(){
     emailFieldKey,
     permAddressFieldKey,
     permCityFieldKey,
-    permDistrictFieldKey,
     permPinFieldKey,
     resAddressFieldKey,
     resCityFieldKey,
-    resDistrictFieldKey,
     resPinFieldKey
   ].every((key) => key.currentState?.validate() ?? false);
 
@@ -179,9 +187,9 @@ void _handleNext(){
     categoryFieldKey,
     permStateFieldKey,
     resStateFieldKey,
+    resDistrictFieldKey,
+    permDistrictFieldKey,
   ].every((key) => key.currentState?.validate() ?? false);
-
-  print(allDropDownsValid);
 
     if (!allFormFieldsValid || !allDropDownsValid) {
       showCupertinoDialog(
@@ -203,7 +211,12 @@ void _handleNext(){
 
     try {
       _saveData();
-      // TODO: Navigate to next page when ready
+      Navigator.push(
+        context, 
+        CupertinoPageRoute(
+          builder: (context) => ParentGuardianDetailsPage(studentData: widget.studentData)
+          ),
+        );
     } catch (error) {
       ErrorDialogUtility.showErrorDialog(
         context,
@@ -333,13 +346,27 @@ void _handleNext(){
                 options: states,
                 selectedValue: selectedPermState,
                 required: true,
-                onTap: (value) => setState(() => selectedPermState = value),
+                onTap: (value) async {
+                  setState(() {
+                    selectedPermState = value;
+                    selectedPermDistrict = null;
+                    permDistricts = [];
+                  });
+                  final districts = await LocationService.updateDistricts(value);
+                  setState(() => permDistricts = districts);
+                },
               ),
-              CustomFormField(
+              CustomDropDown(
                 key: permDistrictFieldKey,
                 label: 'District',
-                controller: permDistrictController,
+                options: permDistricts,
+                selectedValue: selectedPermDistrict,
                 required: true,
+                onTap: (value) {
+                  setState(() {
+                    selectedPermDistrict = value;
+                  });
+                },
               ),
               CustomFormField(
                 key: permPinFieldKey,
@@ -360,16 +387,17 @@ void _handleNext(){
                           // Copy Permanent Address to Residential Address
                           resAddressController.text = permAddressController.text;
                           resCityController.text = permCityController.text;
-                          resDistrictController.text = permDistrictController.text;
+                          selectedResDistrict= selectedPermDistrict;
                           resPinCodeController.text = permPinCodeController.text;
                           selectedResState = selectedPermState; // Set the state for Residential Address
                         } else {
                           // Clear Residential Address fields when switch is off
                           resAddressController.clear();
                           resCityController.clear();
-                          resDistrictController.clear();
+                          selectedResDistrict = null;
                           resPinCodeController.clear();
-                          selectedResState = null; // Reset Residential Address state
+                          selectedResState = null;
+                          selectedResDistrict = null;// Reset Residential Address state
                         }
                       });
                     },
@@ -399,14 +427,26 @@ void _handleNext(){
                 label: 'State',
                 options: states,
                 selectedValue: selectedResState,
-                onTap: (value) => setState(() => selectedResState = value),
+                onTap: (value) async  {
+                  setState(() {
+                    selectedResState = value;
+                    selectedResDistrict = null;
+                    resDistricts = [];
+                  });
+                  final districts = await LocationService.updateDistricts(value);
+                  setState(() => resDistricts = districts);
+                },
                 required: true,
                 enabled: !sameAsPermanent,
               ),
-              CustomFormField(
+              CustomDropDown(
                 key: resDistrictFieldKey,
                 label: 'District',
-                controller: resDistrictController,
+                options: resDistricts,
+                selectedValue: selectedResDistrict,
+                onTap: (val) => setState(() {
+                  selectedResDistrict = val;
+                }),
                 required: true,
                 enabled: !sameAsPermanent,
               ),
