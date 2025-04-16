@@ -168,46 +168,46 @@ void _saveData() {
 }
 
 void _handleNext(){
-  final allFormFieldsValid = [
-    studentNameFieldKey,
-    yearOfGradFieldKey,
-    phoneFieldKey,
-    emailFieldKey,
-    permAddressFieldKey,
-    permCityFieldKey,
-    permPinFieldKey,
-    resAddressFieldKey,
-    resCityFieldKey,
-    resPinFieldKey
-  ].every((key) => key.currentState?.validate() ?? false);
+  // final allFormFieldsValid = [
+  //   studentNameFieldKey,
+  //   yearOfGradFieldKey,
+  //   phoneFieldKey,
+  //   emailFieldKey,
+  //   permAddressFieldKey,
+  //   permCityFieldKey,
+  //   permPinFieldKey,
+  //   resAddressFieldKey,
+  //   resCityFieldKey,
+  //   resPinFieldKey
+  // ].every((key) => key.currentState?.validate() ?? false);
 
-  final allDropDownsValid = [
-    genderFieldKey,
-    bloodGroupFieldKey,
-    categoryFieldKey,
-    permStateFieldKey,
-    resStateFieldKey,
-    resDistrictFieldKey,
-    permDistrictFieldKey,
-  ].every((key) => key.currentState?.validate() ?? false);
+  // final allDropDownsValid = [
+  //   genderFieldKey,
+  //   bloodGroupFieldKey,
+  //   categoryFieldKey,
+  //   permStateFieldKey,
+  //   resStateFieldKey,
+  //   resDistrictFieldKey,
+  //   permDistrictFieldKey,
+  // ].every((key) => key.currentState?.validate() ?? false);
 
-    if (!allFormFieldsValid || !allDropDownsValid) {
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: const Text("Missing Required Fields"),
-          content: const Text("Please fill all the required fields."),
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
-      return;
-    }
+  //   if (!allFormFieldsValid || !allDropDownsValid) {
+  //     showCupertinoDialog(
+  //       context: context,
+  //       builder: (context) => CupertinoAlertDialog(
+  //         title: const Text("Missing Required Fields"),
+  //         content: const Text("Please fill all the required fields."),
+  //         actions: [
+  //           CupertinoDialogAction(
+  //             isDefaultAction: true,
+  //             onPressed: () => Navigator.pop(context),
+  //             child: const Text("OK"),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //     return;
+  //   }
 
     try {
       _saveData();
