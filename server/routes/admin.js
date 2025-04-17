@@ -126,8 +126,8 @@ adminRouter.get("/search", adminMiddleware, async (req, res) => {
         const results = await studentModel.find({
             // searches the input pattern wise
             $or: [
-                { fullName: { $regex: searchQuery, $options: "i" } },
-                { email: { $regex: searchQuery } }
+                { "studentDetails.fullName": searchQuery },
+                { "studentDetails.email": searchQuery }
             ]
         })
 
