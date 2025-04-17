@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:tecb_profiler/student_data_model.dart';
-class ApiService {
+class ServerApiService {
   static Future<http.Response> sendSignUpRequest({
     required String firstName,
     required String lastName,
@@ -61,23 +61,23 @@ class ApiService {
     var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
     // Add text fields as form parameters
-    request.headers['token'] = token;
-    request.fields['fullName'] = studentData.fullName;
-    request.fields['fathersName'] = studentData.fatherName;
-    request.fields['mothersName'] = studentData.motherName;
-    request.fields['email'] = studentData.email;
-    request.fields['universityRoll'] = studentData.roll.toString();
-    request.fields['registrationNumber'] = studentData.regNo.toString();
-    request.fields['gender'] = studentData.gender.toString();
-    request.fields['phone'] = studentData.phone.toString();
-    request.fields['department'] = studentData.course.toString();
-    request.fields['session'] = studentData.yOfGraduation;
-    request.fields['boardOfEdu'] = studentData.boardOfEducation;
-    request.fields['class12Marks'] = studentData.result.toString();
-    request.fields['address'] = studentData.address;
-    request.fields['schoolName'] = studentData.schoolName;
-    request.fields['bloodGroup'] = studentData.bloodGroup.toString();
-    request.fields['dob'] = studentData.dob!.toIso8601String(); // Date format in ISO8601
+    // request.headers['token'] = token;
+    // request.fields['fullName'] = studentData.fullName;
+    // request.fields['fathersName'] = studentData.fatherName;
+    // request.fields['mothersName'] = studentData.motherName;
+    // request.fields['email'] = studentData.email;
+    // request.fields['universityRoll'] = studentData.roll.toString();
+    // request.fields['registrationNumber'] = studentData.regNo.toString();
+    // request.fields['gender'] = studentData.gender.toString();
+    // request.fields['phoneNumber'] = studentData.phone.toString();
+    // request.fields['department'] = studentData.course.toString();
+    // request.fields['session'] = studentData.yOfGraduation;
+    // request.fields['boardOfEdu'] = studentData.boardOfEducation;
+    // request.fields['class12Marks'] = studentData.result.toString();
+    // request.fields['address'] = studentData.address;
+    // request.fields['schoolName'] = studentData.schoolName;
+    // request.fields['bloodGroup'] = studentData.bloodGroup.toString();
+    // request.fields['dob'] = studentData.dob!.toIso8601String(); // Date format in ISO8601
 
     // Add image as a file parameter
     var file = await _getMultipartFile(studentData.imagePath!);
@@ -117,7 +117,5 @@ class ApiService {
       contentType: mediaType, // Dynamically setting content type
     );
   }
-
-
-
 }
+

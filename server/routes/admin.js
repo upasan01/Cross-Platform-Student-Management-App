@@ -7,6 +7,7 @@ const { adminMiddleware } = require("../middlewares/adminMiddleware")
 
 const { Router } = require("express");
 const { appendFile } = require("fs");
+const { json } = require("stream/consumers");
 const adminRouter = Router()
 
 // SignUp Route
@@ -117,7 +118,6 @@ adminRouter.get("/students", adminMiddleware, async (req, res) => {
 // get search result route (this is for web app or admin panel)
 adminRouter.get("/search", adminMiddleware, async (req, res) => {
     const searchQuery = req.query.searchQuery?.trim()  // trims unwanted spaces at start and end
-
     if (!searchQuery) {
         return res.json([]) // if the search bar is empty then it will send an empty arrry nd will not execute rest of the code
     }

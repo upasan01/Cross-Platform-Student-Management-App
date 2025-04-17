@@ -10,6 +10,7 @@ class CustomFormField extends StatefulWidget implements Validatable {
   final TextEditingController controller;
   final bool required;
   final TextInputType keyboardType;
+  final bool enabled;  // New property to control whether the field is enabled
 
   const CustomFormField({
     super.key,
@@ -17,6 +18,7 @@ class CustomFormField extends StatefulWidget implements Validatable {
     required this.controller,
     this.required = false,
     this.keyboardType = TextInputType.text,
+    this.enabled = true,  // Default is true (enabled)
   });
 
   @override
@@ -66,6 +68,7 @@ class CustomFormFieldState extends State<CustomFormField> {
               setState(() => _showError = false);
             }
           },
+          enabled: widget.enabled,  // Use the enabled property here
         ),
         if (hasError)
           const Padding(

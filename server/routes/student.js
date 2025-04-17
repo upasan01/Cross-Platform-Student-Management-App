@@ -8,6 +8,7 @@ const { z, string, boolean } = require("zod");
 // student image upload route
 studentRouter.post("/uploadImage", userMiddleware, upload.single("image"), async (req, res) => {
     const student_Id = req.userId;
+    // console.log(student_Id)
 
     // Check image upload
     if (!req.file) {
