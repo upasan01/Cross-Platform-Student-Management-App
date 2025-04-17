@@ -2,19 +2,21 @@ class StudentData {
   String? imagePath;
 
   // Student details
-  String type; // Regular or Lateral
+  String type;
   String fullName;
   String uniRollNumber;
   String regNumber;
-  String session; // Year of Graduation
+  String session;
   String phoneNumber;
   String email;
   DateTime? dob;
   String? gender;
   String? bloodGroup;
-  String religion;
   String? category;
+  String religion;
   String motherTounge;
+  String studentAadhaar;
+  String studentPAN;
   String height;
   String weight;
 
@@ -23,6 +25,15 @@ class StudentData {
 
   // Residential address
   Address residentialAddress;
+
+  // Parent & Guardian details
+  bool hasLocalGuardian;
+  Parent father;
+  Parent mother;
+  Parent? localGuardian;
+
+  // Academic Details
+  AcademicDetails academic;
 
   StudentData({
     this.imagePath = '',
@@ -33,6 +44,8 @@ class StudentData {
     this.session = '',
     this.phoneNumber = '',
     this.email = '',
+    this.studentAadhaar  = '',
+    this.studentPAN = '',
     this.dob,
     this.gender,
     this.bloodGroup,
@@ -43,6 +56,11 @@ class StudentData {
     this.weight = '',
     required this.permanentAddress,
     required this.residentialAddress,
+    required this.father,
+    required this.mother,
+    this.hasLocalGuardian = false,
+    this.localGuardian,
+    required this.academic
   });
 
   void printStudentData() {
@@ -63,6 +81,13 @@ class StudentData {
     print('Weight: $weight');
     print('Permanent Address: ${permanentAddress.printAddress()}');
     print('Residential Address: ${residentialAddress.printAddress()}');
+    print('Father: ${father.printParent()}');
+    print('Mother: ${mother.printParent()}');
+    if (localGuardian != null) {
+      print('Local Guardian: ${localGuardian!.printParent()}');
+    }
+    print('Academic Details: ${academic.printAcademicDetails()}');
+
   }
 }
 
@@ -70,18 +95,87 @@ class Address {
   String fullAddress;
   String city;
   String? state;
-  String district;
+  String?district;
   String pin;
+  String aadhaar;
+  String pan;
 
   Address({
     this.fullAddress = '',
     this.city = '',
     this.state,
-    this.district = '',
+    this.district,
     this.pin = '',
+    this.aadhaar = '',
+    this.pan = '',
   });
 
   String printAddress() {
     return '$fullAddress, $city, $state, $district, $pin';
   }
 }
+
+class Parent {
+  String name;
+  String phone;
+  String?occupation;
+  String?income;
+  Address?address;
+
+  Parent({
+    this.name = '',
+    this.occupation ,
+    this.phone = '',
+    this.income,
+    this.address,
+  });
+
+  String printParent() {
+    return 'Name: $name, Occupation: $occupation, Phone: $phone, Income: $income, Address: ${address?.printAddress()}';
+  }
+}
+
+
+class AcademicDetails {
+  // Higher Secondary (for Regular)
+  String hsPercentage;
+  String hsBoard;
+  String hsPassingYear;
+  String hsSchoolName;
+
+  // Secondary (for all)
+  String secondaryPercentage;
+  String secondaryBoard;
+  String secondaryPassingYear;
+  String secondarySchoolName;
+
+  // Diploma (for Lateral)
+  String diplomaCGPA;
+  String diplomaCollege;
+  String diplomaStream;
+  String diplomaPassingYear;
+
+  AcademicDetails({
+    this.hsPercentage = '',
+    this.hsBoard = '',
+    this.hsPassingYear = '',
+    this.hsSchoolName = '',
+    this.secondaryPercentage = '',
+    this.secondaryBoard = '',
+    this.secondaryPassingYear = '',
+    this.secondarySchoolName = '',
+    this.diplomaCGPA = '',
+    this.diplomaCollege = '',
+    this.diplomaStream = '',
+    this.diplomaPassingYear = '',
+  });
+
+  String printAcademicDetails() {
+    return '''
+    HS %: $hsPercentage, Board: $hsBoard, Year: $hsPassingYear, School: $hsSchoolName
+    Secondary %: $secondaryPercentage, Board: $secondaryBoard, Year: $secondaryPassingYear, School: $secondarySchoolName
+    Diploma CGPA: $diplomaCGPA, College: $diplomaCollege, Stream: $diplomaStream, Year: $diplomaPassingYear
+    ''';
+  }
+}
+

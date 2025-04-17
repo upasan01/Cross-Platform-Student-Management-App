@@ -1,130 +1,139 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
-import 'package:tecb_profiler/pages/success_page.dart';
-import 'package:tecb_profiler/services/api_services.dart';
-import 'package:tecb_profiler/services/jwt_actions.dart';
+import 'package:tecb_profiler/components/utils/validiation_dialog.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 
-class AcademicsDetails extends StatefulWidget {
-  final StudentData studentData;
-  const AcademicsDetails({super.key, required this.studentData});
+class StudentAcademicDetailsPage extends StatefulWidget {
+  final StudentData? studentData;
+  const StudentAcademicDetailsPage({super.key, required this.studentData});
 
   @override
-  State<AcademicsDetails> createState() => _AcademicsDetailsState();
+  State<StudentAcademicDetailsPage> createState() => _StudentAcademicDetailsPageState();
 }
 
-class _AcademicsDetailsState extends State<AcademicsDetails> {
-  final rollController = TextEditingController();
-  final regController = TextEditingController();
-  final graduationYearController = TextEditingController();
-  final resultController = TextEditingController();
-  final boardController = TextEditingController();
-  final schoolController = TextEditingController();
+class _StudentAcademicDetailsPageState extends State<StudentAcademicDetailsPage> {
+  //Global Keys
+  final hsResultFieldKey = GlobalKey<CustomFormFieldState>();
+  final hsBoardFieldKey = GlobalKey<CustomFormFieldState>();
+  final hsPassYearFieldKey = GlobalKey<CustomFormFieldState>();
+  final secResultFieldKey = GlobalKey<CustomFormFieldState>();
+  final secBoardFieldKey = GlobalKey<CustomFormFieldState>();
+  final secPassYearFieldKey = GlobalKey<CustomFormFieldState>();
+  final cgpaFieldKey = GlobalKey<CustomFormFieldState>();
+  final collegeFieldKey = GlobalKey<CustomFormFieldState>();
+  final streamFieldKey = GlobalKey<CustomFormFieldState>();
+  final colPassYearFieldKey = GlobalKey<CustomFormFieldState>();
 
-  final rollFieldKey = GlobalKey<CustomFormFieldState>();
-  final regNoFieldKey = GlobalKey<CustomFormFieldState>();
-  final courseFieldKey = GlobalKey<CustomDropDownState>();
-  final resultFieldKey = GlobalKey<CustomFormFieldState>();
-  final yOfGraduationFieldKey = GlobalKey<CustomFormFieldState>();
 
-  final List<String> courses = [
-    "Computer Science & Engineering",
-    "Computer Science & Engineering(AIML)",
-    "Electronics & Communication Engineering",
-    "Information Technology",
-    "Bachelor of Business Administration",
-    "Bachelor of Computer Application"
-  ];
+  // Higher Secondary
+  final hsPercentageController = TextEditingController();
+  final hsBoardController = TextEditingController();
+  final hsPassingYearController = TextEditingController();
+  final hsSchoolNameController = TextEditingController();
 
-  String? selectedCourse;
+  // Secondary
+  final secPercentageController = TextEditingController();
+  final secBoardController = TextEditingController();
+  final secPassingYearController = TextEditingController();
+  final secSchoolNameController = TextEditingController();
+
+  // Diploma
+  final diplomaCGPAController = TextEditingController();
+  final diplomaCollegeNameController = TextEditingController();
+  final diplomaStreamController = TextEditingController();
+  final diplomaPassingYearController = TextEditingController();
+
+  bool get isLateral => widget.studentData?.type.toLowerCase() == "lateral";
+  bool get isRegular => widget.studentData?.type.toLowerCase() == "regular";
+
+  void _saveData() {
+    final data = widget.studentData;
+    if (data == null) return;
+
+    // Save Higher Secondary if Regular
+
+    data.academic.hsPercentage = hsPercentageController.text;
+    data.academic.hsBoard = hsBoardController.text;
+    data.academic.hsPassingYear = hsPassingYearController.text;
+    data.academic.hsSchoolName = hsSchoolNameController.text;
+
+
+    // Save Secondary
+    data.academic.secondaryPercentage = secPercentageController.text;
+    data.academic.secondaryBoard = secBoardController.text;
+    data.academic.secondaryPassingYear = secPassingYearController.text;
+    data.academic.secondarySchoolName = secSchoolNameController.text;
+
+    // Save Diploma if Lateral
+    if (isLateral) {
+      data.academic.diplomaCGPA = diplomaCGPAController.text;
+      data.academic.diplomaCollege = diplomaCollegeNameController.text;
+      data.academic.diplomaStream = diplomaStreamController.text;
+      data.academic.diplomaPassingYear = diplomaPassingYearController.text;
+    }
+  }
+
+  void _handleNext() {
+    List<GlobalKey<CustomFormFieldState>> allFormFieldKeys = [
+      secResultFieldKey,
+      secBoardFieldKey,
+      secPassYearFieldKey,
+    ];
+
+    if (isRegular) {
+      allFormFieldKeys.addAll([
+        hsResultFieldKey,
+        hsBoardFieldKey,
+        hsPassYearFieldKey,
+      ]);
+    } else{
+      allFormFieldKeys.addAll([
+        cgpaFieldKey,
+        collegeFieldKey,
+        streamFieldKey,
+        colPassYearFieldKey,
+      ]);
+    }
+
+    final allFormFieldsValid = allFormFieldKeys.every((key) => key.currentState?.validate() ?? false);
+
+    if (!allFormFieldsValid) {
+      ValidationDialog.show(context: context);
+      return;
+    }
+
+    _saveData();
+    widget.studentData?.printStudentData();
+    
+  }
 
   @override
   void initState() {
     super.initState();
-    rollController.text = widget.studentData.roll?.toString() ?? '';
-    regController.text = widget.studentData.regNo?.toString() ?? '';
-    resultController.text = widget.studentData.result?.toString() ?? '';
-    graduationYearController.text = widget.studentData.yOfGraduation;
-    schoolController.text = widget.studentData.schoolName;
-    selectedCourse = widget.studentData.course;
-    boardController.text = widget.studentData.boardOfEducation;
-  }
+    final data = widget.studentData;
+    if (data == null) return;
+    hsPercentageController.text = data.academic.hsPercentage;
+    hsBoardController.text = data.academic.hsBoard;
+    hsPassingYearController.text = data.academic.hsPassingYear;
+    hsSchoolNameController.text = data.academic.hsSchoolName;
 
-  void _saveData() {
-    widget.studentData.roll = int.tryParse(rollController.text) ?? 0;
-    widget.studentData.regNo = int.tryParse(regController.text) ?? 0;
-    widget.studentData.course = selectedCourse;
-    widget.studentData.result = double.tryParse(resultController.text) ?? 0.0;
-    widget.studentData.boardOfEducation = boardController.text;
-    widget.studentData.yOfGraduation = graduationYearController.text;
-    widget.studentData.schoolName = schoolController.text;
-  }
 
-  Future<void> _handleSubmit() async {
-    final allFormsValid = [
-      rollFieldKey,
-      regNoFieldKey,
-      yOfGraduationFieldKey,
-      resultFieldKey
-    ].every((key) => key.currentState?.validate() ?? false);
+    secPercentageController.text = data.academic.secondaryPercentage;
+    secBoardController.text = data.academic.secondaryBoard;
+    secPassingYearController.text = data.academic.secondaryPassingYear;
+    secSchoolNameController.text = data.academic.secondarySchoolName;
 
-    final allDropDownValid = [courseFieldKey]
-        .every((key) => key.currentState?.validate() ?? false);
-
-    if (!allFormsValid || !allDropDownValid) {
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: const Text("Missing Required Fields"),
-          content: const Text("Please fill all the required fields."),
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
-      return;
-    }
-
-    try {
-      _saveData();
-      final token = await TokenStorage.getToken();
-      if (token == null) {
-        ErrorDialogUtility.showErrorDialog(
-          context,
-          errorMessage: "Token Unavailable",
-        );
-        return;
-      }
-
-      final response = await ApiService.sendFormData(
-        studentData: widget.studentData,
-        token: token,
-      );
-      
-      if (response.statusCode == 200) {
-
-        Navigator.push(
-          context, 
-          CupertinoPageRoute(builder: (context)=> SuccessPage()));
-      } else {
-        final errorBody = await response.stream.bytesToString();
-        ErrorDialogUtility.showErrorDialog(
-          context,
-          errorMessage:
-              "Failed to submit. Status code: ${response.statusCode}\n$errorBody",
-        );
-      }
-    } catch (error) {
-      ErrorDialogUtility.showErrorDialog(
-        context,
-        errorMessage: error.toString(),
-      );
+    if (isLateral) {
+      diplomaCGPAController.text = data.academic.diplomaCGPA;
+      diplomaCollegeNameController.text = data.academic.diplomaCollege;
+      diplomaStreamController.text = data.academic.diplomaStream;
+      diplomaPassingYearController.text = data.academic.diplomaPassingYear;
+    } else {
+      diplomaCGPAController.clear();
+      diplomaCollegeNameController.clear();
+      diplomaStreamController.clear();
+      diplomaPassingYearController.clear();
     }
   }
 
@@ -132,67 +141,106 @@ class _AcademicsDetailsState extends State<AcademicsDetails> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Academics Details'),
+        middle: Text('Student Academic Details'),
       ),
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text('Higher Secondary Education', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               CustomFormField(
-                key: rollFieldKey,
-                label: "University Roll No",
-                controller: rollController,
-                required: true,
-                keyboardType: TextInputType.number,
+                key: hsResultFieldKey,
+                label: "Higher Secondary or Equivalent Percentage",
+                controller: hsPercentageController,
+                required: isRegular,
               ),
               CustomFormField(
-                key: regNoFieldKey,
-                label: "University Registration No",
-                controller: regController,
-                required: true,
-                keyboardType: TextInputType.number,
-              ),
-              CustomDropDown(
-                key: courseFieldKey,
-                label: 'Course',
-                options: courses,
-                selectedValue: selectedCourse,
-                required: true,
-                onTap: (value) {
-                  setState(() {
-                    selectedCourse = value;
-                  });
-                },
+                key: hsBoardFieldKey,
+                label: "HS Board of Institution",
+                controller: hsBoardController,
+                required: isRegular,
               ),
               CustomFormField(
-                key: yOfGraduationFieldKey,
-                label: "Year of Graduation",
-                controller: graduationYearController,
-                required: true,
-                keyboardType: TextInputType.number,
+                key: hsPassYearFieldKey,
+                label: "HS Passing Year",
+                controller: hsPassingYearController,
+                required: isRegular,
               ),
               CustomFormField(
-                key: resultFieldKey,
-                label: "Class 12th or Equivalent Result(%)",
-                controller: resultController,
+                label: "HS School Name",
+                controller: hsSchoolNameController,
+              ),
+              const SizedBox(height: 20),
+
+              const Text('Secondary Education', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              CustomFormField(
+                key: secResultFieldKey,
+                label: "Secondary or Equivalent Percentage",
+                controller: secPercentageController,
                 required: true,
-                keyboardType: TextInputType.number,
               ),
               CustomFormField(
+                key: secBoardFieldKey,
                 label: "Board of Institution",
-                controller: boardController,
+                controller: secBoardController,
+                required: true,
+              ),
+              CustomFormField(
+                key: secPassYearFieldKey,
+                label: "Passing Year",
+                controller: secPassingYearController,
+                required: true,
               ),
               CustomFormField(
                 label: "School Name",
-                controller: schoolController,
+                controller: secSchoolNameController,
               ),
+              const SizedBox(height: 20),
+
+              if (isLateral) ...[
+                const Text('Diploma Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                CustomFormField(
+                  key: cgpaFieldKey,
+                  label: "CGPA",
+                  controller: diplomaCGPAController,
+                  required: true,
+                ),
+                CustomFormField(
+                  key: collegeFieldKey,
+                  label: "College/University Name",
+                  controller: diplomaCollegeNameController,
+                  required: true,
+                ),
+                CustomFormField(
+                  key: streamFieldKey,
+                  label: "Stream",
+                  controller: diplomaStreamController,
+                  required: true,
+                ),
+                CustomFormField(
+                  key: colPassYearFieldKey,
+                  label: "Passing Year",
+                  controller: diplomaPassingYearController,
+                  required: true,
+                ),
+              ] ,
+
               const SizedBox(height: 30),
               Center(
                 child: CupertinoButton.filled(
-                  onPressed: _handleSubmit,
-                  child: const Text('Submit'),
+                  child: const Text('Next'),
+                  onPressed: () {
+                    try {
+                      _handleNext();
+                    } catch (error) {
+                      ErrorDialogUtility.showErrorDialog(
+                        context,
+                        errorMessage: error.toString(),
+                      );
+                    }
+                  },
                 ),
               ),
             ],

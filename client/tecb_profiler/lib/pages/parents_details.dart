@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
+import 'package:tecb_profiler/components/utils/validiation_dialog.dart';
+import 'package:tecb_profiler/pages/academics_details.dart';
 import 'package:tecb_profiler/services/location_service.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 
@@ -14,13 +16,29 @@ class ParentGuardianDetailsPage extends StatefulWidget {
 }
 
 class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
+
+  // Global Keys
+  final fatherNameFieldKey = GlobalKey<CustomFormFieldState>();
+  final motherNameFieldKey = GlobalKey<CustomFormFieldState>();
+  final lgNameFieldKey = GlobalKey<CustomFormFieldState>();
+  final lgAddressFieldKey = GlobalKey<CustomFormFieldState>();
+  final lgCityFieldKey = GlobalKey<CustomFormFieldState>();
+  final lgPinFieldKey = GlobalKey<CustomFormFieldState>();
+  final lgStateFieldKey = GlobalKey<CustomDropDownState>();
+  final lgDistrictFieldKey = GlobalKey<CustomDropDownState>();
+  
+
   // Controllers for Father's Details
   final fatherNameController = TextEditingController();
   final fatherPhoneController = TextEditingController();
+  final fatherAadhaarController = TextEditingController();
+  final fatherPanController = TextEditingController();
 
   // Controllers for Mother's Details
   final motherNameController = TextEditingController();
   final motherPhoneController = TextEditingController();
+  final motherAadhaarController = TextEditingController();
+  final motherPanController = TextEditingController();
 
   // Controllers for Local Guardian
   final localGuardianNameController = TextEditingController();
@@ -29,7 +47,7 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
   final localGuardianPinCodeController = TextEditingController();
 
   // Dropdown Options
-  final occupations = ['Engineer', 'Doctor', 'Teacher', 'Business', 'Other'];
+  final occupations = ['Service', 'Business', 'Self Employed'];
   final incomeRanges = ['< 1 Lakh', '1-3 Lakhs', '3-5 Lakhs', '5-10 Lakhs', '> 10 Lakhs'];
   List<String> states = [];
   List<String> guardianDistricts = [];
@@ -92,35 +110,91 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
     if (data != null) {
       // Father
       data.father.name = fatherNameController.text;
-      data.father.occupation = selectedFatherOccupation ?? '';
+      data.father.occupation = selectedFatherOccupation;
       data.father.phone = fatherPhoneController.text;
       data.father.income = selectedFatherIncome;
 
       // Mother
       data.mother.name = motherNameController.text;
-      data.mother.occupation = selectedMotherOccupation!;
+      data.mother.occupation = selectedMotherOccupation;
       data.mother.phone = motherPhoneController.text;
       data.mother.income = selectedMotherIncome;
 
       // Guardian
       data.hasLocalGuardian = hasLocalGuardian;
       if (hasLocalGuardian) {
-        data.localGuardian?.name = localGuardianNameController.text;
-        data.localGuardian?.occupation = selectedGuardianOccupation!;
-        data.localGuardian?.address?.fullAddress = localGuardianAddressController.text;
-        data.localGuardian?.address?.city = localGuardianCityController.text;
-        data.localGuardian?.address?.state = selectedGuardianState;
-        data.localGuardian?.address?.district = selectedGuardianDistrict;
-        data.localGuardian?.address?.pin = localGuardianPinCodeController.text;
-      } else {
-        data.localGuardian = null;
+        data.localGuardian = Parent(
+          name: localGuardianNameController.text,
+          occupation: selectedGuardianOccupation,
+          address: Address(
+            fullAddress: localGuardianAddressController.text.trim(),
+            city: localGuardianCityController.text.trim(),
+            state: selectedGuardianState,
+            district: selectedGuardianDistrict,
+            pin: localGuardianPinCodeController.text.trim()
+          )
+        );
       }
     }
   }
 
 void _handleNext() {
+  final fatherPhone = fatherPhoneController.text.trim();
+  final motherPhone = motherPhoneController.text.trim();
+  final studentPhone = widget.studentData!.phoneNumber.trim();
+  bool isSame = (fatherPhone == motherPhone) || (motherPhone == studentPhone) || (fatherPhone == studentPhone);
+
+  // Validation: At least one must be provided
+  if (fatherPhone.isEmpty && motherPhone.isEmpty) {
+    ErrorDialogUtility.showErrorDialog( 
+      context,
+      errorMessage: "Please provide at least one phone number: Father's or Mother's.",
+    );
+    return;
+  }
+
+  if (isSame) {
+    ErrorDialogUtility.showErrorDialog(
+      context,
+      errorMessage: "Cannot Have same phone number for Father, Mother or Student",
+    );
+    return;
+  }
+  List<GlobalKey<CustomFormFieldState>> allFormFieldKeys = [
+    fatherNameFieldKey,
+    motherNameFieldKey,
+  ];
+
+  List<GlobalKey<CustomDropDownState>> allDropDownKeys = [];
+  if (hasLocalGuardian) {
+    allFormFieldKeys.addAll(
+      [
+        lgNameFieldKey,
+        lgAddressFieldKey,
+        lgCityFieldKey,
+        lgPinFieldKey,
+      ]
+    );
+
+    allDropDownKeys.addAll([
+      lgStateFieldKey,
+      lgDistrictFieldKey
+    ]);
+  }
+
+  final allFormFieldsValid = allFormFieldKeys.every((key) => key.currentState?.validate() ?? false);
+
+  final allDropDownsValid = allDropDownKeys.every((key) => key.currentState?.validate() ?? false);
+
+  if (!allFormFieldsValid || !allDropDownsValid) {
+    ValidationDialog.show(context: context);
+    return;
+  }
   _saveData();
-  widget.studentData?.printStudentData();
+  Navigator.push(
+    context,
+    CupertinoPageRoute(builder: (context) => StudentAcademicDetailsPage(studentData: widget.studentData))
+    );
   // Navigate to next page or perform further validation/logic
 }
 
@@ -138,6 +212,7 @@ void _handleNext() {
             children: [
               const Text('Father\'s Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               CustomFormField(
+                key: fatherNameFieldKey,
                 label: "Father's Name",
                 controller: fatherNameController,
                 required: true,
@@ -160,9 +235,22 @@ void _handleNext() {
                 onTap: (val) => setState(() => selectedFatherIncome = val),
               ),
 
+              CustomFormField(
+                // key: studentAadhaarFieldKey,
+                label: 'Aadhaar Number',
+                controller: fatherAadhaarController,
+              ),
+              
+              CustomFormField(
+                // key: studentPanFieldKey,
+                label: 'PAN',
+                controller: fatherPanController,
+              ),
+
               const SizedBox(height: 20),
               const Text('Mother\'s Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               CustomFormField(
+                key: motherNameFieldKey,
                 label: "Mother's Name",
                 controller: motherNameController,
                 required: true,
@@ -185,6 +273,17 @@ void _handleNext() {
                 onTap: (val) => setState(() {
                   selectedMotherIncome = val;
                 }),
+              ),
+              CustomFormField(
+                // key: studentAadhaarFieldKey,
+                label: 'Aadhaar Number',
+                controller: motherAadhaarController,
+              ),
+              
+              CustomFormField(
+                // key: studentPanFieldKey,
+                label: 'PAN',
+                controller: motherPanController,
               ),
 
               const SizedBox(height: 20),
@@ -212,8 +311,10 @@ void _handleNext() {
                 const SizedBox(height: 10),
                 const Text('Local Guardian Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 CustomFormField(
+                  key: lgNameFieldKey,
                   label: "Local Guardian Name",
                   controller: localGuardianNameController,
+                  required: hasLocalGuardian,
                 ),
                 CustomDropDown(
                   label: "Local Guardian Occupation",
@@ -222,17 +323,23 @@ void _handleNext() {
                   onTap: (val) => setState(() => selectedGuardianOccupation = val),
                 ),
                 CustomFormField(
+                  key: lgAddressFieldKey,
                   label: "Address",
                   controller: localGuardianAddressController,
+                  required: hasLocalGuardian,
                 ),
                 CustomFormField(
+                  key: lgCityFieldKey,
                   label: "City",
                   controller: localGuardianCityController,
+                  required: hasLocalGuardian,
                 ),
                 CustomDropDown(
+                  key: lgStateFieldKey,
                   label: "State",
                   options: states,
                   selectedValue: selectedGuardianState,
+                  required: hasLocalGuardian,
                   onTap: (value) async  {
                     setState(() {
                       selectedGuardianState = value;
@@ -244,9 +351,11 @@ void _handleNext() {
                   },
                 ),
                 CustomDropDown(
+                  key: lgDistrictFieldKey,
                   label: "District",
                   options: guardianDistricts,
                   selectedValue: selectedGuardianDistrict,
+                  required: hasLocalGuardian,
                   onTap: (value) {
                     setState(() {
                       selectedGuardianDistrict = value;
@@ -254,7 +363,9 @@ void _handleNext() {
                   },
                 ),
                 CustomFormField(
+                  key: lgPinFieldKey,
                   label: "Pin Code",
+                  required: hasLocalGuardian,
                   controller: localGuardianPinCodeController,
                 ),
               ],

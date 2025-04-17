@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
-import 'package:tecb_profiler/pages/student_personal_details.dart';
+import 'package:tecb_profiler/pages/general_details.dart';
 import 'package:tecb_profiler/services/api_services.dart';
 import 'package:tecb_profiler/pages/signup_page.dart';
 import 'package:tecb_profiler/services/jwt_actions.dart';
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final response = await ApiService.sendLoginRequest(
+      final response = await ServerApiService.sendLoginRequest(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
@@ -62,11 +62,17 @@ class _LoginPageState extends State<LoginPage> {
         if(!mounted) return;
 
         // Create a new StudentFormData object when the user starts the form
-        final studentData = StudentData();
+        final studentData =  StudentData(
+          permanentAddress: Address(), 
+          residentialAddress: Address(), 
+          father: Parent(address: Address()),
+          mother: Parent(address: Address()),
+          academic: AcademicDetails()
+        );
 
         Navigator.push(
           context, 
-          CupertinoPageRoute(builder: (context)=> StudentPersonalDetails(studentData: studentData)));
+          CupertinoPageRoute(builder: (context)=> StudentGeneralDetails(studentData: studentData)));
       }else {
           ErrorDialogUtility.showErrorDialog(
             context,

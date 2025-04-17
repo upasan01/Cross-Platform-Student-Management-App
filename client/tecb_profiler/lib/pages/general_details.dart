@@ -3,6 +3,7 @@ import 'package:tecb_profiler/components/date_picker.dart';
 import 'package:tecb_profiler/components/drop_down.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/image_picker.dart';
+import 'package:tecb_profiler/components/utils/validiation_dialog.dart';
 import 'package:tecb_profiler/pages/parents_details.dart';
 import 'package:tecb_profiler/services/location_service.dart';
 import 'package:tecb_profiler/student_data_model.dart';
@@ -19,6 +20,8 @@ class StudentGeneralDetails extends StatefulWidget {
 class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   // Controllers
   final studentNameController = TextEditingController();
+  final studentAadhaarController = TextEditingController();
+  final studentPanController = TextEditingController();
   final universityRollController = TextEditingController();
   final registrationController = TextEditingController();
   final phoneController = TextEditingController();
@@ -74,6 +77,7 @@ class _StudentGeneralDetailsState extends State<StudentGeneralDetails> {
   final resCityFieldKey = GlobalKey<CustomFormFieldState>();
   final resDistrictFieldKey = GlobalKey<CustomDropDownState>();
   final resPinFieldKey = GlobalKey<CustomFormFieldState>();
+  final studentAadhaarFieldKey = GlobalKey<CustomFormFieldState>();
 
   //----For Drop Downs----
   final genderFieldKey = GlobalKey<CustomDropDownState>();
@@ -110,6 +114,8 @@ void initState() {
     motherTongueController.text = data.motherTounge;
     selectedType = data.type;
     selectedImagePath = data.imagePath;
+    studentAadhaarController.text = data.studentAadhaar;
+    studentPanController.text = data.studentPAN;
 
     // Permanent Address
     permAddressController.text = data.permanentAddress.fullAddress;
@@ -149,6 +155,8 @@ void _saveData() {
     ..religion = religionController.text
     ..category = selectedCategory ?? ''
     ..motherTounge = motherTongueController.text
+    ..studentAadhaar = studentAadhaarController.text
+    ..studentPAN = studentPanController.text
     ..height = heightController.text
     ..weight = weightController.text
     ..permanentAddress = Address(
@@ -168,46 +176,36 @@ void _saveData() {
 }
 
 void _handleNext(){
-  // final allFormFieldsValid = [
-  //   studentNameFieldKey,
-  //   yearOfGradFieldKey,
-  //   phoneFieldKey,
-  //   emailFieldKey,
-  //   permAddressFieldKey,
-  //   permCityFieldKey,
-  //   permPinFieldKey,
-  //   resAddressFieldKey,
-  //   resCityFieldKey,
-  //   resPinFieldKey
-  // ].every((key) => key.currentState?.validate() ?? false);
+  final allFormFieldsValid = [
+    studentNameFieldKey,
+    yearOfGradFieldKey,
+    phoneFieldKey,
+    emailFieldKey,
+    permAddressFieldKey,
+    permCityFieldKey,
+    permPinFieldKey,
+    resAddressFieldKey,
+    resCityFieldKey,
+    resPinFieldKey,
+    studentAadhaarFieldKey,
+  ].every((key) => key.currentState?.validate() ?? false);
 
-  // final allDropDownsValid = [
-  //   genderFieldKey,
-  //   bloodGroupFieldKey,
-  //   categoryFieldKey,
-  //   permStateFieldKey,
-  //   resStateFieldKey,
-  //   resDistrictFieldKey,
-  //   permDistrictFieldKey,
-  // ].every((key) => key.currentState?.validate() ?? false);
+  final allDropDownsValid = [
+    genderFieldKey,
+    bloodGroupFieldKey,
+    categoryFieldKey,
+    permStateFieldKey,
+    resStateFieldKey,
+    resDistrictFieldKey,
+    permDistrictFieldKey,
+  ].every((key) => key.currentState?.validate() ?? false);
 
-  //   if (!allFormFieldsValid || !allDropDownsValid) {
-  //     showCupertinoDialog(
-  //       context: context,
-  //       builder: (context) => CupertinoAlertDialog(
-  //         title: const Text("Missing Required Fields"),
-  //         content: const Text("Please fill all the required fields."),
-  //         actions: [
-  //           CupertinoDialogAction(
-  //             isDefaultAction: true,
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text("OK"),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //     return;
-  //   }
+  if(!allFormFieldsValid || !allDropDownsValid){
+    ValidationDialog.show(
+      context: context,
+      );
+    return;
+  }
 
     try {
       _saveData();
@@ -324,6 +322,18 @@ void _handleNext(){
               CustomFormField(
                 label: 'Mother Tongue',
                 controller: motherTongueController,
+              ),
+
+              CustomFormField(
+                key: studentAadhaarFieldKey,
+                label: 'Aadhaar Number',
+                controller: studentAadhaarController,
+                required: true,
+              ),
+              
+              CustomFormField(
+                label: 'PAN',
+                controller: studentPanController,
               ),
 
               const SizedBox(height: 20),
