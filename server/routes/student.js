@@ -67,7 +67,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
         session: z.string().min(1),
         phoneNumber: z.number().min(3999999999).max(9999999999),
         email: z.string().email().min(1),
-        aadhaarNumber: z.number().min(1).nullable(),
+        aadhaarNumber: z.number().min(200000000000).max(999999999999).nullable(),
         panNumber: z.string().min(1).optional().nullable(),
         dob: z.string().min(1),
         gender: z.string().min(1),
@@ -99,7 +99,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
             occupation: z.string().optional(),
             phone: z.number().min(3999999999).max(9999999999).optional().nullable(),
             income: z.string().optional(),
-            aadhaarNumber: z.number().min(1).nullable(),
+            aadhaarNumber: z.number().min(200000000000).max(999999999999).nullable(),
             panNumber: z.string().nullable().optional()
         }),
         mother: z.object({
@@ -107,7 +107,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
             occupation: z.string().optional(),
             phone: z.number().min(3999999999).max(9999999999).optional().nullable(),
             income: z.string().optional(),
-            aadhaarNumber: z.number().min(1).nullable(),
+            aadhaarNumber: z.number().min(200000000000).max(999999999999).nullable(),
             panNumber: z.string().optional().nullable()
         }),
         localGuardian: z.object({

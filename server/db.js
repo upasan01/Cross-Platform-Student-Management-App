@@ -68,7 +68,7 @@ const studentSchema = new Schema({ // student info
             phone: { type: Number },
             income: { type: String },
             aadhaarNumber: { type: Number, required: true },
-            panNumber: { type: String, required: true },
+            panNumber: { type: String },
         },
         mother: {
             fullName: { type: String, required: true },
@@ -76,7 +76,7 @@ const studentSchema = new Schema({ // student info
             phone: { type: Number },
             income: { type: String },
             aadhaarNumber: { type: Number, required: true },
-            panNumber: { type: String, required: true },
+            panNumber: { type: String },
         },
         localGuardian: {
             fullName: { type: String },
