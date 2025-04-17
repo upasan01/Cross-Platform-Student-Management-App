@@ -105,8 +105,6 @@ class Address {
   String? state;
   String?district;
   String pin;
-  String aadhaar;
-  String pan;
 
   Address({
     this.fullAddress = '',
@@ -114,8 +112,7 @@ class Address {
     this.state,
     this.district,
     this.pin = '',
-    this.aadhaar = '',
-    this.pan = '',
+
   });
 
   String printAddress() {
@@ -129,6 +126,10 @@ class Parent {
   String?occupation;
   String?income;
   Address?address;
+  String aadhaar;
+  String pan;
+
+  
 
   Parent({
     this.name = '',
@@ -136,6 +137,8 @@ class Parent {
     this.phone = '',
     this.income,
     this.address,
+    this.aadhaar = '',
+    this.pan = '',
   });
 
   String printParent() {
