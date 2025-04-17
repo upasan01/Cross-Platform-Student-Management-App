@@ -49,6 +49,8 @@ class _StudentExtracurricularDetailsPageState extends State<StudentExtracurricul
     final formDataResponse = await ServerApiService.sendStudentInfo(data: widget.studentData!, token: token);
     if (formDataResponse.statusCode == 200) {
       print("Cooking has been completed");
+    }else{
+      ErrorDialogUtility.showErrorDialog(context, errorMessage: formDataResponse.body.toString());
     }
   }
 

@@ -118,6 +118,7 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
       data.father.phone = fatherPhoneController.text;
       data.father.income = selectedFatherIncome;
       data.father.aadhaar = fatherAadhaarController.text;
+      data.father.pan = fatherPanController.text;
 
       // Mother
       data.mother.name = motherNameController.text;
@@ -125,6 +126,7 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
       data.mother.phone = motherPhoneController.text;
       data.mother.income = selectedMotherIncome;
       data.mother.aadhaar = motherAadhaarController.text;
+      data.mother.pan = motherPanController.text;
 
       // Guardian
       data.hasLocalGuardian = hasLocalGuardian;

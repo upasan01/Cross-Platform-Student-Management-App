@@ -142,7 +142,7 @@ class Parent {
   });
 
   String printParent() {
-    return 'Name: $name, Occupation: $occupation, Phone: $phone, Income: $income, Address: ${address?.printAddress()}';
+    return 'Name: $name, Occupation: $occupation, Phone: $phone, Income: $income, Aadhaar: $aadhaar, PAN: $pan ,Address: ${address?.printAddress()}';
   }
 }
 
