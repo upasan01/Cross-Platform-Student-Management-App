@@ -1,1 +1,64 @@
 @import "tailwindcss";
+
+@theme {
+    --background-image-clg-bg: url("/bg2.png");
+    --animate-fade-in: fadeIn 0.5s ease-out;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+}
+    
+      
+
+@layer base {
+
+    html,
+    body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        overflow: auto;
+        font-family: "DM Sans", serif;
+        font-optical-sizing: auto;
+    }
+
+    h1 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 200;
+    }
+
+    h2 {
+        @apply text-2xl font-bold mb-4;
+    }
+}
+
+@layer components {
+    .purple-button {
+        @apply text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900
+    }
+
+    .card {
+        @apply max-w-4xl mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg
+    }
+
+    .card-details {
+        @apply max-w-4xl mx-auto mt-10 p-6 bg-gray-50 rounded-lg shadow transform transition-transform duration-300 hover:scale-105
+    }
+
+    .blue-button {
+        @apply text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800
+    }
+
+    .avatar {
+
+        @apply w-50 h-50 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500
+    }
+}
