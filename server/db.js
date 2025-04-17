@@ -31,7 +31,7 @@ const studentSchema = new Schema({ // student info
         phoneNumber: { type: Number, required: true },
         email: { type: String, required: true },
         aadhaarNumber: { type: Number, required: true },
-        panNumber: { type: Number, required: true },
+        panNumber: { type: Number },
         dob: { type: Date, required: true },
         gender: { type: String, required: true },
         bloodGroup: { type: String, required: true },
@@ -52,11 +52,11 @@ const studentSchema = new Schema({ // student info
 
         // residential address
         residentialAddress: {
-            fullAddress: { type: String },
-            city: { type: String },
-            state: { type: String },
-            district: { type: String },
-            pin: { type: Number }
+            fullAddress: { type: String, required: true },
+            city: { type: String, required: true },
+            state: { type: String, required: true },
+            district: { type: String, required: true },
+            pin: { type: Number, required: true }
         }
     },
 
@@ -65,7 +65,7 @@ const studentSchema = new Schema({ // student info
         father: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: Number, required: true },
+            phone: { type: Number },
             income: { type: String },
             aadhaarNumber: { type: Number, required: true },
             panNumber: { type: Number, required: true },
@@ -73,7 +73,7 @@ const studentSchema = new Schema({ // student info
         mother: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: Number, required: true },
+            phone: { type: Number },
             income: { type: String },
             aadhaarNumber: { type: Number, required: true },
             panNumber: { type: Number, required: true },

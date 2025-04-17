@@ -61,94 +61,94 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
     const studentDetailsSchema = z.object({
         type: z.string(),
         fullName: z.string().min(1),
-        uniRollNumber: z.number(),
-        regNumber: z.number(),
+        uniRollNumber: z.number().min(1).optional().nullable(),
+        regNumber: z.number().min(1).optional().nullable(),
         session: z.string().min(1),
         phoneNumber: z.number().min(3999999999).max(9999999999),
         email: z.string().email().min(1),
-        aadhaarNumber: z.number().min(0),
-        panNumber: z.number().min(0),
+        aadhaarNumber: z.number().min(1).nullable(),
+        panNumber: z.number().min(1).optional().nullable(),
         dob: z.string().min(1),
         gender: z.string().min(1),
         bloodGroup: z.string().min(1),
-        religion: z.string(),
+        religion: z.string().optional(),
         category: z.string().min(1),
-        motherTounge: z.string(),
-        height: z.string(),
-        weight: z.string(),
+        motherTounge: z.string().optional(),
+        height: z.string().optional(),
+        weight: z.string().optional(),
         permanentAddress: z.object({
             fullAddress: z.string().min(1),
             city: z.string().min(1),
             state: z.string().min(1),
             district: z.string().min(1),
-            pin: z.number().min(0)
+            pin: z.number().min(1).nullable()
         }),
         residentialAddress: z.object({
-            fullAddress: z.string(),
-            city: z.string(),
-            state: z.string(),
-            district: z.string(),
-            pin: z.number()
+            fullAddress: z.string().min(1),
+            city: z.string().min(1),
+            state: z.string().min(1),
+            district: z.string().min(1),
+            pin: z.number().min(1).nullable()
         })
     });
 
     const parentsDetailsSchema = z.object({
         father: z.object({
             fullName: z.string().min(1),
-            occupation: z.string(),
-            phone: z.number().min(3999999999).max(9999999999),
-            income: z.string(),
-            aadhaarNumber: z.number().min(0),
-            panNumber: z.number().min(0)
+            occupation: z.string().optional(),
+            phone: z.number().min(3999999999).max(9999999999).optional().nullable(),
+            income: z.string().optional(),
+            aadhaarNumber: z.number().min(1).nullable(),
+            panNumber: z.number().min(1).nullable()
         }),
         mother: z.object({
             fullName: z.string().min(1),
-            occupation: z.string(),
-            phone: z.number().min(3999999999).max(9999999999),
-            income: z.string(),
-            aadhaarNumber: z.number().min(0),
-            panNumber: z.number().min(0)
+            occupation: z.string().optional(),
+            phone: z.number().min(3999999999).max(9999999999).optional().nullable(),
+            income: z.string().optional(),
+            aadhaarNumber: z.number().min(1).nullable(),
+            panNumber: z.number().min(1).optional().nullable()
         }),
         localGuardian: z.object({
-            fullName: z.string().min(1),
-            occupation: z.string().min(1),
+            fullName: z.string().optional(),
+            occupation: z.string().optional(),
             address: z.object({
-                fullAddress: z.string().min(1),
-                city: z.string().min(1),
-                state: z.string().min(1),
-                district: z.string().min(1),
-                pin: z.number().min(0)
-            })
-        })
+                fullAddress: z.string().optional(),
+                city: z.string().optional(),
+                state: z.string().optional(),
+                district: z.string().optional(),
+                pin: z.number().min(1).optional().nullable()
+            }).optional()
+        }).optional(),
     });
 
     const educationalDetailsSchema = z.object({
         hs: z.object({
-            board: z.string(),
-            year: z.number(),
-            percentage: z.number(),
-            school: z.string()
-        }),
+            board: z.string().optional(),
+            year: z.number().min(1).optional().nullable(),
+            percentage: z.number().min(1).optional().nullable(),
+            school: z.string().optional()
+        }).optional(),
         secondary: z.object({
             board: z.string().min(1),
-            year: z.number().min(0),
-            percentage: z.number().min(0),
+            year: z.number().min(1).nullable(),
+            percentage: z.number().min(1).nullable(),
             school: z.string().min(1)
         }),
         diploma: z.object({
-            year: z.number(),
-            college: z.string(),
-            cgpa: z.number(),
-            stream: z.string()
-        })
+            year: z.number().min(1).optional().nullable(),
+            college: z.string().optional(),
+            cgpa: z.number().min(1).optional().nullable(),
+            stream: z.string().optional()
+        }).optional(),
     });
 
     const extraDetailsSchema = z.object({
-        hobbies: z.string(),
-        interestedDomain: z.string(),
-        bestSubject: z.string(),
-        leastSubject: z.string()
-    });
+        hobbies: z.string().optional(),
+        interestedDomain: z.string().optional(),
+        bestSubject: z.string().optional(),
+        leastSubject: z.string().optional()
+    }).optional();
 
     const studentInfoSchema = z.object({
         studentDetails: studentDetailsSchema,
