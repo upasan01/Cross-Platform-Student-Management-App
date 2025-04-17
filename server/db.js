@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { type } = require("os")
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
@@ -29,6 +30,8 @@ const studentSchema = new Schema({ // student info
         session: { type: String, required: true },
         phoneNumber: { type: Number, required: true },
         email: { type: String, required: true },
+        aadhaarNumber: { type: Number, required: true },
+        panNumber: { type: Number, required: true },
         dob: { type: Date, required: true },
         gender: { type: String, required: true },
         bloodGroup: { type: String, required: true },
@@ -64,14 +67,16 @@ const studentSchema = new Schema({ // student info
             occupation: { type: String },
             phone: { type: Number, required: true },
             income: { type: String },
-            aadhaarNumber: { type: Number, required: true }
+            aadhaarNumber: { type: Number, required: true },
+            panNumber: { type: Number, required: true },
         },
         mother: {
             fullName: { type: String, required: true },
             occupation: { type: String },
             phone: { type: Number, required: true },
             income: { type: String },
-            aadhaarNumber: { type: Number, required: true }
+            aadhaarNumber: { type: Number, required: true },
+            panNumber: { type: Number, required: true },
         },
         localGuardian: {
             fullName: { type: String },
@@ -98,7 +103,7 @@ const studentSchema = new Schema({ // student info
             percentage: { type: Number, required: true },
             board: { type: String, required: true },
             year: { type: Number, required: true },
-            school: { type: String },
+            school: { type: String, required: true },
         },
         diploma: {
             cgpa: { type: Number },

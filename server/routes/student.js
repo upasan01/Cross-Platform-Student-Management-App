@@ -57,6 +57,115 @@ studentRouter.post("/uploadImage", userMiddleware, upload.single("image"), async
 
 // student info input route
 studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
+    // Zod Schemas
+    const studentDetailsSchema = z.object({
+        type: z.string(),
+        fullName: z.string().min(1),
+        uniRollNumber: z.number(),
+        regNumber: z.number(),
+        session: z.string().min(1),
+        phoneNumber: z.number().min(3999999999).max(9999999999),
+        email: z.string().email().min(1),
+        aadhaarNumber: z.number().min(0),
+        panNumber: z.number().min(0),
+        dob: z.string().min(1),
+        gender: z.string().min(1),
+        bloodGroup: z.string().min(1),
+        religion: z.string(),
+        category: z.string().min(1),
+        motherTounge: z.string(),
+        height: z.string(),
+        weight: z.string(),
+        permanentAddress: z.object({
+            fullAddress: z.string().min(1),
+            city: z.string().min(1),
+            state: z.string().min(1),
+            district: z.string().min(1),
+            pin: z.number().min(0)
+        }),
+        residentialAddress: z.object({
+            fullAddress: z.string(),
+            city: z.string(),
+            state: z.string(),
+            district: z.string(),
+            pin: z.number()
+        })
+    });
+
+    const parentsDetailsSchema = z.object({
+        father: z.object({
+            fullName: z.string().min(1),
+            occupation: z.string(),
+            phone: z.number().min(3999999999).max(9999999999),
+            income: z.string(),
+            aadhaarNumber: z.number().min(0),
+            panNumber: z.number().min(0)
+        }),
+        mother: z.object({
+            fullName: z.string().min(1),
+            occupation: z.string(),
+            phone: z.number().min(3999999999).max(9999999999),
+            income: z.string(),
+            aadhaarNumber: z.number().min(0),
+            panNumber: z.number().min(0)
+        }),
+        localGuardian: z.object({
+            fullName: z.string().min(1),
+            occupation: z.string().min(1),
+            address: z.object({
+                fullAddress: z.string().min(1),
+                city: z.string().min(1),
+                state: z.string().min(1),
+                district: z.string().min(1),
+                pin: z.number().min(0)
+            })
+        })
+    });
+
+    const educationalDetailsSchema = z.object({
+        hs: z.object({
+            board: z.string(),
+            year: z.number(),
+            percentage: z.number(),
+            school: z.string()
+        }),
+        secondary: z.object({
+            board: z.string().min(1),
+            year: z.number().min(0),
+            percentage: z.number().min(0),
+            school: z.string().min(1)
+        }),
+        diploma: z.object({
+            year: z.number(),
+            college: z.string(),
+            cgpa: z.number(),
+            stream: z.string()
+        })
+    });
+
+    const extraDetailsSchema = z.object({
+        hobbies: z.string(),
+        interestedDomain: z.string(),
+        bestSubject: z.string(),
+        leastSubject: z.string()
+    });
+
+    const studentInfoSchema = z.object({
+        studentDetails: studentDetailsSchema,
+        parentsDetails: parentsDetailsSchema,
+        educationalDetails: educationalDetailsSchema,
+        extraDetails: extraDetailsSchema
+    });
+
+    // validation check
+    const validationResult = studentInfoSchema.safeParse(req.body);
+    if (!validationResult.success) {
+        return res.status(400).json({
+            message: "Incorrect format",
+            errors: validationResult.error.errors
+        });
+    }
+
     const student_Id = req.userId;
 
     // Check if user exists in userModel
@@ -77,7 +186,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
     const { studentDetails, parentsDetails, educationalDetails, extraDetails } = req.body;
 
     // dstructuring the payloads
-    const { type, fullName, uniRollNumber, regNumber, session, phoneNumber, email, dob, gender, bloodGroup, religion, category, motherTounge, height, weight, permanentAddress, residentialAddress } = studentDetails;
+    const { type, fullName, uniRollNumber, regNumber, session, phoneNumber, email, aadhaarNumber, panNumber, dob, gender, bloodGroup, religion, category, motherTounge, height, weight, permanentAddress, residentialAddress } = studentDetails;
 
     const { father, mother, localGuardian } = parentsDetails;
 
@@ -95,6 +204,8 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
                 session,
                 phoneNumber,
                 email,
+                aadhaarNumber,
+                panNumber,
                 dob,
                 gender,
                 bloodGroup,
@@ -144,6 +255,8 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
                     session,
                     phoneNumber,
                     email,
+                    aadhaarNumber,
+                    panNumber,
                     dob,
                     gender,
                     bloodGroup,
