@@ -35,6 +35,10 @@ class StudentData {
   // Academic Details
   AcademicDetails academic;
 
+  // Extracurricular
+  ExtraCurricularDetails? extraCurricular;
+
+
   StudentData({
     this.imagePath = '',
     this.type = "Regular",
@@ -60,7 +64,9 @@ class StudentData {
     required this.mother,
     this.hasLocalGuardian = false,
     this.localGuardian,
-    required this.academic
+    required this.academic,
+    this.extraCurricular
+
   });
 
   void printStudentData() {
@@ -87,6 +93,8 @@ class StudentData {
       print('Local Guardian: ${localGuardian!.printParent()}');
     }
     print('Academic Details: ${academic.printAcademicDetails()}');
+    print('Extra Curricular Details: ${extraCurricular?.printExtraCurricularDetails()}');
+
 
   }
 }
@@ -178,4 +186,28 @@ class AcademicDetails {
     ''';
   }
 }
+
+class ExtraCurricularDetails {
+  String hobbies;
+  String interestedDomain;
+  String subjectBest;
+  String subjectLeast;
+
+  ExtraCurricularDetails({
+    this.hobbies = '',
+    this.interestedDomain = '',
+    this.subjectBest = '',
+    this.subjectLeast = '',
+  });
+
+  String printExtraCurricularDetails() {
+    return '''
+    Hobbies: $hobbies
+    Interested Domain: $interestedDomain
+    Best Subject: $subjectBest
+    Least Subject: $subjectLeast
+    ''';
+  }
+}
+
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
 import 'package:tecb_profiler/components/utils/validiation_dialog.dart';
+import 'package:tecb_profiler/pages/extracurricualar_details.dart';
 import 'package:tecb_profiler/student_data_model.dart';
 
 class StudentAcademicDetailsPage extends StatefulWidget {
@@ -104,7 +105,9 @@ class _StudentAcademicDetailsPageState extends State<StudentAcademicDetailsPage>
     }
 
     _saveData();
-    widget.studentData?.printStudentData();
+    Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => StudentExtracurricularDetailsPage(studentData: widget.studentData)));
     
   }
 
