@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { type } = require("os")
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
@@ -29,6 +30,8 @@ const studentSchema = new Schema({ // student info
         session: { type: String, required: true },
         phoneNumber: { type: Number, required: true },
         email: { type: String, required: true },
+        aadhaarNumber: { type: Number, required: true },
+        panNumber: { type: Number },
         dob: { type: Date, required: true },
         gender: { type: String, required: true },
         bloodGroup: { type: String, required: true },
@@ -44,16 +47,16 @@ const studentSchema = new Schema({ // student info
             city: { type: String, required: true },
             state: { type: String, required: true },
             district: { type: String, required: true },
-            pin: { type: String, required: true }
+            pin: { type: Number, required: true }
         },
 
         // residential address
         residentialAddress: {
-            fullAddress: { type: String },
-            city: { type: String },
-            state: { type: String },
-            district: { type: String },
-            pin: { type: String }
+            fullAddress: { type: String, required: true },
+            city: { type: String, required: true },
+            state: { type: String, required: true },
+            district: { type: String, required: true },
+            pin: { type: Number, required: true }
         }
     },
 
@@ -62,14 +65,18 @@ const studentSchema = new Schema({ // student info
         father: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: String, required: true },
-            income: { type: String }
+            phone: { type: Number },
+            income: { type: String },
+            aadhaarNumber: { type: Number, required: true },
+            panNumber: { type: Number, required: true },
         },
         mother: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: String, required: true },
-            income: { type: String }
+            phone: { type: Number },
+            income: { type: String },
+            aadhaarNumber: { type: Number, required: true },
+            panNumber: { type: Number, required: true },
         },
         localGuardian: {
             fullName: { type: String },
@@ -79,7 +86,7 @@ const studentSchema = new Schema({ // student info
                 city: { type: String },
                 state: { type: String },
                 district: { type: String },
-                pin: { type: String }
+                pin: { type: Number }
             }
         }
     },
@@ -87,22 +94,22 @@ const studentSchema = new Schema({ // student info
     // students educationals info
     educationalDetails: {
         hs: {
-            percentage: { type: String, required: true },
-            board: { type: String, required: true },
-            year: { type: String, required: true },
+            percentage: { type: Number },
+            board: { type: String },
+            year: { type: Number },
             school: { type: String },
         },
         secondary: {
-            percentage: { type: String, required: true },
+            percentage: { type: Number, required: true },
             board: { type: String, required: true },
-            year: { type: String, required: true },
-            school: { type: String },
+            year: { type: Number, required: true },
+            school: { type: String, required: true },
         },
         diploma: {
-            cgpa: { type: String, required: true },
-            college: { type: String, required: true },
-            stream: { type: String, required: true },
-            year: { type: String, required: true },
+            cgpa: { type: Number },
+            college: { type: String },
+            stream: { type: String },
+            year: { type: Number },
         },
     },
 
