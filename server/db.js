@@ -44,7 +44,7 @@ const studentSchema = new Schema({ // student info
             city: { type: String, required: true },
             state: { type: String, required: true },
             district: { type: String, required: true },
-            pin: { type: String, required: true }
+            pin: { type: Number, required: true }
         },
 
         // residential address
@@ -53,7 +53,7 @@ const studentSchema = new Schema({ // student info
             city: { type: String },
             state: { type: String },
             district: { type: String },
-            pin: { type: String }
+            pin: { type: Number }
         }
     },
 
@@ -62,14 +62,16 @@ const studentSchema = new Schema({ // student info
         father: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: String, required: true },
-            income: { type: String }
+            phone: { type: Number, required: true },
+            income: { type: String },
+            aadhaarNumber: { type: Number, required: true }
         },
         mother: {
             fullName: { type: String, required: true },
             occupation: { type: String },
-            phone: { type: String, required: true },
-            income: { type: String }
+            phone: { type: Number, required: true },
+            income: { type: String },
+            aadhaarNumber: { type: Number, required: true }
         },
         localGuardian: {
             fullName: { type: String },
@@ -79,7 +81,7 @@ const studentSchema = new Schema({ // student info
                 city: { type: String },
                 state: { type: String },
                 district: { type: String },
-                pin: { type: String }
+                pin: { type: Number }
             }
         }
     },
@@ -87,22 +89,22 @@ const studentSchema = new Schema({ // student info
     // students educationals info
     educationalDetails: {
         hs: {
-            percentage: { type: String, required: true },
+            percentage: { type: Number, required: true },
             board: { type: String, required: true },
-            year: { type: String, required: true },
+            year: { type: Number, required: true },
             school: { type: String },
         },
         secondary: {
-            percentage: { type: String, required: true },
+            percentage: { type: Number, required: true },
             board: { type: String, required: true },
-            year: { type: String, required: true },
+            year: { type: Number, required: true },
             school: { type: String },
         },
         diploma: {
-            cgpa: { type: String, required: true },
+            cgpa: { type: Number, required: true },
             college: { type: String, required: true },
             stream: { type: String, required: true },
-            year: { type: String, required: true },
+            year: { type: Number, required: true },
         },
     },
 
