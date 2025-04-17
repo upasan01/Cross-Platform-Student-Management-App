@@ -31,7 +31,7 @@ const studentSchema = new Schema({ // student info
         phoneNumber: { type: Number, required: true },
         email: { type: String, required: true },
         aadhaarNumber: { type: Number, required: true },
-        panNumber: { type: Number },
+        panNumber: { type: String },
         dob: { type: Date, required: true },
         gender: { type: String, required: true },
         bloodGroup: { type: String, required: true },
