@@ -82,14 +82,14 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
             city: z.string().min(1),
             state: z.string().min(1),
             district: z.string().min(1),
-            pin: z.number().min(1).nullable()
+            pin: z.number().min(1)
         }),
         residentialAddress: z.object({
             fullAddress: z.string().min(1),
             city: z.string().min(1),
             state: z.string().min(1),
             district: z.string().min(1),
-            pin: z.number().min(1).nullable()
+            pin: z.number().min(1)
         })
     });
 
@@ -118,7 +118,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
                 city: z.string().optional(),
                 state: z.string().optional(),
                 district: z.string().optional(),
-                pin: z.number().min(1).optional().nullable()
+                pin: z.number().min(1).optional()
             }).optional()
         }).optional(),
     });
