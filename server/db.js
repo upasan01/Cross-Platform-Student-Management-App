@@ -89,9 +89,9 @@ const studentSchema = new Schema({ // student info
     // students educationals info
     educationalDetails: {
         hs: {
-            percentage: { type: Number, required: true },
-            board: { type: String, required: true },
-            year: { type: Number, required: true },
+            percentage: { type: Number },
+            board: { type: String },
+            year: { type: Number },
             school: { type: String },
         },
         secondary: {
@@ -101,10 +101,10 @@ const studentSchema = new Schema({ // student info
             school: { type: String },
         },
         diploma: {
-            cgpa: { type: Number, required: true },
-            college: { type: String, required: true },
-            stream: { type: String, required: true },
-            year: { type: Number, required: true },
+            cgpa: { type: Number },
+            college: { type: String },
+            stream: { type: String },
+            year: { type: Number },
         },
     },
 
