@@ -1,10 +1,10 @@
 # Admin Login
 
--First Change the path to WebApp Folder
+- First Change the path to WebApp Folder
 ```
 cd WebApp
 ```
--Run this commands
+- Run this commands
 
 ```
 npm i
@@ -12,11 +12,11 @@ npm i
 ```
 npm run dev
 ```
--And Then
+- And then change path
 ```
 cd server
 ```
--Run this to start the server
+- Run this to start the server
 ```
 npm start
 ```
