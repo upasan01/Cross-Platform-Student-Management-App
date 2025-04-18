@@ -20,6 +20,8 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
   // Global Keys
   final fatherNameFieldKey = GlobalKey<CustomFormFieldState>();
   final motherNameFieldKey = GlobalKey<CustomFormFieldState>();
+  final fatherAadhaarFieldKey = GlobalKey<CustomFormFieldState>();
+  final motherAadhaarFieldKey = GlobalKey<CustomFormFieldState>();
   final lgNameFieldKey = GlobalKey<CustomFormFieldState>();
   final lgAddressFieldKey = GlobalKey<CustomFormFieldState>();
   final lgCityFieldKey = GlobalKey<CustomFormFieldState>();
@@ -47,8 +49,8 @@ class _ParentGuardianDetailsPageState extends State<ParentGuardianDetailsPage> {
   final localGuardianPinCodeController = TextEditingController();
 
   // Dropdown Options
-  final occupations = ['Service', 'Business', 'Self Employed'];
-  final incomeRanges = ['< 1 Lakh', '1-3 Lakhs', '3-5 Lakhs', '5-10 Lakhs', '> 10 Lakhs'];
+  final occupations = ['Service', 'Business', 'Self Employed', 'Unemployed'];
+  final incomeRanges = ['None','< 1 Lakh', '1-3 Lakhs', '3-5 Lakhs', '5-10 Lakhs', '> 10 Lakhs'];
   List<String> states = [];
   List<String> guardianDistricts = [];
 
@@ -171,6 +173,8 @@ void _handleNext() {
   List<GlobalKey<CustomFormFieldState>> allFormFieldKeys = [
     fatherNameFieldKey,
     motherNameFieldKey,
+    fatherAadhaarFieldKey,
+    motherAadhaarFieldKey,
   ];
 
   List<GlobalKey<CustomDropDownState>> allDropDownKeys = [];
@@ -244,9 +248,10 @@ void _handleNext() {
               ),
 
               CustomFormField(
-                // key: studentAadhaarFieldKey,
+                key: fatherAadhaarFieldKey, 
                 label: 'Aadhaar Number',
                 controller: fatherAadhaarController,
+                required: true,
               ),
               
               CustomFormField(
@@ -283,9 +288,10 @@ void _handleNext() {
                 }),
               ),
               CustomFormField(
-                // key: studentAadhaarFieldKey,
+                key: motherAadhaarFieldKey,
                 label: 'Aadhaar Number',
                 controller: motherAadhaarController,
+                required: true,
               ),
               
               CustomFormField(

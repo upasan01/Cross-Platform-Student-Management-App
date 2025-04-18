@@ -68,7 +68,7 @@ studentRouter.post("/infoEntry", userMiddleware, async (req, res) => {
         phoneNumber: z.number().min(3999999999).max(9999999999),
         email: z.string().email().min(1),
         aadhaarNumber: z.number().min(200000000000).max(999999999999).nullable(),
-        panNumber: z.string().min(1).optional().nullable(),
+        panNumber: z.string().optional().nullable(),
         dob: z.string().min(1),
         gender: z.string().min(1),
         bloodGroup: z.string().min(1),

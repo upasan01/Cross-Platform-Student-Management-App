@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
+import 'package:tecb_profiler/components/utils/popup_message.dart';
+import 'package:tecb_profiler/pages/success_page.dart';
 import 'package:tecb_profiler/services/api_services.dart';
 import 'package:tecb_profiler/services/jwt_actions.dart';
 import 'package:tecb_profiler/student_data_model.dart';
@@ -20,6 +23,35 @@ class _StudentExtracurricularDetailsPageState extends State<StudentExtracurricul
   final bestSubjectController = TextEditingController();
   final leastSubjectController = TextEditingController();
 
+
+    void _showLoadingPopup(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      barrierDismissible: false,
+      useRootNavigator: true, // Prevents dismissal by tapping outside
+      builder: (BuildContext context) {
+        return Container(
+          height: 150,
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                LoadingAnimationWidget.staggeredDotsWave(
+                  color: CupertinoColors.activeBlue,
+                  size: 50,
+                ),
+                const SizedBox(height: 16),
+                const Text('Please wait...'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
   void _saveData() {
     final data = widget.studentData;
     if (data == null) return;
@@ -31,26 +63,52 @@ class _StudentExtracurricularDetailsPageState extends State<StudentExtracurricul
     );
   }
 
-  void _handleNext() async {
+    void _handleNext() async {
     _saveData();
-    widget.studentData?.printStudentData();
-    final token = await TokenStorage.getToken();
-    if(!mounted) return;
-    if (token == null) {
+    final data = widget.studentData;
+    if (data == null) return;
+
+    _showLoadingPopup(context); // Show loading popup
+
+    try {
+      final token = await TokenStorage.getToken();
+      if (!mounted) return;
+
+      if (token == null) {
+        Navigator.of(context, rootNavigator: true).pop(); // Dismiss loading popup
+        ErrorDialogUtility.showErrorDialog(
+          context,
+          errorMessage: "Invalid Token",
+        );
+        return;
+      }
+
+      final imageResponse = await ServerApiService.uploadImage(studentData: data, token: token);
+      if (imageResponse.statusCode == 200) {
+        CupertinoPopupMessage.show(context, "Image Uploaded Successfully!");
+      }
+
+      final formDataResponse = await ServerApiService.sendStudentInfo(data: data, token: token);
+
+      Navigator.of(context, rootNavigator: true).pop(); // Dismiss loading popup
+
+      if (formDataResponse.statusCode == 200) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => SuccessPage()),
+        );
+      } else {
+        ErrorDialogUtility.showErrorDialog(
+          context,
+          errorMessage: formDataResponse.body.toString(),
+        );
+      }
+    } catch (error) {
+      Navigator.of(context, rootNavigator: true).pop(); // Dismiss loading popup
       ErrorDialogUtility.showErrorDialog(
         context,
-        errorMessage: "Invalid Token"
-        );
-    }
-    final imageResponse = await ServerApiService.uploadImage(studentData: widget.studentData!, token: token!);
-    if (imageResponse.statusCode == 200) {
-      print("Image uploaded Successfully");
-    }
-    final formDataResponse = await ServerApiService.sendStudentInfo(data: widget.studentData!, token: token);
-    if (formDataResponse.statusCode == 200) {
-      print("Cooking has been completed");
-    }else{
-      ErrorDialogUtility.showErrorDialog(context, errorMessage: formDataResponse.body.toString());
+        errorMessage: error.toString(),
+      );
     }
   }
 
