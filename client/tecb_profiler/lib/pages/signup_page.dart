@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     try {
-      final response = await ApiService.sendSignUpRequest(
+      final response = await ServerApiService.sendSignUpRequest(
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,

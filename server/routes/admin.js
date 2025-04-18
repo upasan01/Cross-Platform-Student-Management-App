@@ -7,6 +7,7 @@ const { adminMiddleware } = require("../middlewares/adminMiddleware")
 
 const { Router } = require("express");
 const { appendFile } = require("fs");
+const { json } = require("stream/consumers");
 const adminRouter = Router()
 
 // SignUp Route
@@ -73,7 +74,7 @@ adminRouter.post("/signin", async (req, res) => {
         email: email
     })
 
-    if(!admin){
+    if (!admin) {
         return res.status(404).json({
             message: "Admin dont exists",
             code: 404
@@ -82,7 +83,7 @@ adminRouter.post("/signin", async (req, res) => {
 
     const adminPasswordMatched = await bcrypt.compare(password, admin.password)
 
-    if(adminPasswordMatched){
+    if (adminPasswordMatched) {
         const token = jwt.sign({
             id: admin._id
         }, JWT_SECRET_ADMIN)
@@ -90,7 +91,7 @@ adminRouter.post("/signin", async (req, res) => {
         res.json({
             token
         })
-    }else{
+    } else {
         return res.status(401).json({
             message: "Incorrect credentials",
             code: 401
@@ -113,6 +114,36 @@ adminRouter.get("/students", adminMiddleware, async (req, res) => {
         });
     }
 });
+
+// get search result route (this is for web app or admin panel)
+adminRouter.get("/search", adminMiddleware, async (req, res) => {
+    const searchQuery = req.query.searchQuery?.trim()  // trims unwanted spaces at start and end
+    if (!searchQuery) {
+        return res.json([]) // if the search bar is empty then it will send an empty arrry nd will not execute rest of the code
+    }
+
+    try {
+        const results = await studentModel.find({
+            // searches the input pattern wise
+            $or: [
+                { "studentDetails.fullName": searchQuery },
+                { "studentDetails.email": searchQuery }
+            ]
+        })
+
+        return res.json({
+            results
+        })
+        
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: "Something  went wrong",
+            code: 500
+        })
+    }
+})
 
 
 // Exporting the userRouter
