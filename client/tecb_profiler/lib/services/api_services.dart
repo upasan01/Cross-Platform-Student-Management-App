@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:tecb_profiler/student_data_model.dart';
+
 class ServerApiService {
   static Future<http.Response> sendSignUpRequest({
     required String firstName,
@@ -29,74 +30,49 @@ class ServerApiService {
     return response;
   }
 
-
   static Future<http.Response> sendLoginRequest({
-  required String email,
-  required String password,
-}) async {
-  final url = Uri.parse('http://localhost:3000/api/v1/user/signin'); // Replace with your local IP or server URL
-
-  final body = jsonEncode({
-    'email': email,
-    'password': password,
-  });
-
-  final response = await http.post(
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: body,
-  );
-
-  return response;
-}
-  static Future<http.StreamedResponse> sendFormData({
-    required StudentData studentData,
-    required String token
+    required String email,
+    required String password,
   }) async {
-    final String apiUrl = 'http://localhost:3000/api/v1/student/infoEntry';
+    final url = Uri.parse('http://localhost:3000/api/v1/user/signin');
 
-      // Prepare the multipart request
-    var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+    final body = jsonEncode({
+      'email': email,
+      'password': password,
+    });
 
-    // Add text fields as form parameters
-    // request.headers['token'] = token;
-    // request.fields['fullName'] = studentData.fullName;
-    // request.fields['fathersName'] = studentData.fatherName;
-    // request.fields['mothersName'] = studentData.motherName;
-    // request.fields['email'] = studentData.email;
-    // request.fields['universityRoll'] = studentData.roll.toString();
-    // request.fields['registrationNumber'] = studentData.regNo.toString();
-    // request.fields['gender'] = studentData.gender.toString();
-    // request.fields['phoneNumber'] = studentData.phone.toString();
-    // request.fields['department'] = studentData.course.toString();
-    // request.fields['session'] = studentData.yOfGraduation;
-    // request.fields['boardOfEdu'] = studentData.boardOfEducation;
-    // request.fields['class12Marks'] = studentData.result.toString();
-    // request.fields['address'] = studentData.address;
-    // request.fields['schoolName'] = studentData.schoolName;
-    // request.fields['bloodGroup'] = studentData.bloodGroup.toString();
-    // request.fields['dob'] = studentData.dob!.toIso8601String(); // Date format in ISO8601
-
-    // Add image as a file parameter
-    var file = await _getMultipartFile(studentData.imagePath!);
-
-    request.files.add(file);
-
-    // Send the request
-    var response = await request.send();
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
 
     return response;
-    
+  }
+
+  static Future<http.StreamedResponse> uploadImage({
+    required StudentData studentData,
+    required String token,
+  }) async {
+    final String apiUrl = 'http://localhost:3000/api/v1/student/uploadImage';
+
+    var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+    request.headers['token'] = token;
+
+    var file = await _getMultipartFile(studentData.imagePath!);
+    request.files.add(file);
+
+    var response = await request.send();
+    return response;
   }
 
   static Future<http.MultipartFile> _getMultipartFile(String imagePath) async {
-    String fileExtension = imagePath.split('.').last.toLowerCase(); // Get the file extension and convert to lowercase
-    
+    String fileExtension = imagePath.split('.').last.toLowerCase();
+
     MediaType mediaType;
-    
-    // Map extensions to corresponding MediaType
+
     switch (fileExtension) {
       case 'jpg':
       case 'jpeg':
@@ -106,16 +82,125 @@ class ServerApiService {
         mediaType = MediaType('image', 'png');
         break;
       default:
-        // Default to JPEG if the extension is unsupported (can be adjusted based on use case)
         mediaType = MediaType('image', 'jpeg');
     }
 
-    // Return the image as a MultipartFile with the appropriate content type
     return await http.MultipartFile.fromPath(
-      'image', // The field name for image in your backend
-      imagePath, // Path to the image file
-      contentType: mediaType, // Dynamically setting content type
+      'image',
+      imagePath,
+      contentType: mediaType,
     );
   }
-}
 
+  static Future<http.Response> sendStudentInfo({
+    required StudentData data,
+    required String token,
+  }) async {
+    try {
+      final url = Uri.parse('http://localhost:3000/api/v1/student/infoEntry');
+      final Map<String, dynamic> requestBody = {
+        "studentDetails": {
+          "type": data.type,
+          "fullName": data.fullName,
+          "uniRollNumber": int.tryParse(data.uniRollNumber),
+          "regNumber": int.tryParse(data.regNumber),
+          "session": data.session,
+          "phoneNumber": int.tryParse(data.phoneNumber),
+          "email": data.email,
+          "aadhaarNumber": int.tryParse(data.studentAadhaar),
+          "panNumber": data.studentPAN,
+          "dob": data.dob!.toIso8601String(),
+          "gender": data.gender,
+          "bloodGroup": data.bloodGroup,
+          "religion": data.religion,
+          "category": data.category,
+          "motherTounge": data.motherTounge,
+          "height": data.height,
+          "weight": data.weight,
+          "permanentAddress": {
+            "fullAddress": data.permanentAddress.fullAddress,
+            "city": data.permanentAddress.city,
+            "state": data.permanentAddress.state,
+            "district": data.permanentAddress.district,
+            "pin": int.tryParse(data.permanentAddress.pin)
+          },
+          "residentialAddress": {
+            "fullAddress": data.residentialAddress.fullAddress,
+            "city": data.residentialAddress.city,
+            "state": data.residentialAddress.state,
+            "district": data.residentialAddress.district,
+            "pin": int.tryParse(data.residentialAddress.pin)
+          }
+        },
+        "parentsDetails": {
+          "father": {
+            "fullName": data.father.name,
+            "occupation": data.father.occupation ?? '',
+            "phone": int.tryParse(data.father.phone),
+            "income": data.father.income ?? '',
+            "aadhaarNumber": int.tryParse(data.father.aadhaar),
+            "panNumber": data.father.pan,
+          },
+          "mother": {
+            "fullName": data.mother.name,
+            "occupation": data.mother.occupation ?? '',
+            "phone": int.tryParse(data.mother.phone),
+            "income": data.mother.income ?? '',
+            "aadhaarNumber": int.tryParse(data.mother.aadhaar),
+            "panNumber": data.mother.pan,
+          },
+          "localGuardian": {
+            "fullName": data.localGuardian?.name ?? '',
+            "occupation": data.localGuardian?.occupation ?? '',
+            "address": {
+              "fullAddress": data.localGuardian?.address?.fullAddress ?? '',
+              "city": data.localGuardian?.address?.city ?? '',
+              "state": data.localGuardian?.address?.state ?? '',
+              "district": data.localGuardian?.address?.district ?? '',
+              "pin": int.tryParse(data.localGuardian?.address?.pin ?? '')
+            }
+          }
+        },
+        "educationalDetails": {
+          "hs": {
+            "percentage": double.tryParse(data.academic.hsPercentage),
+            "board": data.academic.hsBoard,
+            "year": int.tryParse(data.academic.hsPassingYear),
+            "school": data.academic.hsSchoolName
+          },
+          "secondary": {
+            "percentage": double.tryParse(data.academic.secondaryPercentage),
+            "board": data.academic.secondaryBoard,
+            "year": int.tryParse(data.academic.secondaryPassingYear),
+            "school": data.academic.secondarySchoolName
+          },
+          "diploma": {
+            "cgpa": double.tryParse(data.academic.diplomaCGPA),
+            "college": data.academic.diplomaCollege,
+            "stream": data.academic.diplomaStream,
+            "year": int.tryParse(data.academic.diplomaPassingYear)
+          }
+        },
+        "extraDetails": {
+          "hobbies": data.extraCurricular?.hobbies ?? '',
+          "interestedDomain": data.extraCurricular?.interestedDomain ?? '',
+          "bestSubject": data.extraCurricular?.subjectBest ?? '',
+          "leastSubject": data.extraCurricular?.subjectLeast ?? ''
+        }
+      };
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
