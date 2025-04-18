@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tecb_profiler/components/form_field.dart';
 import 'package:tecb_profiler/components/utils/error_dialouge.dart';
+import 'package:tecb_profiler/components/utils/popup_message.dart';
 import 'package:tecb_profiler/pages/login_page.dart';
 import 'package:tecb_profiler/services/api_services.dart';
 
@@ -66,6 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
       if(!mounted) return;
 
       if(response.statusCode == 200){
+        CupertinoPopupMessage.show(context, "User Signed Up Successfully!");
         Navigator.push(
           context,
           CupertinoPageRoute(builder: (context) => LoginPage())
