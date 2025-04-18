@@ -20,8 +20,8 @@ const StudentDetails = ({ studentDetails }) => {
                     <InfoItem label="Religion" value={fallback(studentDetails.religion)} />
                     <InfoItem label="Category" value={fallback(studentDetails.category)} />
                     <InfoItem label="Mother Tongue" value={fallback(studentDetails.motherTounge)} />
-                    <InfoItem label="Height" value={`${fallback(studentDetails.height)} `} />
-                    <InfoItem label="Weight" value={`${fallback(studentDetails.weight)} `} />
+                    <InfoItem label="Height" value={`${fallback(studentDetails.height)} cm `} />
+                    <InfoItem label="Weight" value={`${fallback(studentDetails.weight)} kg`} />
                 </InfoGrid>
             </Section>
             <Section title="Address" className="card-details">

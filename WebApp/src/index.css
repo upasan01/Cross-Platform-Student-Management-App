@@ -5,18 +5,19 @@
     --animate-fade-in: fadeIn 0.5s ease-out;
 
     @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
-    
-      
+
+
 
 @layer base {
 
@@ -59,6 +60,42 @@
 
     .avatar {
 
-        @apply w-50 h-50 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500
+        @apply sm:w-50 sm:h-50 w-40 h-40 p-2 mt-4 sm:mt-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500
     }
-}
+
+    .typewriter {
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0 auto;
+        border-right: 0.15em solid #193cb8;
+      
+        animation: 
+          typing 3.5s steps(40, end) forwards,
+          blink-caret 0.75s step-end 0s 6,       
+          remove-cursor 0.75s ease-in 4.5s forwards; 
+      }
+      
+      /* Typing effect */
+      @keyframes typing {
+        from { width: 0; }
+        to   { width: 100%; }
+      }
+      
+      /* Blinking cursor */
+      @keyframes blink-caret {
+        0%, 100% { border-color: #193cb8; }
+        50% { border-color: transparent; }
+      }
+      
+      /* Cursor disappears smoothly */
+      @keyframes remove-cursor {
+        from { border-right-color: #193cb8; }
+        to   { border-right-color: transparent; }
+      }
+      
+      
+      
+      
+      
+      
+}    

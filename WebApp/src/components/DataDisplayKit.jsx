@@ -16,7 +16,7 @@ export const InfoItem = ({ label, value }) => (
 );
 
 export const Section = ({ title, children }) => (
-    <section className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
+    <section className="bg-white rounded-2xl p-4 shadow-md border border-gray-200 card-details">
         <h4 className="text-lg font-semibold mb-3 text-gray-700 border-b pb-2">{title}</h4>
         {children}
     </section>
