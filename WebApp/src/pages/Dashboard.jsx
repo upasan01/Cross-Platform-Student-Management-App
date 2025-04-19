@@ -3,6 +3,7 @@ import axios from 'axios';
 import Search from '../components/Search';
 import FetchDetails from '../components/FetchDetails';
 import Spinner from '../components/Spinner';
+import Navbar from '../components/Navbar';
 
 const Dashboard = () => {
   const [student, setStudent] = useState(null);
@@ -16,9 +17,9 @@ const Dashboard = () => {
     console.log('Cooking:', searchQuery);
 
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = sessionStorage.getItem('adminToken');
 
-      const response = await axios.get(`http://localhost:3000/v1/api/admin/search`, {
+      const response = await axios.get(`http://localhost:3000/api/v1/admin/search`, {
         params: { searchQuery },
         headers: {
           token: token
@@ -31,7 +32,7 @@ const Dashboard = () => {
       if (!data.results || data.results.length === 0) {
         setError('Student not found');
       } else {
-        setStudent(data);
+        setStudent(data.results);
         console.log('Student data:', data);
       }
     } catch (err) {
@@ -45,7 +46,10 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 flex flex-col items-center justify-start p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
-      <div className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-8 sm:p-10 mb-6 sm:mb-8">
+
+      <Navbar />
+
+      <div className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl w-full max-w-4xl sm:max-w-5xl lg:max-w-6xl p-8 sm:p-10 mb-6 sm:mb-8 mt-20">
         <div className="text-2xl sm:text-3xl font-bold font-sans text-blue-800 mb-4 px-2 ml-4 inline-block max-w-fit typewriter">
           Welcome, Admin
         </div>
@@ -72,7 +76,7 @@ const Dashboard = () => {
 
           {student && (
             <div className="animate-fade-in">
-              <FetchDetails student={student} />
+              <FetchDetails student={student[0]} />
             </div>
           )}
         </div>

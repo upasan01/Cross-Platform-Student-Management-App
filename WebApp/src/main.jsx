@@ -8,6 +8,7 @@ import './index.css'
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import StudentDetails from "./pages/StudentDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -16,13 +17,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,  
+    element: <ProtectedRoute><Dashboard /></ProtectedRoute>, 
   },
   {
-    path:"/student/:fullName",
-    element: <StudentDetails />,
+    path: "/student/:fullName",
+    element: <ProtectedRoute><StudentDetails /></ProtectedRoute>,
   },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
