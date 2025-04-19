@@ -43,6 +43,7 @@
 
     <div id="downloadSection" style="display:none;">
         <button onclick="downloadCV()">Download CV</button>
+        <button onclick="downloadExcel()">Download All Students Excel</button>
     </div>
 
     <script>
@@ -117,6 +118,43 @@
                 a.remove();
 
                 status.textContent = "Download complete ✅";
+            } catch (err) {
+                status.textContent = "❌ " + err.message;
+            }
+        }
+
+        async function downloadExcel() {
+            const status = document.getElementById('status');
+            const token = localStorage.getItem('jwt_token');
+
+            if (!token) {
+                status.textContent = "❌ You need to login first!";
+                return;
+            }
+
+            status.textContent = "Downloading Excel...";
+
+            try {
+                const excelRes = await fetch("http://localhost:3000/api/v1/admin/students/excel", {
+                    method: 'GET',
+                    headers: {
+                        'token': token,
+                    }
+                });
+
+                if (!excelRes.ok) throw new Error("Failed to download Excel");
+
+                const blob = await excelRes.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "All_Students.xlsx";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                status.textContent = "Excel download complete ✅";
             } catch (err) {
                 status.textContent = "❌ " + err.message;
             }

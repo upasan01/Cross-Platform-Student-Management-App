@@ -6,6 +6,7 @@ const { z, string } = require("zod");
 const { adminMiddleware } = require("../middlewares/adminMiddleware")
 const PDFDocument = require("pdfkit");
 const axios = require("axios");
+const ExcelJS = require('exceljs');
 
 const { Router } = require("express");
 const adminRouter = Router()
@@ -276,6 +277,147 @@ adminRouter.get("/:id/pdf", adminMiddleware, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route: Export all students to Excel
+adminRouter.get("/students/excel", adminMiddleware, async (req, res) => {
+    try {
+        const students = await studentModel.find({});
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Students");
+
+        // columns
+        worksheet.columns = [
+            { header: "Full Name", key: "fullName", width: 25 },
+            { header: "University Roll", key: "uniRollNumber", width: 15 },
+            { header: "Registration Number", key: "regNumber", width: 20 },
+            { header: "Session", key: "session", width: 15 },
+            { header: "Phone Number", key: "phoneNumber", width: 15 },
+            { header: "Email", key: "email", width: 25 },
+            { header: "Aadhaar", key: "aadhaarNumber", width: 20 },
+            { header: "PAN", key: "panNumber", width: 20 },
+            { header: "DOB", key: "dob", width: 15 },
+            { header: "Branch", key: "branch", width: 15 },
+            { header: "Gender", key: "gender", width: 10 },
+            { header: "Blood Group", key: "bloodGroup", width: 10 },
+
+            // Permanent Address
+            { header: "Permanent Address", key: "permanentAddress", width: 40 },
+
+            // Residential Address
+            { header: "Residential Address", key: "residentialAddress", width: 40 },
+
+            // Father's Info
+            { header: "Father Name", key: "fatherName", width: 20 },
+            { header: "Father Occupation", key: "fatherOcc", width: 20 },
+            { header: "Father Phone", key: "fatherPhone", width: 20 },
+
+            // Mother's Info
+            { header: "Mother Name", key: "motherName", width: 20 },
+            { header: "Mother Occupation", key: "motherOcc", width: 20 },
+            { header: "Mother Phone", key: "motherPhone", width: 20 },
+
+            // Local Guardian
+            { header: "Guardian Name", key: "guardianName", width: 20 },
+            { header: "Guardian Address", key: "guardianAddress", width: 30 },
+
+            // Education
+            { header: "Secondary %", key: "secondaryPct", width: 15 },
+            { header: "Secondary Board", key: "secondaryBoard", width: 20 },
+            { header: "Secondary Year", key: "secondaryYear", width: 10 },
+            { header: "Secondary School", key: "secondarySchool", width: 30 },
+
+            { header: "HS %", key: "hsPct", width: 15 },
+            { header: "HS Board", key: "hsBoard", width: 20 },
+            { header: "HS Year", key: "hsYear", width: 10 },
+            { header: "HS School", key: "hsSchool", width: 30 },
+
+            { header: "Diploma CGPA", key: "diplomaCgpa", width: 15 },
+            { header: "Diploma College", key: "diplomaCollege", width: 20 },
+            { header: "Diploma Stream", key: "diplomaStream", width: 15 },
+            { header: "Diploma Year", key: "diplomaYear", width: 10 },
+
+            // Extra
+            { header: "Hobbies", key: "hobbies", width: 30 },
+            { header: "Interested Domain", key: "interestedDomain", width: 25 },
+            { header: "Best Subject", key: "bestSubject", width: 20 },
+            { header: "Least Favorite Subject", key: "leastSubject", width: 20 },
+        ];
+
+        // Add rows
+        students.forEach(student => {
+            const s = student.studentDetails;
+            const p = student.parentsDetails;
+            const e = student.educationalDetails;
+            const x = student.extraDetails;
+
+            worksheet.addRow({
+                fullName: s.fullName,
+                uniRollNumber: s.uniRollNumber,
+                regNumber: s.regNumber,
+                session: s.session,
+                phoneNumber: s.phoneNumber,
+                email: s.email,
+                aadhaarNumber: s.aadhaarNumber,
+                panNumber: s.panNumber || "N/A",
+                dob: s.dob ? new Date(s.dob).toLocaleDateString() : "N/A",
+                branch: s.branch || "N/A",
+                gender: s.gender || "N/A",
+                bloodGroup: s.bloodGroup || "N/A",
+
+                permanentAddress: `${s.permanentAddress?.fullAddress}, ${s.permanentAddress?.city}, ${s.permanentAddress?.state}, ${s.permanentAddress?.district} - ${s.permanentAddress?.pin}`,
+                residentialAddress: `${s.residentialAddress?.fullAddress}, ${s.residentialAddress?.city}, ${s.residentialAddress?.state}, ${s.residentialAddress?.district} - ${s.residentialAddress?.pin}`,
+
+                fatherName: p?.father?.fullName || "N/A",
+                fatherOcc: p?.father?.occupation || "N/A",
+                fatherPhone: p?.father?.phone || "N/A",
+
+                motherName: p?.mother?.fullName || "N/A",
+                motherOcc: p?.mother?.occupation || "N/A",
+                motherPhone: p?.mother?.phone || "N/A",
+
+                guardianName: p?.localGuardian?.fullName || "N/A",
+                guardianAddress: p?.localGuardian?.address?.fullAddress || "N/A",
+
+                secondaryPct: e?.secondary?.percentage || "N/A",
+                secondaryBoard: e?.secondary?.board || "N/A",
+                secondaryYear: e?.secondary?.year || "N/A",
+                secondarySchool: e?.secondary?.school || "N/A",
+
+                hsPct: e?.hs?.percentage || "N/A",
+                hsBoard: e?.hs?.board || "N/A",
+                hsYear: e?.hs?.year || "N/A",
+                hsSchool: e?.hs?.school || "N/A",
+
+                diplomaCgpa: e?.diploma?.cgpa || "N/A",
+                diplomaCollege: e?.diploma?.college || "N/A",
+                diplomaStream: e?.diploma?.stream || "N/A",
+                diplomaYear: e?.diploma?.year || "N/A",
+
+                hobbies: x?.hobbies || "N/A",
+                interestedDomain: x?.interestedDomain || "N/A",
+                bestSubject: x?.bestSubject || "N/A",
+                leastSubject: x?.leastSubject || "N/A"
+            });
+        });
+
+        // Send as file
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=students.xlsx"
+        );
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Could not generate Excel");
     }
 });
 
