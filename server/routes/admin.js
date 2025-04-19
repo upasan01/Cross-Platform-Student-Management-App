@@ -4,10 +4,10 @@ const { JWT_SECRET_ADMIN } = require("../config")
 const bcrypt = require("bcrypt");
 const { z, string } = require("zod");
 const { adminMiddleware } = require("../middlewares/adminMiddleware")
+const PDFDocument = require("pdfkit");
+const axios = require("axios");
 
 const { Router } = require("express");
-const { appendFile } = require("fs");
-const { json } = require("stream/consumers");
 const adminRouter = Router()
 
 // SignUp Route
@@ -134,7 +134,7 @@ adminRouter.get("/search", adminMiddleware, async (req, res) => {
         return res.json({
             results
         })
-        
+
     } catch (err) {
         console.error(err);
 
@@ -145,6 +145,139 @@ adminRouter.get("/search", adminMiddleware, async (req, res) => {
     }
 })
 
+// certain student info pdf download
+adminRouter.get("/:id/pdf", adminMiddleware, async (req, res) => {
+    try {
+        const student = await studentModel.findById(req.params.id);
+        if (!student) return res.status(404).send("Student not found");
+
+        const doc = new PDFDocument();
+        let buffers = [];
+        doc.on("data", buffers.push.bind(buffers));
+        doc.on("end", () => {
+            const pdfData = Buffer.concat(buffers);
+            res.writeHead(200, {
+                "Content-Length": Buffer.byteLength(pdfData),
+                "Content-Type": "application/pdf",
+                "Content-disposition": `attachment;filename=${student.studentDetails.fullName.replace(/\s+/g, "_")}_CV.pdf`,
+            }).end(pdfData);
+        });
+
+        const s = student.studentDetails;
+        const p = student.parentsDetails;
+        const e = student.educationalDetails;
+        const x = student.extraDetails;
+
+        // Logo
+        const logoUrl = "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1745055743/techno_logo_m781fj.png"; // Replace this with your actual cloud logo URL
+        try {
+            const logoResponse = await axios.get(logoUrl, { responseType: "arraybuffer" });
+            const logoBuffer = Buffer.from(logoResponse.data);
+            doc.image(logoBuffer, 40, 30, { width: 60 });
+        } catch (err) {
+            console.error("Logo load failed:", err.message);
+        }
+
+        // Student Image
+        if (student.imageUrl) {
+            try {
+                const imageResponse = await axios.get(student.imageUrl, { responseType: "arraybuffer" });
+                const imageBuffer = Buffer.from(imageResponse.data);
+                doc.image(imageBuffer, 470, 50, { width: 80, height: 100 });
+            } catch (err) {
+                console.error("Image load failed:", err.message);
+                doc.fontSize(10).text("Photo: Not available", 40, 110);
+            }
+        }
+
+        // Title
+        doc.fontSize(16).text("Techno Engineering College Banipur", 0, 30, { align: "center" });
+        doc.fontSize(10).text("(Approved by AICTE, affiliated to MAKAUT, WB)", { align: "center" });
+        doc.moveDown().fontSize(12).text("Course Registration (Student Copy): 2023-24 (Autumn)", { align: "center" });
+
+        // Student Info
+        doc.fontSize(10);
+        const infoY = 110;
+        doc.text(`Name: ${s.fullName}`, 110, infoY);
+        doc.text(`Program: B.Tech`, 110, infoY + 15);
+        doc.text(`Branch: ${s.branch || "CSE"}`, 110, infoY + 30);
+        doc.text(`Type: Regular`, 110, infoY + 45);
+
+        doc.text(`Roll: ${s.uniRollNumber || "N/A"}`, 350, infoY);
+        doc.text(`Batch: ${s.session}`, 350, infoY + 15);
+        doc.text(`Semester: ${s.semester || "VI"}`, 350, infoY + 30);
+        doc.text(`Active Backlog: ${x.activeBacklog || 0}`, 350, infoY + 45);
+
+        doc.moveTo(40, infoY + 70).lineTo(550, infoY + 70).stroke();
+        doc.moveDown(2);
+
+        // Personal Info
+        const leftX = 40;
+        doc.fontSize(14).text("Personal Information", leftX, doc.y, { underline: true });
+        doc.fontSize(11);
+        doc.text(`DOB: ${new Date(s.dob).toDateString()}`, leftX);
+        doc.text(`Gender: ${s.gender}`, leftX);
+        doc.text(`Blood Group: ${s.bloodGroup}`, leftX);
+        doc.text(`Email: ${s.email}`, leftX);
+        doc.text(`Phone: ${s.phoneNumber}`, leftX);
+        doc.text(`Aadhaar: ${s.aadhaarNumber}`, leftX);
+        doc.text(`PAN: ${s.panNumber || "N/A"}`, leftX);
+        doc.text(`Session: ${s.session}`, leftX);
+        doc.text(`University Roll: ${s.uniRollNumber || "N/A"}`, leftX);
+        doc.text(`Registration Number: ${s.regNumber || "N/A"}`, leftX);
+        doc.moveDown();
+
+        // Address
+        doc.fontSize(14).text("Addresses", { underline: true });
+        doc.fontSize(11);
+        doc.text("Permanent Address:");
+        doc.text(`${s.permanentAddress.fullAddress}, ${s.permanentAddress.city}, ${s.permanentAddress.state}, ${s.permanentAddress.district} - ${s.permanentAddress.pin}`);
+        doc.moveDown();
+
+        doc.text("Residential Address:");
+        doc.text(`${s.residentialAddress.fullAddress}, ${s.residentialAddress.city}, ${s.residentialAddress.state}, ${s.residentialAddress.district} - ${s.residentialAddress.pin}`);
+        doc.moveDown();
+
+        // Parents
+        doc.fontSize(14).text("Parental Information", { underline: true });
+        doc.fontSize(11);
+        doc.text(`Father: ${p.father.fullName}, ${p.father.occupation || "N/A"}, Phone: ${p.father.phone || "N/A"}`);
+        doc.text(`Mother: ${p.mother.fullName}, ${p.mother.occupation || "N/A"}, Phone: ${p.mother.phone || "N/A"}`);
+        if (p.localGuardian?.fullName) {
+            doc.text(`Local Guardian: ${p.localGuardian.fullName}, ${p.localGuardian.occupation || "N/A"}`);
+            if (p.localGuardian.address?.fullAddress) {
+                doc.text(`Guardian Address: ${p.localGuardian.address.fullAddress}, ${p.localGuardian.address.city}, ${p.localGuardian.address.state} - ${p.localGuardian.address.pin}`);
+            }
+        }
+        doc.moveDown();
+
+        // Education
+        doc.fontSize(14).text("Education", { underline: true });
+        doc.fontSize(11);
+        doc.text(`Secondary: ${e.secondary.percentage}% from ${e.secondary.board} (${e.secondary.year}) at ${e.secondary.school}`);
+        if (e.hs?.percentage) {
+            doc.text(`Higher Secondary: ${e.hs.percentage}% from ${e.hs.board || "N/A"} (${e.hs.year || "N/A"}) at ${e.hs.school || "N/A"}`);
+        }
+        if (e.diploma?.cgpa) {
+            doc.text(`Diploma: ${e.diploma.cgpa} CGPA from ${e.diploma.college} in ${e.diploma.stream} (${e.diploma.year})`);
+        }
+        doc.moveDown();
+
+        // Extra
+        doc.fontSize(14).text("Extra Details", { underline: true });
+        doc.fontSize(11);
+        doc.text(`Hobbies: ${x.hobbies || "N/A"}`);
+        doc.text(`Interested Domain: ${x.interestedDomain || "N/A"}`);
+        doc.text(`Best Subject: ${x.bestSubject || "N/A"}`);
+        doc.text(`Least Favorite Subject: ${x.leastSubject || "N/A"}`);
+
+        doc.end();
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 // Exporting the userRouter
 module.exports = ({
