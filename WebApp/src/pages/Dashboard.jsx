@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Search from '../components/Search';
-import FetchDetails from '../components/FetchDetails';
 import Spinner from '../components/Spinner';
 import Navbar from '../components/Navbar';
+import StudentCardList from '../components/StudentCardList';
+import { LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Dashboard = () => {
   const [student, setStudent] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('adminToken');  
+    localStorage.removeItem('adminToken');
+    alert('You have been logged out.');
+    navigate('/');
+  };
 
   const handleSearch = async (searchQuery) => {
     setLoading(true);
@@ -25,7 +37,6 @@ const Dashboard = () => {
           token: token
         }
       });
-      console.log('Response:', response.data);
 
       const data = response.data;
 
@@ -43,9 +54,8 @@ const Dashboard = () => {
     }
   };
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 flex flex-col items-center justify-start p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 flex flex-col items-center justify-start content-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
 
       <Navbar />
 
@@ -74,13 +84,29 @@ const Dashboard = () => {
             </div>
           )}
 
-          {student && (
+          {student && student.length > 0 && (
             <div className="animate-fade-in">
-              <FetchDetails student={student[0]} />
+              <StudentCardList students={student} />
             </div>
           )}
         </div>
       )}
+
+
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        onClick={handleLogout}
+        className="fixed bottom-6 right-6 bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center group sm:p-4 sm:bottom-4 sm:right-4"
+        title="Logout"
+      >
+        <LogOut className="w-6 h-6 transition-all duration-300 sm:w-5 sm:h-5" />
+        {/* Logout text appears only on hover with sleek animation */}
+        <span className="ml-2 font-medium hidden group-hover:inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+          Logout
+        </span>
+      </motion.button>
+
+
     </div>
   );
 };

@@ -39,7 +39,7 @@
         @apply text-2xl font-bold mb-4 sm:text-4xl;
     }
     p {
-        @apply sm:text-base text-sm  font-normal mb-4;
+        @apply sm:text-base text-sm  font-normal ;
     }
 }
 
@@ -52,8 +52,8 @@
         @apply max-w-4xl mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow-lg
     }
 
-    .card-details {
-        @apply max-w-4xl mx-auto mt-10 p-6 bg-gray-50 rounded-lg shadow transform transition-transform duration-300 hover:scale-105
+    .hover-card {
+        @apply  transform transition-transform duration-300 hover:scale-105
     }
 
     .blue-button {
@@ -62,7 +62,7 @@
 
     .avatar {
 
-        @apply sm:w-50 sm:h-50 w-40 h-40 p-2 mt-4 sm:mt-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500
+        @apply sm:w-30 sm:h-30 w-20 h-20 p-2 mt-4 sm:mt-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500
     }
 
     .typewriter {

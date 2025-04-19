@@ -11,7 +11,7 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-6 py-10">
+    <form onSubmit={handleSubmit} className="sm:flex sm:justify-center w-full mx-auto px-6 py-10">
       <div className="flex items-center shadow-2xl rounded-2xl max-w-4xl sm:w-2xl overflow-hidden transition-all focus-within:ring-2 focus-within:ring-blue-500">
 
         <div className="relative flex-grow">

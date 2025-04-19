@@ -1,27 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom" 
-import Spinner from "./Spinner";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import Spinner from "./Spinner";  // Assuming you have a Spinner component for loading state
 
 const ProtectedRoute = ({ children }) => {
-    const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = useState(null); // null = loading state
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
-        const token = sessionStorage.getItem("adminToken");
-
-        if (!token) {
-            navigate("/");
-        } else {
-            setIsAuthenticated(true); // Token exists, allow rendering
-        }
-    }, [navigate]);
-
-
-    if (isAuthenticated === null) {
-        return <> <Spinner /><div className="text-center text-xl mt-10">Checking authentication...</div> </>;
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
+    setLoading(false);  // Once the check is complete, update loading state
+  }, []);
 
-    return children;
+  if (loading) {
+    // While loading, show a loading spinner
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    // If no token is found, redirect to login page
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
