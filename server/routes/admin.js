@@ -228,7 +228,6 @@ adminRouter.get("/:id/pdf", adminMiddleware, async (req, res) => {
         doc.text(`Roll: ${s.uniRollNumber || "N/A"}`, 350, infoY);
         doc.text(`Batch: ${s.session}`, 350, infoY + 15);
         doc.text(`Semester: ${s.semester || "VI"}`, 350, infoY + 30);
-        doc.text(`Active Backlog: ${x.activeBacklog || 0}`, 350, infoY + 45);
 
         doc.moveTo(40, infoY + 70).lineTo(550, infoY + 70).stroke();
         doc.moveDown(2);
