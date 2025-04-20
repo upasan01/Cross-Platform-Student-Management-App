@@ -116,6 +116,27 @@ adminRouter.get("/students", adminMiddleware, async (req, res) => {
     }
 });
 
+// all student info in chuncks
+adminRouter.get("/studentsChunk", adminMiddleware, async (req, res) => {
+    const limit = parseInt(req.query.limit) || 10
+    const page = parseInt(req.query.page) || 1
+
+    const skip = (page - 1) * limit
+
+    const students = await studentModel.find()
+        .skip(skip)
+        .limit(limit);
+
+    const total = await studentModel.countDocuments()
+
+    res.json({
+        data: students,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalStudents: total
+    })
+})
+
 // get search result route (this is for web app or admin panel)
 adminRouter.get("/search", adminMiddleware, async (req, res) => {
     const searchQuery = req.query.searchQuery?.trim()  // trims unwanted spaces at start and end
@@ -280,7 +301,7 @@ adminRouter.get("/:id/pdf", adminMiddleware, async (req, res) => {
     }
 });
 
-// Route: Export all students to Excel
+// all students Excel
 adminRouter.get("/students/excel", adminMiddleware, async (req, res) => {
     try {
         const students = await studentModel.find({});
