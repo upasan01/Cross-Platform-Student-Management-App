@@ -17,8 +17,7 @@ const DownloadExcelButton = () => {
           responseType: "blob",
         }
       );
-
-      // ✅ No need to check response.ok (that’s for fetch, not axios)
+      
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       const link = document.createElement("a");

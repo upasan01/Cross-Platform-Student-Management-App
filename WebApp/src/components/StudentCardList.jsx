@@ -4,8 +4,9 @@ import { ChevronDown } from 'lucide-react';
 import FetchDetails from './FetchDetails';
 import { fallback } from './DataDisplayKit';
 
-const StudentCardList = ({ students }) => {
+const StudentCardList = ({ students, lastStudentRef, check }) => {
     const [expandedId, setExpandedId] = useState(null);
+    console.log("👀 StudentCardList students:", students);
 
     const toggleCard = (id) => {
         setExpandedId((prev) => (prev === id ? null : id));
@@ -16,18 +17,21 @@ const StudentCardList = ({ students }) => {
     }
 
     return (
-
         <div className=" flex flex-col items-center space-y-6">
-            <p className="text-gray-700 font-semibold text-lg mb-2">
-                {students.length} student{students.length !== 1 ? 's' : ''} found
-            </p>
+            {check && (
+                <p className="text-gray-700 font-semibold text-lg mb-2">
+                    {students.length} student{students.length !== 1 ? 's' : ''} found
+                </p>
+            )}
 
-            {students.map((student) => {
+            {students.map((student, index) => {
                 const isExpanded = expandedId === student._id;
+                const isLastStudent = index === students.length - 1; // Added to check last student
 
                 return (
                     <motion.div
                         key={student._id}
+                        ref={isLastStudent ? lastStudentRef : null} // Added ref to last student
                         layout
                         className={`bg-white w-full max:w-4xl rounded-xl shadow-md overflow-hidden ${isExpanded ? '' : 'hover-card'}`}
                         transition={{
@@ -47,12 +51,12 @@ const StudentCardList = ({ students }) => {
                                 />
                                 <div className="text-center sm:text-left px-4 ">
                                     <h3 className="sm:text-2xl text-lg font-bold text-gray-800 mt-6">
-                                        {fallback(student.studentDetails.fullName)}
+                                        {fallback(student.studentDetails?.fullName)}
                                     </h3>
                                     <p className="text-gray-600 mt-2 sm:text-base text-xs">
-                                        <strong>Roll No:</strong>{fallback(student.studentDetails.rollno)}</p>
+                                        <strong>Roll No:</strong>{fallback(student.studentDetails?.rollno)}</p>
                                     <p className="text-gray-600 mt-2 sm:text-base text-xs">
-                                        <strong>Email:</strong> {fallback(student.studentDetails.email)}
+                                        <strong>Email:</strong> {fallback(student.studentDetails?.email)}
                                     </p>
                                 </div>
                             </div>

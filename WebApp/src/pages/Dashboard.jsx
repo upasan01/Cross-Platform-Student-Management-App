@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from '../components/Search';
 import Spinner from '../components/Spinner';
 import Navbar from '../components/Navbar';
 import StudentCardList from '../components/StudentCardList';
-import { LogOut } from 'lucide-react';
+import { LogOut, ArrowUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DownloadExcelButton from '../components/DownloadExcelButton';
-import StudentChunk from '../components/StudentChunk';
+import StudentChunk from '../components/StudentListChunk';
 
 const Dashboard = () => {
   const [student, setStudent] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isSearchActive, setIsSearchActive] = useState(false); // new
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [showArrow, setShowArrow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowArrow(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    sessionStorage.removeItem('adminToken');  
+    sessionStorage.removeItem('adminToken');
     localStorage.removeItem('adminToken');
     alert('You have been logged out.');
     navigate('/');
@@ -29,16 +42,13 @@ const Dashboard = () => {
     setLoading(true);
     setError('');
     setStudent(null);
-    setIsSearchActive(true); // user triggered a search
+    setIsSearchActive(true);
 
     try {
       const token = sessionStorage.getItem('adminToken');
-
       const response = await axios.get(`http://localhost:3000/api/v1/admin/search`, {
         params: { searchQuery },
-        headers: {
-          token: token
-        }
+        headers: { token },
       });
 
       const data = response.data;
@@ -65,9 +75,9 @@ const Dashboard = () => {
           Welcome, Admin
         </div>
         <p className="text-gray-700 text-sm sm:text-base">
-          Use the search box below to find students by their Email or Name.
+          Use the search box below to find students by their Email or Name. You save those data in your local storage for later use.
         </p>
-        <div className='flex flex-col items-center justify-center mt-4 text-sm sm:text-base text-gray-700 space-y-2'>
+        <div className="flex flex-col items-center justify-center mt-4 text-sm sm:text-base text-gray-700 space-y-2">
           <p>OR</p>
           <p>
             Download All Students Data <DownloadExcelButton />
@@ -89,14 +99,12 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* Show search results if search active */}
           {isSearchActive && student && student.length > 0 && (
             <div className="animate-fade-in">
-              <StudentCardList students={student} />
+              <StudentCardList students={student} check={true} />
             </div>
           )}
 
-          {/* Lazy load if not searching */}
           {!isSearchActive && (
             <div className="animate-fade-in">
               <StudentChunk />
@@ -105,10 +113,22 @@ const Dashboard = () => {
         </div>
       )}
 
+      {/* Scroll to Top Arrow */}
+      {showArrow && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-26 right-6 p-3 bg-gray-200 hover:bg-gray-300 rounded-full shadow-md transition z-40"
+          title="Scroll to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
+
+      {/* Logout Button */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         onClick={handleLogout}
-        className="fixed bottom-6 right-6 bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center group"
+        className="fixed bottom-6 right-6 bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center group z-50"
         title="Logout"
       >
         <LogOut className="w-6 h-6 transition-all duration-300" />
