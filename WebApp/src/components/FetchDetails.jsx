@@ -8,11 +8,8 @@ import DownloadButton from './DownloadButton';
 
 const FetchDetails = ({ student }) => {
     if (!student) {
-        console.log('No student data found');
         return null;
     }
-
-    console.log('Student data from component:', student);
 
     return (
         <div>
