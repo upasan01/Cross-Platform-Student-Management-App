@@ -1,10 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import StudentDetails from './StudentDetails';
 import ParentDetails from './ParentDetails';
 import EducationalDetails from './EducationalDetails';
 import ExtraDetails from './ExtraDetails';
-import { fallback } from './DataDisplayKit';
 import DownloadButton from './DownloadButton';
 
 
