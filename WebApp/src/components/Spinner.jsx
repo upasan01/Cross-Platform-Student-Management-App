@@ -4,8 +4,6 @@ const Spinner = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/70">
       <div className="text-center">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 opacity-20">Loading••••</h5>
-        <p className="font-normal text-gray-700 opacity-20 ">Please Wait...</p>
         <div role="status" className='m-4'>
           <svg
             aria-hidden="true"

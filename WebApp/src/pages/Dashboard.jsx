@@ -46,7 +46,7 @@ const Dashboard = () => {
 
     try {
       const token = sessionStorage.getItem('adminToken');
-      const response = await axios.get(`http://localhost:3000/api/v1/admin/search`, {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/search`, {
         params: { searchQuery },
         headers: { token },
       });

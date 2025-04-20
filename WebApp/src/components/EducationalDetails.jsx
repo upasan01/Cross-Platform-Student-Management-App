@@ -6,14 +6,14 @@ const EducationalDetails = ({ educationalDetails }) => {
         <Section title="Educational Details">
             <InfoGrid>
                 <InfoItem
-                    label="HS"
+                    label="Higher S"
                     value={`${fallback(educationalDetails?.hs?.percentage)}% - ${fallback(
                         educationalDetails?.hs?.school
                     )} (${fallback(educationalDetails?.hs?.year)})`}
                 />
                 <InfoItem
                     label="Secondary"
-                    value={`${fallback(educationalDetails?.secondary?.percentage)}% - ${fallback(
+                    value={`Percentage: ${fallback(educationalDetails?.secondary?.percentage)}% - School: ${fallback(
                         educationalDetails?.secondary?.school
                     )} (${fallback(educationalDetails?.secondary?.year)})`}
                 />

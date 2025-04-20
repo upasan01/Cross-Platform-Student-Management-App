@@ -11,13 +11,13 @@ const DownloadExcelButton = () => {
       const token = sessionStorage.getItem("adminToken");
 
       const response = await axios.get(
-        "http://localhost:3000/v1/api/admin/students/excel",
+        "http://localhost:3000/api/v1/admin/students/excel",
         {
           headers: { token },
           responseType: "blob",
         }
       );
-      
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       const link = document.createElement("a");

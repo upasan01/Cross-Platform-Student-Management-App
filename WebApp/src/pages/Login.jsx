@@ -8,8 +8,19 @@ const Login = () => {
 
             <div className='flex flex-col w-full md:justify-around md:flex-row items-center justify-center z-10 '>
                 <div className='md:text-white text-gray-700 text-center md:w-[30vw] w-[70vw] space-y-4 mt-10 md:mt-0'>
-                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur sunt accusantium possimus nemo culpa, numquam dicta quod ducimus officiis soluta magni blanditiis laborum quasi distinctio unde enim. Mollitia nisi nesciunt voluptatem cum odit aliquam ipsam.</p>
+                    <h1 className='text-red-500 flex justify-center text-5xl'> <span>
+                        <img src="\logo2.png" alt="Logo" className='sm:w-50 sm:h-30 w-10 h-10'/>
+                    </span>Techno Enginnering College Banipur</h1>
+                    <h3 className='font-bold text-[1.2rem]'>Approved by AICTE, Affliated to MAKAUT, WB </h3>
+                    <p>To emerge as a centre of excellence by producing
+                        technically sound and ethically strong engineers who
+                        will be adaptive, accommodative, innovative and
+                        cooperative by nature coupled with leadership quality
+                        in order to serve the industry as an effective resource
+                        encouraging them to go for higher study and also
+                        motivating them to become successful entrepreneurs
+                        for generating employment to serve the society and
+                        the nation in ultimate.</p>
                 </div>
                 <div className='m-6'>
                     <LoginCard />

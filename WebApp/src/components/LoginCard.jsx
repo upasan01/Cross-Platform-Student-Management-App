@@ -22,16 +22,16 @@ const LoginCard = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/admin/signin', {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/signin`, {
         email,
         password,
       });
       // Save the token in the appropriate storage based on remember me checkbox
       const { token } = response.data; 
 
-      sessionStorage.setItem('adminToken', token);  // Store in sessionStorage by default
+      sessionStorage.setItem('adminToken', token);  
       if (rememberMe) {
-        localStorage.setItem('adminToken', token);  // Store in localStorage if "Remember me" is checked
+        localStorage.setItem('adminToken', token);  
       } 
 
       // Redirect to dashboard

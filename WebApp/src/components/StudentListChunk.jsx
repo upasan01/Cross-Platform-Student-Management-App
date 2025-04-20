@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-import Spinner from "./Spinner";
+import Spinner2 from "./Spinner2";
 import StudentCardList from "./StudentCardList";
 
 const StudentListChunk = () => {
@@ -36,7 +36,7 @@ const StudentListChunk = () => {
     try {
       const token = sessionStorage.getItem("adminToken");
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/admin/studentsChunk",
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/studentsChunk`,
         {
           params: { page, limit: 10 },
           headers: { token },
@@ -55,7 +55,6 @@ const StudentListChunk = () => {
 
       setStudents((prev) => [...prev, ...unique]);
     } catch (err) {
-      console.error("❌ Fetch error:", err);
       setError("Failed to load students.");
     } finally {
       setLoading(false);
@@ -72,7 +71,7 @@ const StudentListChunk = () => {
 
       <StudentCardList students={students} lastStudentRef={lastStudentRef} check={false}/>
 
-      {loading && <Spinner />}
+      {loading && <div><Spinner2 /></div>}
 
       {!hasMore && students.length > 0 && (
         <p className="text-center mt-4 text-gray-500">No more students to load.</p>

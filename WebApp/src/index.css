@@ -32,14 +32,15 @@
     }
 
     h1 {
-        @apply font-sans text-4xl sm:font-bold font-medium ;
+        @apply font-sans text-4xl sm:font-bold font-medium;
     }
 
     h2 {
         @apply text-2xl font-bold mb-4 sm:text-4xl;
     }
+
     p {
-        @apply sm:text-base text-sm  font-normal ;
+        @apply sm:text-base text-sm font-normal;
     }
 }
 
@@ -53,7 +54,7 @@
     }
 
     .hover-card {
-        @apply  transform transition-transform duration-300 hover:scale-105
+        @apply transform transition-transform duration-300 hover:scale-105
     }
 
     .blue-button {
@@ -70,34 +71,46 @@
         white-space: nowrap;
         margin: 0 auto;
         border-right: 0.15em solid #193cb8;
-      
-        animation: 
-          typing 3.5s steps(40, end) forwards,
-          blink-caret 0.75s step-end 0s 6,       
-          remove-cursor 0.75s ease-in 4.5s forwards; 
-      }
-      
-      /* Typing effect */
-      @keyframes typing {
-        from { width: 0; }
-        to   { width: 100%; }
-      }
-      
-      /* Blinking cursor */
-      @keyframes blink-caret {
-        0%, 100% { border-color: #193cb8; }
-        50% { border-color: transparent; }
-      }
-      
-      /* Cursor disappears smoothly */
-      @keyframes remove-cursor {
-        from { border-right-color: #193cb8; }
-        to   { border-right-color: transparent; }
-      }
-      
-      
-      
-      
-      
-      
-}    
+
+        animation:
+            typing 3.5s steps(40, end) forwards,
+            blink-caret 0.75s step-end 0s 6,
+            remove-cursor 0.75s ease-in 4.5s forwards;
+    }
+
+    /* Typing effect */
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    /* Blinking cursor */
+    @keyframes blink-caret {
+
+        0%,
+        100% {
+            border-color: #193cb8;
+        }
+
+        50% {
+            border-color: transparent;
+        }
+    }
+
+    /* Cursor disappears smoothly */
+    @keyframes remove-cursor {
+        from {
+            border-right-color: #193cb8;
+        }
+
+        to {
+            border-right-color: transparent;
+        }
+    }
+
+}
