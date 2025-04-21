@@ -230,7 +230,7 @@ adminRouter.get("/:id/pdf", adminMiddleware, async (req, res) => {
         doc.text(`Semester: ${s.semester || "VI"}`, 350, infoY + 30);
 
         doc.moveTo(40, infoY + 70).lineTo(550, infoY + 70).stroke();
-        doc.moveDown(2);
+        doc.moveDown(4);
 
         // Personal Info
         const leftX = 40;
