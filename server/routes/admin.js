@@ -141,7 +141,7 @@ adminRouter.get("/studentsChunk", adminMiddleware, async (req, res) => {
 adminRouter.get("/search", adminMiddleware, async (req, res) => {
     const searchQuery = req.query.searchQuery?.trim()  // trims unwanted spaces at start and end
     if (!searchQuery) {
-        return res.json([]) // if the search bar is empty then it will send an empty arrry nd will not execute rest of the code
+        return res.json([]) // if the search bar is empty then it will send an empty array nd will not execute rest of the code
     }
 
     try {

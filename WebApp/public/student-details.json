@@ -1,0 +1,1128 @@
+[{
+  "_id": {
+    "$oid": "67ff6371fa70d217e178031e"
+  },
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744790383/students/sgqxwd8991aj4j1dao5n.png",
+  "studentId": {
+    "$oid": "67fd3bf46ad80433d23adc86"
+  },
+  "__v": 0,
+  "educationalDetails": {
+    "hs": {
+      "percentage": "85",
+      "board": "Board Name",
+      "year": "2021",
+      "school": "School Name"
+    },
+    "secondary": {
+      "percentage": "90",
+      "board": "Board Name",
+      "year": "2019",
+      "school": "School Name"
+    },
+    "diploma": {
+      "cgpa": "8.5",
+      "college": "College Name",
+      "stream": "Science",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Reading, Swimming, Photography",
+    "interestedDomain": "Web Development",
+    "bestSubject": "Mathematics",
+    "leastSubject": "History"
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Father Name",
+      "occupation": "Occupation",
+      "phone": "1234567890",
+      "income": "50000"
+    },
+    "mother": {
+      "fullName": "Mother Name",
+      "occupation": "Occupation",
+      "phone": "0987654321",
+      "income": "45000"
+    },
+    "localGuardian": {
+      "fullName": "Guardian Name",
+      "occupation": "Guardian Occupation",
+      "address": {
+        "fullAddress": "789 Guardian Street",
+        "city": "City",
+        "state": "State",
+        "district": "District",
+        "pin": "112233"
+      }
+    }
+  },
+  "studentDetails": {
+    "type": "Regular",
+    "fullName": "John Doe",
+    "uniRollNumber": 12345,
+    "regNumber": 98765,
+    "session": "2025",
+    "phoneNumber": 1234567890,
+    "email": "johndoe@example.com",
+    "dob": {
+      "$date": "2000-01-01T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "O+",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Bengali",
+    "height": "5.9",
+    "weight": "70",
+    "permanentAddress": {
+      "fullAddress": "123 Street",
+      "city": "City",
+      "state": "State",
+      "district": "District",
+      "pin": "123456"
+    },
+    "residentialAddress": {
+      "fullAddress": "456 Avenue",
+      "city": "City",
+      "state": "State",
+      "district": "District",
+      "pin": "654321"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "67ff85ea23cb7523199cd837"
+  },
+  "studentId": {
+    "$oid": "67ff851323cb7523199cd82f"
+  },
+  "studentDetails": {
+    "type": "Regular",
+    "fullName": "Aryan Sengupta",
+    "uniRollNumber": 23010104089,
+    "regNumber": 23010145678,
+    "session": "2023-2027",
+    "phoneNumber": 9876543210,
+    "email": "aryan.sengupta@example.com",
+    "dob": {
+      "$date": "2004-08-15T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "B+",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Bengali",
+    "height": "180 cm",
+    "weight": "79.7 kg",
+    "permanentAddress": {
+      "fullAddress": "123, Lakeview Road, Dumdum",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "district": "North 24 Parganas",
+      "pin": "700028"
+    },
+    "residentialAddress": {
+      "fullAddress": "Hostel Block C, Tech Campus",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "district": "North 24 Parganas",
+      "pin": "700091"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Rakesh Sengupta",
+      "occupation": "Bank Employee",
+      "phone": "9876543210",
+      "income": "6 LPA"
+    },
+    "mother": {
+      "fullName": "Madhumita Sengupta",
+      "occupation": "Homemaker",
+      "phone": "9123456789",
+      "income": "0"
+    },
+    "localGuardian": {
+      "fullName": "Animesh Roy",
+      "occupation": "Teacher",
+      "address": {
+        "fullAddress": "45, Shyambazar Street",
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "district": "Kolkata",
+        "pin": "700004"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "89.5",
+      "board": "WBCHSE",
+      "year": "2021",
+      "school": "South Point High School"
+    },
+    "secondary": {
+      "percentage": "91.3",
+      "board": "WBBSE",
+      "year": "2019",
+      "school": "South Point High School"
+    },
+    "diploma": {
+      "cgpa": "8.5",
+      "college": "Techno Main Salt Lake",
+      "stream": "Computer Science",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Football, Gym, Coding, Reading",
+    "interestedDomain": "Web Development, AI, Open Source",
+    "bestSubject": "Computer Science",
+    "leastSubject": "Chemistry"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744799282/students/antzh7sa0x2npnzzepoe.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc2df53ffbd9fe2b823e8"
+  },
+  "studentId": {
+    "$oid": "67ffc0b8d2b5b0335fd97d60"
+  },
+  "studentDetails": {
+    "type": "regular",
+    "fullName": "Amit Roy",
+    "uniRollNumber": 12001234,
+    "regNumber": 4567890,
+    "session": "2022-2026",
+    "phoneNumber": 9876543210,
+    "email": "amitroy@example.com",
+    "dob": {
+      "$date": "2003-05-12T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "B+",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Bengali",
+    "height": "5'9\"",
+    "weight": "68kg",
+    "permanentAddress": {
+      "fullAddress": "123 MG Road, Siliguri",
+      "city": "Siliguri",
+      "state": "West Bengal",
+      "district": "Darjeeling",
+      "pin": "734001"
+    },
+    "residentialAddress": {
+      "fullAddress": "456 Lake Town, Kolkata",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "district": "North 24 Parganas",
+      "pin": "700089"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Sourav Roy",
+      "occupation": "Bank Manager",
+      "phone": "9876543211",
+      "income": "800000"
+    },
+    "mother": {
+      "fullName": "Sharmila Roy",
+      "occupation": "Teacher",
+      "phone": "9876543212",
+      "income": "500000"
+    },
+    "localGuardian": {
+      "fullName": "Anirban Das",
+      "occupation": "Engineer",
+      "address": {
+        "fullAddress": "21 Park Lane, Kolkata",
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "district": "South 24 Parganas",
+        "pin": "700047"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "88.4",
+      "board": "WBCHSE",
+      "year": "2021",
+      "school": "Siliguri Boys' High School"
+    },
+    "secondary": {
+      "percentage": "91.2",
+      "board": "WBBSE",
+      "year": "2019",
+      "school": "Siliguri Boys' High School"
+    },
+    "diploma": {
+      "cgpa": "NA",
+      "college": "NA",
+      "stream": "NA",
+      "year": "NA"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Photography, Cricket",
+    "interestedDomain": "Web Development",
+    "bestSubject": "Mathematics",
+    "leastSubject": "Biology"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744814965/students/so47a55ajhpl3rdikdwg.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc5da53ffbd9fe2b823f5"
+  },
+  "studentId": {
+    "$oid": "67ffc4b353ffbd9fe2b823ec"
+  },
+  "studentDetails": {
+    "type": "lateral",
+    "fullName": "Priya Sharma",
+    "uniRollNumber": 12004567,
+    "regNumber": 4567891,
+    "session": "2023-2026",
+    "phoneNumber": 9876543213,
+    "email": "priyasharma@example.com",
+    "dob": {
+      "$date": "2002-10-20T00:00:00.000Z"
+    },
+    "gender": "Female",
+    "bloodGroup": "A+",
+    "religion": "Hindu",
+    "category": "OBC",
+    "motherTounge": "Hindi",
+    "height": "5'5\"",
+    "weight": "55kg",
+    "permanentAddress": {
+      "fullAddress": "567 Green Park, Delhi",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "district": "New Delhi",
+      "pin": "110016"
+    },
+    "residentialAddress": {
+      "fullAddress": "",
+      "city": "",
+      "state": "",
+      "district": "",
+      "pin": ""
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Rakesh Sharma",
+      "occupation": "Shop Owner",
+      "phone": "9876543214",
+      "income": "400000"
+    },
+    "mother": {
+      "fullName": "Sunita Sharma",
+      "occupation": "Homemaker",
+      "phone": "9876543215",
+      "income": ""
+    },
+    "localGuardian": {
+      "fullName": "",
+      "occupation": "",
+      "address": {
+        "fullAddress": "",
+        "city": "",
+        "state": "",
+        "district": "",
+        "pin": ""
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "85.6",
+      "board": "CBSE",
+      "year": "2020",
+      "school": "Kendriya Vidyalaya"
+    },
+    "secondary": {
+      "percentage": "89.3",
+      "board": "CBSE",
+      "year": "2018",
+      "school": "Kendriya Vidyalaya"
+    },
+    "diploma": {
+      "cgpa": "8.2",
+      "college": "Delhi Polytechnic College",
+      "stream": "Computer Science",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Reading Novels, Sketching",
+    "interestedDomain": "UI/UX",
+    "bestSubject": "English",
+    "leastSubject": "Physics"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744815623/students/bg6yns64kd1azgjxnpnk.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc71c53ffbd9fe2b823fe"
+  },
+  "studentId": {
+    "$oid": "67ffc68453ffbd9fe2b823f9"
+  },
+  "studentDetails": {
+    "type": "regular",
+    "fullName": "Rahul Sen",
+    "uniRollNumber": 12007890,
+    "regNumber": 4567892,
+    "session": "2022-2026",
+    "phoneNumber": 9876543216,
+    "email": "rahulsen@example.com",
+    "dob": {
+      "$date": "2003-03-15T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "O+",
+    "religion": "Hindu",
+    "category": "SC",
+    "motherTounge": "Bengali",
+    "height": "5'10\"",
+    "weight": "72kg",
+    "permanentAddress": {
+      "fullAddress": "25 College Road, Durgapur",
+      "city": "Durgapur",
+      "state": "West Bengal",
+      "district": "Paschim Bardhaman",
+      "pin": "713213"
+    },
+    "residentialAddress": {
+      "fullAddress": "",
+      "city": "",
+      "state": "",
+      "district": "",
+      "pin": ""
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Kamal Sen",
+      "occupation": "Electrician",
+      "phone": "9876543217",
+      "income": "300000"
+    },
+    "mother": {
+      "fullName": "Lata Sen",
+      "occupation": "Tailor",
+      "phone": "9876543218",
+      "income": "250000"
+    },
+    "localGuardian": {
+      "fullName": "",
+      "occupation": "",
+      "address": {
+        "fullAddress": "",
+        "city": "",
+        "state": "",
+        "district": "",
+        "pin": ""
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "82.3",
+      "board": "WBCHSE",
+      "year": "2021",
+      "school": "Durgapur High School"
+    },
+    "secondary": {
+      "percentage": "87.1",
+      "board": "WBBSE",
+      "year": "2019",
+      "school": "Durgapur High School"
+    },
+    "diploma": {
+      "cgpa": "NA",
+      "college": "NA",
+      "stream": "NA",
+      "year": "NA"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Gaming, Drawing",
+    "interestedDomain": "AI/ML",
+    "bestSubject": "Computer Science",
+    "leastSubject": "Chemistry"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744815933/students/vdnifwo4xupuforpoc1h.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc81153ffbd9fe2b82407"
+  },
+  "studentId": {
+    "$oid": "67ffc7c853ffbd9fe2b82402"
+  },
+  "studentDetails": {
+    "type": "lateral",
+    "fullName": "Sneha Paul",
+    "uniRollNumber": 12009987,
+    "regNumber": 4567893,
+    "session": "2023-2026",
+    "phoneNumber": 9876543219,
+    "email": "snehapaul@example.com",
+    "dob": {
+      "$date": "2002-08-09T00:00:00.000Z"
+    },
+    "gender": "Female",
+    "bloodGroup": "AB+",
+    "religion": "Christian",
+    "category": "General",
+    "motherTounge": "Bengali",
+    "height": "5'4\"",
+    "weight": "58kg",
+    "permanentAddress": {
+      "fullAddress": "23B Elgin Road, Kolkata",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "district": "Kolkata",
+      "pin": "700020"
+    },
+    "residentialAddress": {
+      "fullAddress": "Flat 12A, Rajarhat",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "district": "North 24 Parganas",
+      "pin": "700135"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Albert Paul",
+      "occupation": "Accountant",
+      "phone": "9876543220",
+      "income": "600000"
+    },
+    "mother": {
+      "fullName": "Gloria Paul",
+      "occupation": "Lecturer",
+      "phone": "9876543221",
+      "income": "550000"
+    },
+    "localGuardian": {
+      "fullName": "Joydeep Naskar",
+      "occupation": "IT Consultant",
+      "address": {
+        "fullAddress": "Block A, Sector V",
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "district": "Salt Lake",
+        "pin": "700091"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "90.1",
+      "board": "ISC",
+      "year": "2020",
+      "school": "St. Xavier’s School"
+    },
+    "secondary": {
+      "percentage": "93.2",
+      "board": "ICSE",
+      "year": "2018",
+      "school": "St. Xavier’s School"
+    },
+    "diploma": {
+      "cgpa": "8.8",
+      "college": "Techno India Polytechnic",
+      "stream": "IT",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Baking, Piano",
+    "interestedDomain": "Cybersecurity",
+    "bestSubject": "English",
+    "leastSubject": "Mathematics"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744816167/students/awxq84uitcpf1bwm9am3.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc8d753ffbd9fe2b82410"
+  },
+  "studentId": {
+    "$oid": "67ffc88653ffbd9fe2b8240b"
+  },
+  "studentDetails": {
+    "type": "regular",
+    "fullName": "Arjun Nair",
+    "uniRollNumber": 12011122,
+    "regNumber": 4567894,
+    "session": "2022-2026",
+    "phoneNumber": 9876543222,
+    "email": "arjunnair@example.com",
+    "dob": {
+      "$date": "2003-12-01T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "B-",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Malayalam",
+    "height": "6'0\"",
+    "weight": "74kg",
+    "permanentAddress": {
+      "fullAddress": "House 45, Panampilly Nagar",
+      "city": "Kochi",
+      "state": "Kerala",
+      "district": "Ernakulam",
+      "pin": "682036"
+    },
+    "residentialAddress": {
+      "fullAddress": "Hostel 2, College Campus",
+      "city": "Kochi",
+      "state": "Kerala",
+      "district": "Ernakulam",
+      "pin": "682036"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Ravi Nair",
+      "occupation": "Government Employee",
+      "phone": "9876543223",
+      "income": "700000"
+    },
+    "mother": {
+      "fullName": "Lekha Nair",
+      "occupation": "Doctor",
+      "phone": "9876543224",
+      "income": "1200000"
+    },
+    "localGuardian": {
+      "fullName": "",
+      "occupation": "",
+      "address": {
+        "fullAddress": "",
+        "city": "",
+        "state": "",
+        "district": "",
+        "pin": ""
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "92.0",
+      "board": "Kerala HSE",
+      "year": "2021",
+      "school": "Chinmaya Vidyalaya"
+    },
+    "secondary": {
+      "percentage": "95.2",
+      "board": "Kerala SSLC",
+      "year": "2019",
+      "school": "Chinmaya Vidyalaya"
+    },
+    "diploma": {
+      "cgpa": "NA",
+      "college": "NA",
+      "stream": "NA",
+      "year": "NA"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Reading, Running",
+    "interestedDomain": "Software Engineering",
+    "bestSubject": "Physics",
+    "leastSubject": "History"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744816369/students/xs4c4urmtuvwijh1s4sj.png"
+},
+{
+  "_id": {
+    "$oid": "67ffc99553ffbd9fe2b82419"
+  },
+  "studentId": {
+    "$oid": "67ffc95e53ffbd9fe2b82414"
+  },
+  "studentDetails": {
+    "type": "lateral",
+    "fullName": "Priya Mehra",
+    "uniRollNumber": 12014567,
+    "regNumber": 4567895,
+    "session": "2023-2026",
+    "phoneNumber": 9876543225,
+    "email": "priyamehra@example.com",
+    "dob": {
+      "$date": "2002-07-19T00:00:00.000Z"
+    },
+    "gender": "Female",
+    "bloodGroup": "A-",
+    "religion": "Hindu",
+    "category": "OBC",
+    "motherTounge": "Hindi",
+    "height": "5'6\"",
+    "weight": "60kg",
+    "permanentAddress": {
+      "fullAddress": "A-102 Shalimar Garden",
+      "city": "Ghaziabad",
+      "state": "Uttar Pradesh",
+      "district": "Ghaziabad",
+      "pin": "201005"
+    },
+    "residentialAddress": {
+      "fullAddress": "PG House 5, Sector 62",
+      "city": "Noida",
+      "state": "Uttar Pradesh",
+      "district": "Gautam Buddha Nagar",
+      "pin": "201309"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Rajesh Mehra",
+      "occupation": "Bank Manager",
+      "phone": "9876543226",
+      "income": "850000"
+    },
+    "mother": {
+      "fullName": "Sunita Mehra",
+      "occupation": "Homemaker",
+      "phone": "9876543227",
+      "income": "0"
+    },
+    "localGuardian": {
+      "fullName": "Anjali Singh",
+      "occupation": "HR",
+      "address": {
+        "fullAddress": "C-56, Sector 62",
+        "city": "Noida",
+        "state": "Uttar Pradesh",
+        "district": "Gautam Buddha Nagar",
+        "pin": "201301"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "88.4",
+      "board": "CBSE",
+      "year": "2020",
+      "school": "DPS Ghaziabad"
+    },
+    "secondary": {
+      "percentage": "91.7",
+      "board": "CBSE",
+      "year": "2018",
+      "school": "DPS Ghaziabad"
+    },
+    "diploma": {
+      "cgpa": "8.6",
+      "college": "Govt. Polytechnic Noida",
+      "stream": "Computer Science",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Painting, Cooking",
+    "interestedDomain": "Frontend Development",
+    "bestSubject": "Math",
+    "leastSubject": "Geography"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744816571/students/avtkcotdjfmjcx7mhax0.png"
+},
+{
+  "_id": {
+    "$oid": "67ffca3f53ffbd9fe2b82422"
+  },
+  "studentId": {
+    "$oid": "67ffca0b53ffbd9fe2b8241d"
+  },
+  "studentDetails": {
+    "type": "regular",
+    "fullName": "Tanmoy Ghosh",
+    "uniRollNumber": 12013245,
+    "regNumber": 4567896,
+    "session": "2022-2026",
+    "phoneNumber": 9876543228,
+    "email": "tanmoyghosh@example.com",
+    "dob": {
+      "$date": "2003-10-10T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "B+",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Bengali",
+    "height": "5'9\"",
+    "weight": "68kg",
+    "permanentAddress": {
+      "fullAddress": "Vill+PO: Bishnupur",
+      "city": "Bishnupur",
+      "state": "West Bengal",
+      "district": "Bankura",
+      "pin": "722122"
+    },
+    "residentialAddress": {
+      "fullAddress": "",
+      "city": "",
+      "state": "",
+      "district": "",
+      "pin": ""
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Kishore Ghosh",
+      "occupation": "Teacher",
+      "phone": "9876543229",
+      "income": "500000"
+    },
+    "mother": {
+      "fullName": "Anima Ghosh",
+      "occupation": "Tailor",
+      "phone": "9876543230",
+      "income": "150000"
+    },
+    "localGuardian": {
+      "fullName": "",
+      "occupation": "",
+      "address": {
+        "fullAddress": "",
+        "city": "",
+        "state": "",
+        "district": "",
+        "pin": ""
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "80.0",
+      "board": "WBCHSE",
+      "year": "2021",
+      "school": "Bishnupur High School"
+    },
+    "secondary": {
+      "percentage": "86.3",
+      "board": "WBBSE",
+      "year": "2019",
+      "school": "Bishnupur High School"
+    },
+    "diploma": {
+      "cgpa": "NA",
+      "college": "NA",
+      "stream": "NA",
+      "year": "NA"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Singing, Football",
+    "interestedDomain": "Game Development",
+    "bestSubject": "Math",
+    "leastSubject": "Biology"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744816724/students/tvpeauj8htmcg8yk1hvk.png"
+},
+{
+  "_id": {
+    "$oid": "67ffcb0753ffbd9fe2b8242b"
+  },
+  "studentId": {
+    "$oid": "67ffcaa953ffbd9fe2b82426"
+  },
+  "studentDetails": {
+    "type": "lateral",
+    "fullName": "Zoya Khan",
+    "uniRollNumber": 12017654,
+    "regNumber": 4567897,
+    "session": "2023-2026",
+    "phoneNumber": 9876543231,
+    "email": "zoyakhan@example.com",
+    "dob": {
+      "$date": "2001-06-05T00:00:00.000Z"
+    },
+    "gender": "Female",
+    "bloodGroup": "O-",
+    "religion": "Muslim",
+    "category": "General",
+    "motherTounge": "Urdu",
+    "height": "5'5\"",
+    "weight": "62kg",
+    "permanentAddress": {
+      "fullAddress": "5/10 Civil Lines",
+      "city": "Lucknow",
+      "state": "Uttar Pradesh",
+      "district": "Lucknow",
+      "pin": "226001"
+    },
+    "residentialAddress": {
+      "fullAddress": "Hostel B, Tech Campus",
+      "city": "Lucknow",
+      "state": "Uttar Pradesh",
+      "district": "Lucknow",
+      "pin": "226007"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Imran Khan",
+      "occupation": "Lawyer",
+      "phone": "9876543232",
+      "income": "900000"
+    },
+    "mother": {
+      "fullName": "Farah Khan",
+      "occupation": "Professor",
+      "phone": "9876543233",
+      "income": "750000"
+    },
+    "localGuardian": {
+      "fullName": "Nida Sheikh",
+      "occupation": "Counselor",
+      "address": {
+        "fullAddress": "Gomti Nagar",
+        "city": "Lucknow",
+        "state": "Uttar Pradesh",
+        "district": "Lucknow",
+        "pin": "226010"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "92.6",
+      "board": "CBSE",
+      "year": "2020",
+      "school": "City Montessori School"
+    },
+    "secondary": {
+      "percentage": "94.1",
+      "board": "CBSE",
+      "year": "2018",
+      "school": "City Montessori School"
+    },
+    "diploma": {
+      "cgpa": "9.1",
+      "college": "Lucknow Polytechnic",
+      "stream": "Electronics",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Photography, Reading Novels",
+    "interestedDomain": "Embedded Systems",
+    "bestSubject": "Physics",
+    "leastSubject": "Economics"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744816923/students/pf8xcdfczrk0jdu2y0vl.png"
+},
+{
+  "_id": {
+    "$oid": "67ffcc2c53ffbd9fe2b82434"
+  },
+  "studentId": {
+    "$oid": "67ffcbd753ffbd9fe2b8242f"
+  },
+  "studentDetails": {
+    "type": "regular",
+    "fullName": "Ritik Yadav",
+    "uniRollNumber": 12016789,
+    "regNumber": 4567898,
+    "session": "2022-2026",
+    "phoneNumber": 9876543234,
+    "email": "ritikyadav@example.com",
+    "dob": {
+      "$date": "2003-02-11T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "A+",
+    "religion": "Hindu",
+    "category": "OBC",
+    "motherTounge": "Hindi",
+    "height": "5'7\"",
+    "weight": "70kg",
+    "permanentAddress": {
+      "fullAddress": "12 Main Street, Rewa",
+      "city": "Rewa",
+      "state": "Madhya Pradesh",
+      "district": "Rewa",
+      "pin": "486001"
+    },
+    "residentialAddress": {
+      "fullAddress": "",
+      "city": "",
+      "state": "",
+      "district": "",
+      "pin": ""
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Mahesh Yadav",
+      "occupation": "Farmer",
+      "phone": "9876543235",
+      "income": "300000"
+    },
+    "mother": {
+      "fullName": "Savitri Yadav",
+      "occupation": "Homemaker",
+      "phone": "9876543236",
+      "income": "0"
+    },
+    "localGuardian": {
+      "fullName": "",
+      "occupation": "",
+      "address": {
+        "fullAddress": "",
+        "city": "",
+        "state": "",
+        "district": "",
+        "pin": ""
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "84.2",
+      "board": "MPBSE",
+      "year": "2021",
+      "school": "Rewa Govt. School"
+    },
+    "secondary": {
+      "percentage": "87.6",
+      "board": "MPBSE",
+      "year": "2019",
+      "school": "Rewa Govt. School"
+    },
+    "diploma": {
+      "cgpa": "NA",
+      "college": "NA",
+      "stream": "NA",
+      "year": "NA"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Cricket, Blogging",
+    "interestedDomain": "Backend Development",
+    "bestSubject": "Chemistry",
+    "leastSubject": "English"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744817213/students/zaksyza2f2lzwyc1yb0t.png"
+},
+{
+  "_id": {
+    "$oid": "67ffcd0653ffbd9fe2b8243d"
+  },
+  "studentId": {
+    "$oid": "67ffccbf53ffbd9fe2b82438"
+  },
+  "studentDetails": {
+    "type": "lateral",
+    "fullName": "Mehul Sharma",
+    "uniRollNumber": 12018991,
+    "regNumber": 4567899,
+    "session": "2023-2026",
+    "phoneNumber": 9876543237,
+    "email": "mehulsharma@example.com",
+    "dob": {
+      "$date": "2001-11-25T00:00:00.000Z"
+    },
+    "gender": "Male",
+    "bloodGroup": "B+",
+    "religion": "Hindu",
+    "category": "General",
+    "motherTounge": "Punjabi",
+    "height": "5'8\"",
+    "weight": "72kg",
+    "permanentAddress": {
+      "fullAddress": "33 Sector 14",
+      "city": "Gurugram",
+      "state": "Haryana",
+      "district": "Gurugram",
+      "pin": "122001"
+    },
+    "residentialAddress": {
+      "fullAddress": "Hostel D Block",
+      "city": "Gurugram",
+      "state": "Haryana",
+      "district": "Gurugram",
+      "pin": "122003"
+    }
+  },
+  "parentsDetails": {
+    "father": {
+      "fullName": "Rakesh Sharma",
+      "occupation": "Engineer",
+      "phone": "9876543238",
+      "income": "1100000"
+    },
+    "mother": {
+      "fullName": "Neha Sharma",
+      "occupation": "Software Developer",
+      "phone": "9876543239",
+      "income": "950000"
+    },
+    "localGuardian": {
+      "fullName": "Ajay Soni",
+      "occupation": "Teacher",
+      "address": {
+        "fullAddress": "Huda Market",
+        "city": "Gurugram",
+        "state": "Haryana",
+        "district": "Gurugram",
+        "pin": "122004"
+      }
+    }
+  },
+  "educationalDetails": {
+    "hs": {
+      "percentage": "93.5",
+      "board": "CBSE",
+      "year": "2020",
+      "school": "Blue Bells Model School"
+    },
+    "secondary": {
+      "percentage": "96.1",
+      "board": "CBSE",
+      "year": "2018",
+      "school": "Blue Bells Model School"
+    },
+    "diploma": {
+      "cgpa": "9.3",
+      "college": "Govt. Polytechnic Manesar",
+      "stream": "Mechanical",
+      "year": "2023"
+    }
+  },
+  "extraDetails": {
+    "hobbies": "Gym, Graphic Design",
+    "interestedDomain": "CAD/CAM",
+    "bestSubject": "Mechanics",
+    "leastSubject": "Biology"
+  },
+  "__v": 0,
+  "imageUrl": "https://res.cloudinary.com/dqa0z5gqo/image/upload/v1744817443/students/pl4bq4uu7cxwnqplxqew.png"
+}]
