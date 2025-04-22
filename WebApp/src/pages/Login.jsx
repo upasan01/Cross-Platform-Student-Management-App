@@ -10,7 +10,7 @@ const Login = () => {
                 <div className='md:text-white text-gray-700 text-center md:w-[30vw] w-[70vw] space-y-4 mt-10 md:mt-0'>
                     <h1 className='text-red-500 flex justify-center text-5xl'> <span>
                         <img src="\logo2.png" alt="Logo" className='sm:w-50 sm:h-30 w-10 h-10'/>
-                    </span>Techno Enginnering College Banipur</h1>
+                    </span>Techno Engineering College Banipur</h1>
                     <h3 className='font-bold text-[1.2rem]'>Approved by AICTE, Affliated to MAKAUT, WB </h3>
                     <p>To emerge as a centre of excellence by producing
                         technically sound and ethically strong engineers who
