@@ -59,7 +59,7 @@ const LoginCard = () => {
 
       <form className="space-y-6" onSubmit={handleLogin}>
         <h4 className="text-center text-lg sm:text-2xl font-bold text-red-600 mb-4">
-          Techno Engineering College, Banipur
+          Techno Engineering College Banipur
         </h4>
 
         <div>
